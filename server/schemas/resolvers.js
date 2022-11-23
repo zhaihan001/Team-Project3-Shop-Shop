@@ -112,7 +112,7 @@ const resolvers = {
       if (context.user) {
         return await User.findByIdAndUpdate(context.user._id, args, { new: true });
       }
-
+      
       throw new AuthenticationError('Not logged in');
     },
     updateProduct: async (parent, { _id, quantity }) => {

@@ -12,6 +12,10 @@ const orderSchema = new Schema({
     type: Schema.Types.ObjectId,
     ref: User,
   },
+  business: {
+    type: Schema.Types.ObjectId,
+    ref: "Business"
+  },
   products: [productSchema],
 });
 
