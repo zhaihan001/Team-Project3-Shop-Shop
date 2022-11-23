@@ -169,6 +169,22 @@ const resolvers = {
       }
     },
     //
+    deleteProduct: async (parent, {productId}, context) => {
+      try {
+        if(context.user){
+          let business = await Business.findOneAndUpdate(
+            {_id: context.user._id},
+            {$pull: { products: {productId}}},
+            {new: true, runValidators: true}
+          )
+          return business
+
+        }
+
+      } catch (error) {
+        return error
+      }
+    },
     login: async (parent, { email, password }) => {
       const user = await User.findOne({ email });
 
