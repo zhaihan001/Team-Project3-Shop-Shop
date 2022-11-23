@@ -143,10 +143,33 @@ const resolvers = {
       
       throw new AuthenticationError('Not logged in');
     },
-    updateProduct: async (parent, { _id, quantity }) => {
-      const decrement = Math.abs(quantity) * -1;
+    // logic needs tested
+    updateProduct: async (parent, args, context) => {
+      try {
+        if(context.user){
+          let business = await Business.findOne({userId: contet.user._id});
 
-      return await Product.findByIdAndUpdate(_id, { $inc: { quantity: decrement } }, { new: true });
+          await business.products.replaceOne({productId: args.productId})
+
+
+          business.products.forEach(item => {
+            if(item.productId === args.productId) {
+              return {
+                ...item,
+                args
+              }
+            }
+          })
+
+          await business.save();
+
+          return business
+
+        }
+
+      } catch (error) {
+        
+      }
     },
     login: async (parent, { email, password }) => {
       const user = await User.findOne({ email });

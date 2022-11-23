@@ -75,8 +75,8 @@ const typeDefs = gql`
     login(email: String!, password: String!): Auth
     addShop(name: String!, image: String!, primaryHex: String!, secondaryHex: String!): 
     addProduct(productInput: productInput): Business
-    updateProduct(_id: ID!, productId: ID!): Business
-    deleteProduct(_id: ID!, productId: ID!): Business
+    updateProduct(productId: ID!, name: String, description: String, image: String, price: Int, quantity: Int): Business
+    deleteProduct(productId: ID!): Business
     addToCart(userId: ID!, productInput: productInput): Cart
     deleteFromCart(_id: ID!): Cart
     submitOrder(userId: ID!, businessId: ID!, products: productInput): User
