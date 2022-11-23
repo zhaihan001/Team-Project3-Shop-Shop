@@ -17,7 +17,7 @@ const resolvers = {
     },
     getShop: async (parent, {_id}) => {
       try {
-        let shop = await Business.findOne({_id});
+        let shop = await Business.findOne({_id}).populate("orders");
 
         return shop
         
@@ -43,6 +43,12 @@ const resolvers = {
           const user = await User.findById(context.user._id).populate("orders");
   
           user.orders.sort((a, b) => b.purchaseDate - a.purchaseDate);
+
+          const userBusiness = await Business.findOne({userId: context.user._id});
+
+          if(userBusiness){
+            return { user, userBusiness}
+          }
   
           return user;
         }
