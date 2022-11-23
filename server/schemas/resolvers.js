@@ -149,9 +149,6 @@ const resolvers = {
         if(context.user){
           let business = await Business.findOne({userId: contet.user._id});
 
-          await business.products.replaceOne({productId: args.productId})
-
-
           business.products.forEach(item => {
             if(item.productId === args.productId) {
               return {
@@ -171,6 +168,7 @@ const resolvers = {
         
       }
     },
+    //
     login: async (parent, { email, password }) => {
       const user = await User.findOne({ email });
 
