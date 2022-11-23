@@ -1,44 +1,58 @@
 const { AuthenticationError } = require('apollo-server-express');
-const { User, Product, Category, Order } = require('../models');
+const { User, Business, Cart, Order } = require('../models');
 const { signToken } = require('../utils/auth');
 const stripe = require('stripe')('sk_test_4eC39HqLyjWDarjtT1zdp7dc');
 
 const resolvers = {
   Query: {
-    categories: async () => {
-      return await Category.find();
-    },
-    products: async (parent, { category, name }) => {
-      const params = {};
+    shops: async () => {
+      try {
+        let shops = await Business.find();
 
-      if (category) {
-        params.category = category;
+        return shops
+
+      } catch (error) {
+        return error
       }
-
-      if (name) {
-        params.name = {
-          $regex: name
-        };
-      }
-
-      return await Product.find(params).populate('category');
     },
-    product: async (parent, { _id }) => {
-      return await Product.findById(_id).populate('category');
+    getShop: async (parent, {_id}) => {
+      try {
+        let shop = await Business.findOne({_id});
+
+        return shop
+        
+      } catch (error) {
+        return error
+      }
+    },
+    product: async (parent, { _id, productId }) => {
+      try {
+        let shop = await Business.findOne({_id});
+
+        let product = shop.products.find(item => item.productId === productId);
+
+        return product
+        
+      } catch (error) {
+        return error
+      }
     },
     user: async (parent, args, context) => {
-      if (context.user) {
-        const user = await User.findById(context.user._id).populate({
-          path: 'orders.products',
-          populate: 'category'
-        });
+      try {
+        if (context.user) {
+          const user = await User.findById(context.user._id).populate("orders");
+  
+          user.orders.sort((a, b) => b.purchaseDate - a.purchaseDate);
+  
+          return user;
+        }
+        throw new AuthenticationError('Not logged in');
 
-        user.orders.sort((a, b) => b.purchaseDate - a.purchaseDate);
-
-        return user;
+        
+      } catch (error) {
+        return error
       }
 
-      throw new AuthenticationError('Not logged in');
     },
     order: async (parent, { _id }, context) => {
       if (context.user) {
