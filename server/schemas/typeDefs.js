@@ -37,8 +37,16 @@ const typeDefs = gql`
 
   type Cart{
     _id: ID
-    user: [User]
+    user: User
     products: [productSchema]
+  }
+
+  input productInput {
+    name: String!
+    description: String!
+    image: String!
+    price: Int!
+    quantity: Int!
   }
 
   type Checkout {
@@ -51,8 +59,8 @@ const typeDefs = gql`
   }
 
   type Query {
-    products(category: ID, name: String): [Product]
-    product(_id: ID!): Product
+    products(_id: ID!): Business
+    product(_id: ID!, productId: ID!): Product
     user: User
     order(_id: ID!): Order
     checkout(products: [ID]!): Checkout
@@ -64,7 +72,13 @@ const typeDefs = gql`
     deleteUser(_id: ID!): User
     login(email: String!, password: String!): Auth
     addShop(name: String!, image: String!, primaryHex: String!, secondaryHex: String!): 
-  
+    addProduct(productInput: productInput): Business
+    updateProduct(_id: ID!, productId: ID!): Business
+    deleteProduct(_id: ID!, productId: ID!): Business
+    addToCart(userId: ID!, productInput: productInput): Cart
+    deleteFromCart(_id: ID!): Cart
+    submitOrder(userId: ID!, businessId: ID!, products: productInput): User
+    cancelOrder(_id: ID!): User
   }
 `;
 
