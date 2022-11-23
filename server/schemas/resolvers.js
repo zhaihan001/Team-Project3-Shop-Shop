@@ -45,7 +45,7 @@ const resolvers = {
           user.orders.sort((a, b) => b.purchaseDate - a.purchaseDate);
 
           // if this query finds a business that belongs to the user then the business data will be returned with the user info
-          const userBusiness = await Business.findOne({userId: context.user._id});
+          const userBusiness = await Business.findOne({userId: context.user._id}).populate("orders");
 
           if(userBusiness){
             return { user, userBusiness}
@@ -60,18 +60,6 @@ const resolvers = {
         return error
       }
 
-    },
-    order: async (parent, { _id }, context) => {
-      if (context.user) {
-        const user = await User.findById(context.user._id).populate({
-          path: 'orders.products',
-          populate: 'category'
-        });
-
-        return user.orders.id(_id);
-      }
-
-      throw new AuthenticationError('Not logged in');
     },
     checkout: async (parent, args, context) => {
       const url = new URL(context.headers.referer).origin;
