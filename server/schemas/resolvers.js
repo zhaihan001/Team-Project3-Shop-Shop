@@ -48,7 +48,7 @@ const resolvers = {
           const userBusiness = await Business.findOne({userId: context.user._id}).populate("orders");
 
           if(userBusiness){
-            return { user, userBusiness}
+            return { user, userBusiness }
           }
   
           return user;
@@ -124,17 +124,22 @@ const resolvers = {
         return error
       }
     },
-    addOrder: async (parent, { products }, context) => {
-      console.log(context);
-      if (context.user) {
-        const order = new Order({ products });
+    submitOrder: async (parent, { businessId, products }, context) => {
+      try {
+        if(context.user){
+          let order = await Order.create(
+            {
+              userId: context.user._id, 
+              businessId, 
+              products
+            }
+          )
 
-        await User.findByIdAndUpdate(context.user._id, { $push: { orders: order } });
+        }
 
-        return order;
+      } catch (error) {
+        return error
       }
-
-      throw new AuthenticationError('Not logged in');
     },
     updateUser: async (parent, args, context) => {
       if (context.user) {
