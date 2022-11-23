@@ -9,6 +9,18 @@ const businessSchema = new Schema({
     required: true,
     trim: true,
   },
+  image: {
+    type: String,
+    required: true
+  },
+  primaryHex: {
+    type: String,
+    require: true
+  },
+  secondaryHex: {
+    type: String,
+    required: true
+  },
   orders: [Order.schema],
   products: [productSchema],
   user: {
