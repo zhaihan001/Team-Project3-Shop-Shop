@@ -44,6 +44,7 @@ const resolvers = {
   
           user.orders.sort((a, b) => b.purchaseDate - a.purchaseDate);
 
+          // if this query finds a business that belongs to the user then the business data will be returned with the user info
           const userBusiness = await Business.findOne({userId: context.user._id});
 
           if(userBusiness){
