@@ -3,24 +3,26 @@ const { gql } = require("apollo-server-express");
 const typeDefs = gql`
   type Business {
     _id: ID
-    user:[User]
+    user: User
     businessName: String
-    orders:[Order]
-    products:[Product]
+    image: String
+    orders: [Order]
+    products: [Product]
   }
 
-  // type Product {
-  //   _id: ID
-  //   name: String
-  //   description: String
-  //   image: String
-  //   price: Float
-  //   quantity: Int
-  // }
+  type Product {
+    _id: ID
+    name: String
+    description: String
+    image: String
+    price: Float
+    quantity: Int
+   }
 
   type Order {
     _id: ID
-    user:[User]
+    user: User
+    business: Business
     purchaseDate: String
     products: [Product]
   }
@@ -35,8 +37,8 @@ const typeDefs = gql`
 
   type Cart{
     _id: ID
-    user:[User]
-    products:[productSchema]
+    user: [User]
+    products: [productSchema]
   }
 
   type Checkout {
@@ -49,7 +51,6 @@ const typeDefs = gql`
   }
 
   type Query {
-    categories: [Category]
     products(category: ID, name: String): [Product]
     product(_id: ID!): Product
     user: User
@@ -59,10 +60,11 @@ const typeDefs = gql`
 
   type Mutation {
     addUser(firstName: String!, lastName: String!, email: String!, password: String!): Auth
-    addOrder(products: [ID]!): Order
     updateUser(firstName: String, lastName: String, email: String, password: String): User
-    updateProduct(_id: ID!, quantity: Int!): Product
+    deleteUser(_id: ID!): User
     login(email: String!, password: String!): Auth
+    addShop(name: String!, image: String!, primaryHex: String!, secondaryHex: String!): 
+  
   }
 `;
 
