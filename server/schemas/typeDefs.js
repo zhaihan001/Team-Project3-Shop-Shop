@@ -79,7 +79,7 @@ const typeDefs = gql`
     deleteProduct(productId: ID!): Business
     addToCart(userId: ID!, productInput: productInput): Cart
     deleteFromCart(_id: ID!): Cart
-    submitOrder(businessId: ID!, products: productInput): User
+    submitOrder(businessId: ID!, products: productInput): Order
     cancelOrder(_id: ID!): User
   }
 `;
