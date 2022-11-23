@@ -1,56 +1,65 @@
 const { AuthenticationError } = require('apollo-server-express');
-const { User, Product, Category, Order } = require('../models');
+const { User, Business, Cart, Order } = require('../models');
 const { signToken } = require('../utils/auth');
 const stripe = require('stripe')('sk_test_4eC39HqLyjWDarjtT1zdp7dc');
 
 const resolvers = {
   Query: {
-    categories: async () => {
-      return await Category.find();
-    },
-    products: async (parent, { category, name }) => {
-      const params = {};
+    shops: async () => {
+      try {
+        let shops = await Business.find();
 
-      if (category) {
-        params.category = category;
+        return shops
+
+      } catch (error) {
+        return error
       }
-
-      if (name) {
-        params.name = {
-          $regex: name
-        };
-      }
-
-      return await Product.find(params).populate('category');
     },
-    product: async (parent, { _id }) => {
-      return await Product.findById(_id).populate('category');
+    getShop: async (parent, {_id}) => {
+      try {
+        let shop = await Business.findOne({_id}).populate("orders");
+
+        return shop
+        
+      } catch (error) {
+        return error
+      }
+    },
+    product: async (parent, { _id, productId }) => {
+      try {
+        let shop = await Business.findOne({_id});
+
+        let product = shop.products.find(item => item.productId === productId);
+
+        return product
+        
+      } catch (error) {
+        return error
+      }
     },
     user: async (parent, args, context) => {
-      if (context.user) {
-        const user = await User.findById(context.user._id).populate({
-          path: 'orders.products',
-          populate: 'category'
-        });
+      try {
+        if (context.user) {
+          const user = await User.findById(context.user._id).populate("orders");
+  
+          user.orders.sort((a, b) => b.purchaseDate - a.purchaseDate);
 
-        user.orders.sort((a, b) => b.purchaseDate - a.purchaseDate);
+          // if this query finds a business that belongs to the user then the business data will be returned with the user info
+          const userBusiness = await Business.findOne({userId: context.user._id}).populate("orders");
 
-        return user;
+          if(userBusiness){
+            return { user, userBusiness }
+          }
+  
+          return user;
+        }
+        throw new AuthenticationError('Not logged in');
+
+        
+      } catch (error) {
+        return error
       }
 
-      throw new AuthenticationError('Not logged in');
-    },
-    order: async (parent, { _id }, context) => {
-      if (context.user) {
-        const user = await User.findById(context.user._id).populate({
-          path: 'orders.products',
-          populate: 'category'
-        });
-
-        return user.orders.id(_id);
-      }
-
-      throw new AuthenticationError('Not logged in');
     },
     checkout: async (parent, args, context) => {
       const url = new URL(context.headers.referer).origin;
@@ -96,17 +105,43 @@ const resolvers = {
 
       return { token, user };
     },
-    addOrder: async (parent, { products }, context) => {
-      console.log(context);
-      if (context.user) {
-        const order = new Order({ products });
+    addProduct: async (parent, args, context) => {
+      try {
+        if(context.user){
+          let business = await Business.findOneAndUpdate(
+            {userId: context.user._id}, 
+            {$push: { products: args}},
+            {new: true, runValidators: true}
+          )
 
-        await User.findByIdAndUpdate(context.user._id, { $push: { orders: order } });
+          return business
 
-        return order;
+        }
+
+        throw new AuthenticationError("Must be logged in");
+        
+      } catch (error) {
+        return error
       }
+    },
+    submitOrder: async (parent, { businessId, products }, context) => {
+      try {
+        if(context.user){
+          let order = await Order.create(
+            {
+              userId: context.user._id, 
+              businessId, 
+              products
+            }
+          )
 
-      throw new AuthenticationError('Not logged in');
+          return order
+
+        }
+
+      } catch (error) {
+        return error
+      }
     },
     updateUser: async (parent, args, context) => {
       if (context.user) {
@@ -115,10 +150,47 @@ const resolvers = {
       
       throw new AuthenticationError('Not logged in');
     },
-    updateProduct: async (parent, { _id, quantity }) => {
-      const decrement = Math.abs(quantity) * -1;
+    // logic needs tested
+    updateProduct: async (parent, args, context) => {
+      try {
+        if(context.user){
+          let business = await Business.findOne({userId: contet.user._id});
 
-      return await Product.findByIdAndUpdate(_id, { $inc: { quantity: decrement } }, { new: true });
+          business.products.forEach(item => {
+            if(item.productId === args.productId) {
+              return {
+                ...item,
+                args
+              }
+            }
+          })
+
+          await business.save();
+
+          return business
+
+        }
+
+      } catch (error) {
+        
+      }
+    },
+    //
+    deleteProduct: async (parent, {productId}, context) => {
+      try {
+        if(context.user){
+          let business = await Business.findOneAndUpdate(
+            {_id: context.user._id},
+            {$pull: { products: {productId}}},
+            {new: true, runValidators: true}
+          )
+          return business
+
+        }
+
+      } catch (error) {
+        return error
+      }
     },
     login: async (parent, { email, password }) => {
       const user = await User.findOne({ email });

@@ -8,11 +8,11 @@ const orderSchema = new Schema({
     type: Date,
     default: Date.now,
   },
-  user: {
+  userId: {
     type: Schema.Types.ObjectId,
     ref: User,
   },
-  business: {
+  businessId: {
     type: Schema.Types.ObjectId,
     ref: "Business"
   },

@@ -5,7 +5,7 @@ const productSchema = require("./Product");
 
 const cartSchema = new Schema({
   products: [productSchema],
-  user: {
+  userId: {
     type: Schema.Types.ObjectId,
     ref: 'User'
   }
