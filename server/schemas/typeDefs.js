@@ -64,6 +64,7 @@ const typeDefs = gql`
     deleteUser(_id: ID!): User
     login(email: String!, password: String!): Auth
     addShop(name: String!, image: String!, primaryHex: String!, secondaryHex: String!): 
+  
   }
 `;
 
