@@ -105,6 +105,25 @@ const resolvers = {
 
       return { token, user };
     },
+    addProduct: async (parent, args, context) => {
+      try {
+        if(context.user){
+          let business = await Business.findOneAndUpdate(
+            {userId: context.user._id}, 
+            {$push: { products: args}},
+            {new: true, runValidators: true}
+          )
+
+          return business
+
+        }
+
+        throw new AuthenticationError("Must be logged in");
+        
+      } catch (error) {
+        return error
+      }
+    },
     addOrder: async (parent, { products }, context) => {
       console.log(context);
       if (context.user) {

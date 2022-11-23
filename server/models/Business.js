@@ -21,7 +21,7 @@ const businessSchema = new Schema({
     type: String,
     required: true
   },
-  orders: [Order.schema],
+  orders: [{type: Schema.Types.ObjectId, ref: 'Order'}],
   products: [productSchema],
   user: {
     type: Schema.Types.ObjectId,
