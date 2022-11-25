@@ -202,3 +202,38 @@ export const UPDATE_PRODUCT = gql`
         }
     }
 `
+
+export const DELETE_PRODUCT = gql`
+    mutation deleteProduct($_id: ID, $productId: ID){
+        deleteProduct(_id: $_id, productId: $productId){
+            _id
+            userId
+            businessName
+            image
+            orders{
+                _id
+                userId
+                businessId
+                purchaseDate
+                products{
+                    _id
+                    name
+                    description
+                    image
+                    price
+                    quantity
+                }
+
+            }
+            products{
+                _id
+                name
+                description
+                image
+                price
+                quantity
+            }
+        }
+    }
+`
+
