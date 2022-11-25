@@ -77,7 +77,7 @@ const typeDefs = gql`
     updateProduct(productId: ID!, productInput: productInput!): Business
     deleteProduct(_id: ID, productId: ID!): Business
     addToCart(userId: ID!, productInput: productInput): Cart
-    deleteFromCart(_id: ID!): Cart
+    deleteFromCart(userId: ID!, productId: ID!): Cart
     submitOrder(businessId: ID!, products: productInput): Order
     cancelOrder(_id: ID!): User
   }
