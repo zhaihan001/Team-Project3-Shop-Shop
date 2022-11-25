@@ -15,7 +15,7 @@ export const ADD_USER = gql`
                     businessId
                     purchaseDate
                     products{
-                        _id
+                        productId
                         name
                         description
                         image
@@ -44,7 +44,7 @@ export const UPDATE_USER = gql`
                 businessId
                 purchaseDate
                 products{
-                    _id
+                    productId
                     name
                     description
                     image
@@ -86,7 +86,7 @@ export const LOGIN_USER = gql`
                     businessId
                     purchaseDate
                     products{
-                        _id
+                        productId
                         name
                         description
                         image
@@ -114,7 +114,7 @@ export const ADD_SHOP = gql`
                 businessId
                 purchaseDate
                 products{
-                    _id
+                    productId
                     name
                     description
                     image
@@ -124,12 +124,12 @@ export const ADD_SHOP = gql`
 
             }
             products{
-                _id
-                    name
-                    description
-                    image
-                    price
-                    quantity
+                productId
+                name
+                description
+                image
+                price
+                quantity
             }
         }
     }
@@ -148,7 +148,7 @@ export const ADD_PRODUCT = gql`
                 businessId
                 purchaseDate
                 products{
-                    _id
+                    productId
                     name
                     description
                     image
@@ -158,7 +158,7 @@ export const ADD_PRODUCT = gql`
 
             }
             products{
-                _id
+                productId
                 name
                 description
                 image
@@ -182,7 +182,7 @@ export const UPDATE_PRODUCT = gql`
                 businessId
                 purchaseDate
                 products{
-                    _id
+                    productId
                     name
                     description
                     image
@@ -192,7 +192,7 @@ export const UPDATE_PRODUCT = gql`
 
             }
             products{
-                _id
+                productId
                 name
                 description
                 image
@@ -226,7 +226,7 @@ export const DELETE_PRODUCT = gql`
 
             }
             products{
-                _id
+                productId
                 name
                 description
                 image
@@ -237,3 +237,19 @@ export const DELETE_PRODUCT = gql`
     }
 `
 
+export const ADD_TO_CART = gql`
+    mutation addToCart($userId: ID, $productInput: productInput){
+        addToCart(userId: $userId, productInput: $productInput){
+            _id
+            userId
+            products{
+                productId
+                name
+                description
+                image
+                price
+                quantity
+            }
+        }
+    }
+`
