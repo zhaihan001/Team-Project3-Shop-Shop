@@ -150,32 +150,28 @@ const resolvers = {
       
       throw new AuthenticationError('Not logged in');
     },
-    // logic needs tested
     updateProduct: async (parent, args, context) => {
       try {
         if(context.user){
-          let business = await Business.findOne({userId: contet.user._id});
+          let business = await Business.findOneAndUpdate(
+            {_id: context.user._id},
+            {$pull: {products: {productId: args.productId}}}
+          );
 
-          business.products.forEach(item => {
-            if(item.productId === args.productId) {
-              return {
-                ...item,
-                args
-              }
-            }
-          })
-
-          await business.save();
-
-          return business
+          let updateNote = await Business.findOneAndUpdate(
+            {_id: context.user._id},
+            {$push: {products: {...args}}},
+            {new: true, runValidators: true}
+          )
+  
+          return updateNote
 
         }
 
       } catch (error) {
-        
+        return error
       }
     },
-    //
     deleteProduct: async (parent, {productId}, context) => {
       try {
         if(context.user){

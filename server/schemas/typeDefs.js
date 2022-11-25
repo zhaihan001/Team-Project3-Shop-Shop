@@ -3,7 +3,7 @@ const { gql } = require("apollo-server-express");
 const typeDefs = gql`
   type Business {
     _id: ID
-    user: User
+    user: ID
     businessName: String
     image: String
     orders: [Order]
@@ -21,8 +21,8 @@ const typeDefs = gql`
 
   type Order {
     _id: ID
-    user: User
-    business: Business
+    userId: ID
+    businessId: ID
     purchaseDate: String
     products: [Product]
   }
@@ -61,8 +61,7 @@ const typeDefs = gql`
   type Query {
     shops: [Business]
     getShop(_id:ID!): Business
-    product(_id: ID!, productId: ID!): Product
-    userOrders(_id: ID!): User
+    product(_id: ID!, productId: ID!): Business
     businessOrders(_id: ID!): Business
     user: User
     checkout(products: [ID]!): Checkout
