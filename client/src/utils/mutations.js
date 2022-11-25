@@ -100,3 +100,37 @@ export const LOGIN_USER = gql`
         }
     }
 `
+
+export const ADD_SHOP = gql`
+    mutation addShop($businessName: String!, $userId: ID! $image: String!, $primaryHex: String!, $secondaryHex: String!){
+        addShop(businessName: $businessName, userId: $userId, image: $image, primaryHex: $primaryHex, secondaryHex: $secondaryHex){
+            _id
+            userId
+            businessName
+            image
+            orders{
+                _id
+                userId
+                businessId
+                purchaseDate
+                products{
+                    _id
+                    name
+                    description
+                    image
+                    price
+                    quantity
+                }
+
+            }
+            products{
+                _id
+                    name
+                    description
+                    image
+                    price
+                    quantity
+            }
+        }
+    }
+`
