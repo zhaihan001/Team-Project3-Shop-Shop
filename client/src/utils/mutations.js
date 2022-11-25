@@ -70,3 +70,33 @@ export const DELETE_USER = gql`
         }
     }
 `
+
+export const LOGIN_USER = gql`
+    mutation login($email: String!, $password: String!){
+        login(email: $email, password: $password){
+            token
+            user {
+                _id
+                firstName
+                lastName
+                email
+                orders{
+                    _id
+                    userId
+                    businessId
+                    purchaseDate
+                    products{
+                        _id
+                        name
+                        description
+                        image
+                        price
+                        quantity
+                    }
+                }
+                
+
+            }
+        }
+    }
+`
