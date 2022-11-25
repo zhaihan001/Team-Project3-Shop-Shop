@@ -168,3 +168,37 @@ export const ADD_PRODUCT = gql`
         }
     }
 `
+
+export const UPDATE_PRODUCT = gql`
+    mutation updateProduct($productId: ID, $productInput: productInput){
+        updateProduct(productId: $productId, productInput: $productInput){
+            _id
+            userId
+            businessName
+            image
+            orders{
+                _id
+                userId
+                businessId
+                purchaseDate
+                products{
+                    _id
+                    name
+                    description
+                    image
+                    price
+                    quantity
+                }
+
+            }
+            products{
+                _id
+                name
+                description
+                image
+                price
+                quantity
+            }
+        }
+    }
+`
