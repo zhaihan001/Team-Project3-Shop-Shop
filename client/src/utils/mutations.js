@@ -238,8 +238,8 @@ export const DELETE_PRODUCT = gql`
 `
 
 export const ADD_TO_CART = gql`
-    mutation addToCart($userId: ID!, $productInput: productInput!){
-        addToCart(userId: $userId, productInput: $productInput){
+    mutation addToCart($productInput: productInput!){
+        addToCart(productInput: $productInput){
             _id
             userId
             products{
@@ -255,8 +255,8 @@ export const ADD_TO_CART = gql`
 `
 
 export const DELETE_FROM_CART = gql`
-    mutation deleteFromCart($userId: ID!, $productId: ID!){
-        deleteFromCart(userId: $userId, productId: $productId){
+    mutation deleteFromCart($productId: ID!){
+        deleteFromCart(productId: $productId){
             _id
             userId
             products{
@@ -266,6 +266,56 @@ export const DELETE_FROM_CART = gql`
                 image
                 price
                 quantity
+            }
+        }
+    }
+`
+
+export const SUBMIT_ORDER = gql`
+    mutation submitOrder($businessId: ID!, $products: productInput){
+        submitOrder(businessId: $businessId, products: $products){
+            _id
+            firstName
+            lastName
+            email
+            orders{
+                _id
+                userId
+                businessId
+                purchaseDate
+                products{
+                    productId
+                    name
+                    description
+                    image
+                    price
+                    quantity
+                }
+            }
+        }
+    }
+`
+
+export const CANCEL_ORDER = gql`
+    mutation cancelOrder($_id: ID!){
+        cancelOrder(_id: $_id){
+            _id
+            firstName
+            lastName
+            email
+            orders{
+                _id
+                userId
+                businessId
+                purchaseDate
+                products{
+                    productId
+                    name
+                    description
+                    image
+                    price
+                    quantity
+                }
             }
         }
     }
