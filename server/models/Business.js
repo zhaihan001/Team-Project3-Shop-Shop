@@ -23,7 +23,7 @@ const businessSchema = new Schema({
   },
   orders: [{type: Schema.Types.ObjectId, ref: 'Order'}],
   products: [productSchema],
-  user: {
+  userId: {
     type: Schema.Types.ObjectId,
     ref: "User",
   },

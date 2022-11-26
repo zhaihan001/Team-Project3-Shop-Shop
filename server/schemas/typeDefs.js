@@ -3,7 +3,7 @@ const { gql } = require("apollo-server-express");
 const typeDefs = gql`
   type Business {
     _id: ID
-    user: User
+    user: ID
     businessName: String
     image: String
     orders: [Order]
@@ -17,12 +17,12 @@ const typeDefs = gql`
     image: String
     price: Float
     quantity: Int
-   }
+  }
 
   type Order {
     _id: ID
-    user: User
-    business: Business
+    userId: ID
+    businessId: ID
     purchaseDate: String
     products: [Product]
   }
@@ -61,8 +61,7 @@ const typeDefs = gql`
   type Query {
     shops: [Business]
     getShop(_id:ID!): Business
-    product(_id: ID!, productId: ID!): Product
-    userOrders(_id: ID!): User
+    product(_id: ID!, productId: ID!): Business
     businessOrders(_id: ID!): Business
     user: User
     checkout(products: [ID]!): Checkout
@@ -70,16 +69,16 @@ const typeDefs = gql`
 
   type Mutation {
     addUser(firstName: String!, lastName: String!, email: String!, password: String!): Auth
-    updateUser(firstName: String, lastName: String, email: String, password: String): User
+    updateUser(firstName: String!, lastName: String!, email: String!, password: String): User
     deleteUser(_id: ID!): User
     login(email: String!, password: String!): Auth
-    addShop(name: String!, image: String!, primaryHex: String!, secondaryHex: String!): 
-    addProduct(productInput: productInput): Business
-    updateProduct(productId: ID!, name: String, description: String, image: String, price: Int, quantity: Int): Business
+    addShop(businessName: String!, userId: ID! image: String!, primaryHex: String!, secondaryHex: String!): 
+    addProduct(_id: ID!, productInput: productInput): Business
+    updateProduct(productId: ID!, productInput: productInput!): Business
     deleteProduct(productId: ID!): Business
-    addToCart(userId: ID!, productInput: productInput): Cart
-    deleteFromCart(_id: ID!): Cart
-    submitOrder(businessId: ID!, products: productInput): Order
+    addToCart(productInput: productInput): Cart
+    deleteFromCart(productId: ID!): Cart
+    submitOrder(businessId: ID!, products: [productInput]!): User
     cancelOrder(_id: ID!): User
   }
 `;

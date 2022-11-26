@@ -7,7 +7,7 @@ const resolvers = {
   Query: {
     shops: async () => {
       try {
-        let shops = await Business.find();
+        let shops = await Business.find().populate("orders");
 
         return shops
 
@@ -27,7 +27,7 @@ const resolvers = {
     },
     product: async (parent, { _id, productId }) => {
       try {
-        let shop = await Business.findOne({_id});
+        let shop = await Business.findOne({_id}).populate("orders");
 
         let product = shop.products.find(item => item.productId === productId);
 
@@ -98,6 +98,7 @@ const resolvers = {
       return { session: session.id };
     }
   },
+
   Mutation: {
     addUser: async (parent, args) => {
       const user = await User.create(args);
@@ -105,12 +106,12 @@ const resolvers = {
 
       return { token, user };
     },
-    addProduct: async (parent, args, context) => {
+    addProduct: async (parent, {products}, context) => {
       try {
         if(context.user){
           let business = await Business.findOneAndUpdate(
             {userId: context.user._id}, 
-            {$push: { products: args}},
+            {$push: { products }},
             {new: true, runValidators: true}
           )
 
@@ -135,6 +136,15 @@ const resolvers = {
             }
           )
 
+          let productIds = order.products.map(item => {
+            return item.productId
+          });
+
+          let removedItemsFromCart = await Cart.findOneAndUpdate(
+            {userId: context.user._id},
+            {$pullAll: {[products.productId]: productIds}}
+          )
+
           return order
 
         }
@@ -150,32 +160,28 @@ const resolvers = {
       
       throw new AuthenticationError('Not logged in');
     },
-    // logic needs tested
     updateProduct: async (parent, args, context) => {
       try {
         if(context.user){
-          let business = await Business.findOne({userId: contet.user._id});
+          let business = await Business.findOneAndUpdate(
+            {_id: context.user._id},
+            {$pull: {products: {productId: args.productId}}}
+          );
 
-          business.products.forEach(item => {
-            if(item.productId === args.productId) {
-              return {
-                ...item,
-                args
-              }
-            }
-          })
-
-          await business.save();
-
-          return business
+          let updateNote = await Business.findOneAndUpdate(
+            {_id: context.user._id},
+            {$push: {products: {...args}}},
+            {new: true, runValidators: true}
+          )
+  
+          return updateNote
 
         }
 
       } catch (error) {
-        
+        return error
       }
     },
-    //
     deleteProduct: async (parent, {productId}, context) => {
       try {
         if(context.user){
@@ -208,6 +214,37 @@ const resolvers = {
       const token = signToken(user);
 
       return { token, user };
+    },
+    deleteFromCart: async (parent, {productId}, context) => {
+      try {
+        let removedItem = await Cart.findOneAndUpdate(
+          {userId: context.user._id},
+          {$pull: {products: {productId}}},
+          {new: true, runValidators: true}
+        )
+
+        return removedItem
+        
+        
+      } catch (error) {
+        return error
+      }
+    },
+    cancelOrder: async (parent, {_id}, context) => {
+      try {
+        let cancelOrder = await Order.findByIdAndDelete({_id});
+
+        let updatedUser = await User.findOneAndUpdate(
+          {_id: context.user._id},
+          {$pull: {orders: {_id}}},
+          {new: true, runValidators: true}
+        )
+
+        return updatedUser
+
+      } catch (error) {
+        return error
+      }
     }
   }
 };
