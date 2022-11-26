@@ -75,10 +75,10 @@ const typeDefs = gql`
     addShop(businessName: String!, userId: ID! image: String!, primaryHex: String!, secondaryHex: String!): 
     addProduct(_id: ID!, productInput: productInput): Business
     updateProduct(productId: ID!, productInput: productInput!): Business
-    deleteProduct(_id: ID!, productId: ID!): Business
+    deleteProduct(productId: ID!): Business
     addToCart(productInput: productInput): Cart
     deleteFromCart(productId: ID!): Cart
-    submitOrder(businessId: ID!, products: productInput): User
+    submitOrder(businessId: ID!, products: [productInput]!): User
     cancelOrder(_id: ID!): User
   }
 `;

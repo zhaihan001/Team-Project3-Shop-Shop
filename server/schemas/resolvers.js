@@ -98,6 +98,7 @@ const resolvers = {
       return { session: session.id };
     }
   },
+
   Mutation: {
     addUser: async (parent, args) => {
       const user = await User.create(args);
@@ -105,12 +106,12 @@ const resolvers = {
 
       return { token, user };
     },
-    addProduct: async (parent, args, context) => {
+    addProduct: async (parent, {products}, context) => {
       try {
         if(context.user){
           let business = await Business.findOneAndUpdate(
             {userId: context.user._id}, 
-            {$push: { products: args}},
+            {$push: { products }},
             {new: true, runValidators: true}
           )
 
@@ -204,6 +205,21 @@ const resolvers = {
       const token = signToken(user);
 
       return { token, user };
+    },
+    deleteFromCart: async (parent, {productId}, context) => {
+      try {
+        let removedItem = await Cart.findOneAndUpdate(
+          {userId: context.user._id},
+          {$pull: {products: {productId}}},
+          {new: true, runValidators: true}
+        )
+
+        return removedItem
+        
+        
+      } catch (error) {
+        return error
+      }
     }
   }
 };

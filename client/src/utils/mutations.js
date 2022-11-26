@@ -204,8 +204,8 @@ export const UPDATE_PRODUCT = gql`
 `
 
 export const DELETE_PRODUCT = gql`
-    mutation deleteProduct($_id: ID, $productId: ID){
-        deleteProduct(_id: $_id, productId: $productId){
+    mutation deleteProduct($productId: ID!){
+        deleteProduct(productId: $productId){
             _id
             userId
             businessName
