@@ -220,6 +220,22 @@ const resolvers = {
       } catch (error) {
         return error
       }
+    },
+    cancelOrder: async (parent, {_id}, context) => {
+      try {
+        let cancelOrder = await Order.findByIdAndDelete({_id});
+
+        let updatedUser = await User.findOneAndUpdate(
+          {_id: context.user._id},
+          {$pull: {orders: {_id}}},
+          {new: true, runValidators: true}
+        )
+
+        return updatedUser
+
+      } catch (error) {
+        return error
+      }
     }
   }
 };
