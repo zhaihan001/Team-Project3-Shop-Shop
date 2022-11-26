@@ -7,7 +7,7 @@ const resolvers = {
   Query: {
     shops: async () => {
       try {
-        let shops = await Business.find();
+        let shops = await Business.find().populate("orders");
 
         return shops
 
@@ -27,7 +27,7 @@ const resolvers = {
     },
     product: async (parent, { _id, productId }) => {
       try {
-        let shop = await Business.findOne({_id});
+        let shop = await Business.findOne({_id}).populate("orders");
 
         let product = shop.products.find(item => item.productId === productId);
 
@@ -134,6 +134,15 @@ const resolvers = {
               businessId, 
               products
             }
+          )
+
+          let productIds = order.products.map(item => {
+            return item.productId
+          });
+
+          let removedItemsFromCart = await Cart.findOneAndUpdate(
+            {userId: context.user._id},
+            {$pullAll: {[products.productId]: productIds}}
           )
 
           return order
