@@ -1,12 +1,14 @@
 import React from 'react'
 import styled from 'styled-components'
 import ShopList from './Shoplist'
+import Banner from './Banner'
 
 // import styled from 'styled-components'
 
 function Home() {
   return (
 <Container>
+    {/* <Banner /> */}
     <ShopList />
 </Container>
   )
