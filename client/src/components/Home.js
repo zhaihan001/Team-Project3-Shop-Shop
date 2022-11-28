@@ -1,6 +1,5 @@
 import React from 'react'
 import styled from 'styled-components'
-import Navbar from './Navbar'
 import ShopList from './Shoplist'
 
 // import styled from 'styled-components'
@@ -8,7 +7,6 @@ import ShopList from './Shoplist'
 function Home() {
   return (
 <Container>
-    <Navbar />
     <ShopList />
 </Container>
   )
