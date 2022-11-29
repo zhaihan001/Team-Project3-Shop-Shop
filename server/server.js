@@ -14,8 +14,8 @@ const server = new ApolloServer({
   context: authMiddleware,
 });
 
-app.use(express.urlencoded({ extended: false }));
-app.use(express.json());
+app.use(express.urlencoded({ limit: '50mb', extended: false, parameterLimit: 50000 }));
+app.use(express.json({limit: '50mb'}));
 
 // Serve up static assets
 app.use('/images', express.static(path.join(__dirname, '../client/images')));
