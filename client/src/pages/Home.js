@@ -13,6 +13,7 @@ function Home() {
         {loading ? (
           <div>Loading...</div>
         ) : (
+          // render shoplist
           <ShopList shops={shops} title="List of the Shops" />
         )}
       </div>
