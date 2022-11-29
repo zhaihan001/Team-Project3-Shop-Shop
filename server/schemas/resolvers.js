@@ -245,6 +245,20 @@ const resolvers = {
       } catch (error) {
         return error
       }
+    },
+    updateProductQuanitity: async (parent, {quanitity}, context) => {
+      try {
+        let shop = await findOneAndUpdate(
+          {_id: context.user._id},
+          {$set: {quanitity: quanitity}},
+          {new: true}
+        )
+
+        return shop
+        
+      } catch (error) {
+        return error
+      }
     }
   }
 };

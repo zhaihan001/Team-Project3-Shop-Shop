@@ -80,6 +80,7 @@ const typeDefs = gql`
     deleteFromCart(productId: ID!): Cart
     submitOrder(businessId: ID!, products: [productInput]!): User
     cancelOrder(_id: ID!): User
+    updateProductQuantity($quanitity: Int): Business
   }
 `;
 
