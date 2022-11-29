@@ -304,7 +304,7 @@ const resolvers = {
         return error
       }
     },
-    updateProductQuanitity: async (parent, {quanitity}, context) => {
+    updateProductQuantity: async (parent, {quanitity}, context) => {
       try {
         let shop = await findOneAndUpdate(
           {_id: context.user._id},

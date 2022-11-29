@@ -3,7 +3,7 @@ const { gql } = require("apollo-server-express");
 const typeDefs = gql`
   type Business {
     _id: ID
-    user: ID
+    userId: User
     businessName: String
     image: String
     orders: [Order]
@@ -21,7 +21,7 @@ const typeDefs = gql`
 
   type Order {
     _id: ID
-    userId: ID
+    userId: User
     businessId: ID
     purchaseDate: String
     products: [Product]
@@ -38,7 +38,7 @@ const typeDefs = gql`
   type Cart{
     _id: ID
     user: User
-    products: [productSchema]
+    products: [Product]
   }
 
   input productInput {
@@ -62,7 +62,6 @@ const typeDefs = gql`
     shops: [Business]
     getShop(_id:ID!): Business
     product(_id: ID!, productId: ID!): Business
-    businessOrders(_id: ID!): Business
     user: User
     checkout(products: [ID]!): Checkout
   }
@@ -72,7 +71,7 @@ const typeDefs = gql`
     updateUser(firstName: String!, lastName: String!, email: String!, password: String): User
     deleteUser(_id: ID!): User
     login(email: String!, password: String!): Auth
-    addShop(businessName: String!, userId: ID! image: String!, primaryHex: String!, secondaryHex: String!): 
+    addShop(businessName: String!, userId: ID! image: String!, primaryHex: String!, secondaryHex: String!): Business 
     addProduct(productInput: productInput): Business
     updateProduct(productId: ID!, productInput: productInput!): Business
     deleteProduct(productId: ID!): Business
@@ -80,7 +79,7 @@ const typeDefs = gql`
     deleteFromCart(productId: ID!): Cart
     submitOrder(businessId: ID!, products: [productInput]!): User
     cancelOrder(_id: ID!): User
-    updateProductQuantity($quanitity: Int): Business
+    updateProductQuantity(quanitity: Int): Business
   }
 `;
 
