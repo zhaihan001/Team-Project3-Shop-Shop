@@ -3,11 +3,10 @@ import ShopList from "../components/ShopList";
 import { useQuery } from "@apollo/client";
 import { GET_SHOPS } from "../utils/queries";
 
-function Home () {
+function Home() {
   const { loading, data } = useQuery(GET_SHOPS);
   console.log(data);
   const shops = data?.shops || [];
-  
 
   return (
     <div>
@@ -15,11 +14,12 @@ function Home () {
         {loading ? (
           <div>Loading...</div>
         ) : (
+          // render shoplist
           <ShopList shops={shops} title="List of the Shops" />
         )}
       </div>
     </div>
   );
-};
+}
 
 export default Home;
