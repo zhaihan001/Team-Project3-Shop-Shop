@@ -9,10 +9,12 @@ import {
 import { setContext } from "@apollo/client/link/context";
 
 // PAGES
+
 import Home from "./pages/Home";
 import Login from "./components/Login";
 import Signup from "./components/Signup";
 import Navbar from "./components/Navbar";
+
 
 const httpLink = createHttpLink({
   uri: "/graphql",
@@ -34,6 +36,12 @@ const client = new ApolloClient({
 });
 
 function App() {
+
+  const adminLogin = {
+    email: "test@test.com",
+    password: "password123"
+  }
+
   return (
     <ApolloProvider client={client}>
       <div className="App">
