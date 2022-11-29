@@ -15,7 +15,7 @@ function Home () {
         {loading ? (
           <div>Loading...</div>
         ) : (
-          <ShopList shops={shops} title="Here's the list of shops" />
+          <ShopList shops={shops} title="List of the Shops" />
         )}
       </div>
     </div>
