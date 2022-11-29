@@ -46,12 +46,20 @@ export const GET_SHOP = gql`
     query getShop($_id: ID!){
         getShop(_id: $_id){
             _id
-            user
+            user{
+                _id
+                firstName
+                lastName
+            }
             businessName
             image
             orders{
                 _id
-                userId
+                userId{
+                    _id
+                    firstName
+                    lastName
+                }
                 businessId
                 purchaseDate
                 products{
@@ -80,14 +88,19 @@ export const GET_PRODUCT = gql`
     query product($_id: ID!, $productId: String!){
         product(_id: $_id){
             _id
-            user
+            user{
+                _id
+                firstName
+                lastName
+            }
             businessName
             image
             orders{
                 _id
                 userId{
                     _id
-                    username
+                    firstName
+                    lastName
                 }
                 businessId
                 purchaseDate
@@ -103,12 +116,12 @@ export const GET_PRODUCT = gql`
             }
             products{
                 _id
-                    name
-                    description
-                    image
-                    price
-                    quantity
-            }
+                name
+                description
+                image
+                price
+                quantity
+        }
         }
     }
 `
@@ -122,7 +135,11 @@ export const GET_USER = gql`
             email
             orders{
                 _id
-                userId
+                userId{
+                    _id
+                    firstName
+                    lastName
+                }
                 businessId
                 purchaseDate
                 products{
