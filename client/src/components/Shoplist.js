@@ -1,70 +1,10 @@
 import React from "react";
 import styled from "styled-components";
-import { useQuery } from "@apollo/client";
-import { GET_SHOPS } from "../utils/queries";
-
-
 
 const ShopList = ({ shops, title }) => {
-  // if (!shops.length) {
-  //   return <h1>No Shops Yet</h1>;
-  // }
-
-// function ShopList() {
-//   return (
-//     <Container>
-//       <h2>Featured Shops</h2>
-//       <Content>
-//         <Wrap>
-//           <img src="/images/soap.jpg" alt="product" />
-//           <a href="/signup">
-//             <div>
-//               <h4>Visit Shop</h4>
-//             </div>
-//             <h3>Marnie's Soaps</h3>
-//           </a>
-//         </Wrap>
-//         <Wrap>
-//           <img src="/images/soap.jpg" alt="product" />
-//           <a href="/signup">
-//             <div>
-//               <h4>Visit Shop</h4>
-//             </div>
-//             <h3>Marnie's Soaps</h3>
-//           </a>
-//         </Wrap>
-//         <Wrap>
-//           <img src="/images/soap.jpg" alt="product" />
-//           <a href="/signup">
-//             <div>
-//               <h4>Visit Shop</h4>
-//             </div>
-//             <h3>Marnie's Soaps</h3>
-//           </a>
-//         </Wrap>
-//         <Wrap>
-//           <img src="/images/soap.jpg" alt="product" />
-//           <a href="/signup">
-//             <div>
-//               <h4>Visit Shop</h4>
-//             </div>
-//             <h3>Marnie's Soaps</h3>
-//           </a>
-//         </Wrap>
-//         <Wrap>
-//           <img src="/images/soap.jpg" alt="product" />
-//           <a href="/signup">
-//             <div>
-//               <h4>Visit Shop</h4>
-//             </div>
-//             <h3>Marnie's Soaps</h3>
-//           </a>
-//         </Wrap>
-//       </Content>
-//     </Container>
-//   );
-// }
-
+  if (!shops.length) {
+    return <h1>No Shops Yet</h1>;
+  }
 
   return (
     <Container>
@@ -91,7 +31,7 @@ const ShopList = ({ shops, title }) => {
         {shops &&
           shops.map((shop) => (
             <Wrap>
-                <img src={shop.image} alt={shop.businessName} />
+              <img src={shop.image} alt={shop.businessName} />
               <a href={"/shops/" + shop._id}>
                 <div>
                   <h4>Visit Shop</h4>
