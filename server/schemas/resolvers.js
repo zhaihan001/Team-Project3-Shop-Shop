@@ -222,17 +222,17 @@ const resolvers = {
       
       throw new AuthenticationError('Not logged in');
     },
-    updateProduct: async (parent, args, context) => {
+    updateProduct: async (parent, {productInput: product}, context) => {
       try {
         if(context.user){
           let business = await Business.findOneAndUpdate(
             {_id: context.user._id},
-            {$pull: {products: {productId: args.productId}}}
+            {$pull: {products: {productId: product.productId}}}
           );
 
           let updateNote = await Business.findOneAndUpdate(
             {_id: context.user._id},
-            {$push: {products: {...args}}},
+            {$push: {products: {...product}}},
             {new: true, runValidators: true}
           )
   
