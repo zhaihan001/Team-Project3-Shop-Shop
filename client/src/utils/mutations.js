@@ -65,8 +65,8 @@ export const UPDATE_USER = gql`
 `
 
 export const DELETE_USER = gql`
-    mutation deleteUser($_id: ID){
-        deleteUser(_id: $_id){
+    mutation deleteUser{
+        deleteUser{
             _id
             email
             orders{
@@ -114,8 +114,8 @@ export const LOGIN_USER = gql`
 `
 
 export const ADD_SHOP = gql`
-    mutation addShop($businessName: String!, $userId: ID! $image: String!, $primaryHex: String!, $secondaryHex: String!){
-        addShop(businessName: $businessName, userId: $userId, image: $image, primaryHex: $primaryHex, secondaryHex: $secondaryHex){
+    mutation addShop($businessName: String!, $image: String!, $primaryHex: String!, $secondaryHex: String!){
+        addShop(businessName: $businessName, image: $image, primaryHex: $primaryHex, secondaryHex: $secondaryHex){
             _id
             userId
             businessName
@@ -152,8 +152,8 @@ export const ADD_SHOP = gql`
 `
 
 export const ADD_PRODUCT = gql`
-    mutation addProduct($_id: ID, $productInput: productInput){
-        addProduct(_id: $_id, productInput: $productInput){
+    mutation addProduct($productInput: productInput){
+        addProduct(productInput: $productInput){
             _id
             userId{
                 _id
@@ -335,7 +335,7 @@ export const SUBMIT_ORDER = gql`
                     productId
                     name
                     description
-                    image
+                    images
                     price
                     quantity
                 }
@@ -364,7 +364,7 @@ export const CANCEL_ORDER = gql`
                     productId
                     name
                     description
-                    image
+                    images
                     price
                     quantity
                 }
@@ -391,13 +391,16 @@ export const UPDATE_QUANTITY = gql`
                     firstName
                     lastName
                 }
-                businessId
+                businessId{
+                    _id
+                    name
+                }
                 purchaseDate
                 products{
                     _id
                     name
                     description
-                    image
+                    images
                     price
                     quantity
                 }
@@ -407,7 +410,7 @@ export const UPDATE_QUANTITY = gql`
                 productId
                 name
                 description
-                image
+                images
                 price
                 quantity
             }

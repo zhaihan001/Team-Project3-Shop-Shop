@@ -18,7 +18,10 @@ export const GET_SHOPS = gql`
                     firstName
                     lastName
                 }
-                businessId
+                businessId{
+                    _id
+                    name
+                }
                 purchaseDate
                 products{
                     _id
@@ -60,7 +63,10 @@ export const GET_SHOP = gql`
                     firstName
                     lastName
                 }
-                businessId
+                businessId{
+                    _id
+                    name
+                }
                 purchaseDate
                 products{
                     _id
@@ -102,7 +108,10 @@ export const GET_PRODUCT = gql`
                     firstName
                     lastName
                 }
-                businessId
+                businessId{
+                    _id
+                    name
+                }
                 purchaseDate
                 products{
                     _id
@@ -140,7 +149,10 @@ export const GET_USER = gql`
                     firstName
                     lastName
                 }
-                businessId
+                businessId{
+                    _id
+                    name
+                }
                 purchaseDate
                 products{
                     _id

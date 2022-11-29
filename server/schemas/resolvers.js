@@ -154,17 +154,21 @@ const resolvers = {
     addProduct: async (parent, {productInput: product}, context) => {
       try {
         if(context.user){
-          let newCloudPic = await cloudinary.uploader.upload(product.image, options);
-          console.log(newCloudPic);
+          let newImages = product.images.map(async (item) => {
+            let newCloudPic = await cloudinary.uploader.upload(item, options);
+            console.log(newCloudPic);
   
-          let sizedPic = await cloudinary.uploader.explicit(newCloudPic.public_id, {
-              type: 'upload',
-                  eager: [{width: 450, height: 300}]
+            let sizedPic = await cloudinary.uploader.explicit(newCloudPic.public_id, {
+                type: 'upload',
+                    eager: [{width: 450, height: 300}]
+            })
+            return sizedPic.eager[0].secure_url
+
           })
 
           let newProductObj = {
             ...product,
-            image: sizedPic.eager[0].secure_url
+            images: newImages
           }
 
           let business = await Business.findOneAndUpdate(
@@ -179,6 +183,18 @@ const resolvers = {
 
         throw new AuthenticationError("Must be logged in");
         
+      } catch (error) {
+        return error
+      }
+    },
+    addToCart: async (parent, {productInput: product}, context) => {
+      try {
+        let addedItem = await Cart.findOneAndUpdate(
+          {userId: contex.user._id},
+          {$push: {products: product}},
+          {new: true, runValidators: true}
+        )
+
       } catch (error) {
         return error
       }
@@ -218,17 +234,17 @@ const resolvers = {
       
       throw new AuthenticationError('Not logged in');
     },
-    updateProduct: async (parent, args, context) => {
+    updateProduct: async (parent, {productInput: product}, context) => {
       try {
         if(context.user){
           let business = await Business.findOneAndUpdate(
             {_id: context.user._id},
-            {$pull: {products: {productId: args.productId}}}
+            {$pull: {products: {productId: product.productId}}}
           );
 
           let updateNote = await Business.findOneAndUpdate(
             {_id: context.user._id},
-            {$push: {products: {...args}}},
+            {$push: {products: product}},
             {new: true, runValidators: true}
           )
   
@@ -314,6 +330,18 @@ const resolvers = {
 
         return shop
         
+      } catch (error) {
+        return error
+      }
+    },
+    deleteUser: async (parent, args, context) => {
+      try {
+        let removedUser = await User.findByIdAndDelete(context.user._id);
+
+        let removedShop = await Business.findOneAndDelete({userId: context.user._id})
+
+        return {msg: `user ${context.user._id} has been removed`}
+
       } catch (error) {
         return error
       }
