@@ -1,70 +1,33 @@
 import React from "react";
 import styled from "styled-components";
 
-// function ShopList() {
-//   return (
-//     <Container>
-//       <h2>Featured Shops</h2>
-//       <Content>
-//         <Wrap>
-//           <img src="/images/soap.jpg" alt="product" />
-//           <a href="/signup">
-//             <div>
-//               <h4>Visit Shop</h4>
-//             </div>
-//             <h3>Marnie's Soaps</h3>
-//           </a>
-//         </Wrap>
-//         <Wrap>
-//           <img src="/images/soap.jpg" alt="product" />
-//           <a href="/signup">
-//             <div>
-//               <h4>Visit Shop</h4>
-//             </div>
-//             <h3>Marnie's Soaps</h3>
-//           </a>
-//         </Wrap>
-//         <Wrap>
-//           <img src="/images/soap.jpg" alt="product" />
-//           <a href="/signup">
-//             <div>
-//               <h4>Visit Shop</h4>
-//             </div>
-//             <h3>Marnie's Soaps</h3>
-//           </a>
-//         </Wrap>
-//         <Wrap>
-//           <img src="/images/soap.jpg" alt="product" />
-//           <a href="/signup">
-//             <div>
-//               <h4>Visit Shop</h4>
-//             </div>
-//             <h3>Marnie's Soaps</h3>
-//           </a>
-//         </Wrap>
-//         <Wrap>
-//           <img src="/images/soap.jpg" alt="product" />
-//           <a href="/signup">
-//             <div>
-//               <h4>Visit Shop</h4>
-//             </div>
-//             <h3>Marnie's Soaps</h3>
-//           </a>
-//         </Wrap>
-//       </Content>
-//     </Container>
-//   );
-// }
-
 const ShopList = ({ shops, title }) => {
-  if (!shops.length) {
-    return <h3>No Shops Yet</h3>;
-  }
+  // if (!shops.length) {
+  //   return <h1>No Shops Yet</h1>;
+  // }
 
   return (
     <Container>
       <h2>{title}</h2>
       <Content>
+        <Wrap>
+          <img src="/images/soap.jpg" alt="product" />
+          <a href="/signup">
+            <div>
+              <h4>Visit Shop</h4>
+            </div>
+            <h3>Marnie's Soaps</h3>
+          </a>
+        </Wrap>
+        <Wrap>
+          <img src="/images/soap.jpg" alt="product" />
+          <a href="/signup">
+            <div>
+              <h4>Visit Shop</h4>
+            </div>
+            <h3>Marnie's Soaps</h3>
+          </a>
+        </Wrap>
         {shops &&
           shops.map((shop) => (
             <Wrap>
