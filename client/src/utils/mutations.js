@@ -335,7 +335,7 @@ export const SUBMIT_ORDER = gql`
                     productId
                     name
                     description
-                    image
+                    images
                     price
                     quantity
                 }
@@ -364,7 +364,7 @@ export const CANCEL_ORDER = gql`
                     productId
                     name
                     description
-                    image
+                    images
                     price
                     quantity
                 }
@@ -391,13 +391,16 @@ export const UPDATE_QUANTITY = gql`
                     firstName
                     lastName
                 }
-                businessId
+                businessId{
+                    _id
+                    name
+                }
                 purchaseDate
                 products{
                     _id
                     name
                     description
-                    image
+                    images
                     price
                     quantity
                 }
@@ -407,7 +410,7 @@ export const UPDATE_QUANTITY = gql`
                 productId
                 name
                 description
-                image
+                images
                 price
                 quantity
             }
