@@ -11,7 +11,11 @@ export const ADD_USER = gql`
                 email
                 orders{
                     _id
-                    userId
+                    userId{
+                        _id
+                        firstName
+                        lastName
+                    }
                     businessId
                     purchaseDate
                     products{
@@ -40,7 +44,11 @@ export const UPDATE_USER = gql`
             email
             orders{
                 _id
-                userId
+                userId{
+                    _id
+                    firstName
+                    lastName
+                }
                 businessId
                 purchaseDate
                 products{
@@ -82,7 +90,11 @@ export const LOGIN_USER = gql`
                 email
                 orders{
                     _id
-                    userId
+                    userId{
+                        _id
+                        firstName
+                        lastName
+                    }
                     businessId
                     purchaseDate
                     products{
@@ -110,7 +122,11 @@ export const ADD_SHOP = gql`
             image
             orders{
                 _id
-                userId
+                userId{
+                    _id
+                    firstName
+                    lastName
+                }
                 businessId
                 purchaseDate
                 products{
@@ -139,12 +155,20 @@ export const ADD_PRODUCT = gql`
     mutation addProduct($_id: ID, $productInput: productInput){
         addProduct(_id: $_id, productInput: $productInput){
             _id
-            userId
+            userId{
+                _id
+                firstName
+                lastName
+            }
             businessName
             image
             orders{
                 _id
-                userId
+                userId{
+                    _id
+                    firstName
+                    lastName
+                }
                 businessId
                 purchaseDate
                 products{
@@ -173,7 +197,11 @@ export const UPDATE_PRODUCT = gql`
     mutation updateProduct($productId: ID, $productInput: productInput){
         updateProduct(productId: $productId, productInput: $productInput){
             _id
-            userId
+            userId{
+                _id
+                firstName
+                lastName
+            }
             businessName
             image
             orders{
@@ -207,12 +235,20 @@ export const DELETE_PRODUCT = gql`
     mutation deleteProduct($productId: ID!){
         deleteProduct(productId: $productId){
             _id
-            userId
+            userId{
+                _id
+                firstName
+                lastName
+            }
             businessName
             image
             orders{
                 _id
-                userId
+                userId{
+                    _id
+                    firstName
+                    lastName
+                }
                 businessId
                 purchaseDate
                 products{
@@ -241,7 +277,11 @@ export const ADD_TO_CART = gql`
     mutation addToCart($productInput: productInput!){
         addToCart(productInput: $productInput){
             _id
-            userId
+            userId{
+                _id
+                firstName
+                lastName
+            }
             products{
                 productId
                 name
@@ -258,7 +298,11 @@ export const DELETE_FROM_CART = gql`
     mutation deleteFromCart($productId: ID!){
         deleteFromCart(productId: $productId){
             _id
-            userId
+            userId{
+                _id
+                firstName
+                lastName
+            }
             products{
                 productId
                 name
@@ -280,7 +324,11 @@ export const SUBMIT_ORDER = gql`
             email
             orders{
                 _id
-                userId
+                userId{
+                    _id
+                    firstName
+                    lastName
+                }
                 businessId
                 purchaseDate
                 products{
@@ -305,7 +353,11 @@ export const CANCEL_ORDER = gql`
             email
             orders{
                 _id
-                userId
+                userId{
+                    _id
+                    firstName
+                    lastName
+                }
                 businessId
                 purchaseDate
                 products{
@@ -316,6 +368,48 @@ export const CANCEL_ORDER = gql`
                     price
                     quantity
                 }
+            }
+        }
+    }
+`
+
+export const UPDATE_QUANTITY = gql`
+    mutation updateProductQuantity($quantity: Int!){
+        updateProductQuantity(quantitity: $quantity){
+            _id
+            userId{
+                _id
+                firstName
+                lastName
+            }
+            businessName
+            image
+            orders{
+                _id
+                userId{
+                    _id
+                    firstName
+                    lastName
+                }
+                businessId
+                purchaseDate
+                products{
+                    _id
+                    name
+                    description
+                    image
+                    price
+                    quantity
+                }
+
+            }
+            products{
+                productId
+                name
+                description
+                image
+                price
+                quantity
             }
         }
     }
