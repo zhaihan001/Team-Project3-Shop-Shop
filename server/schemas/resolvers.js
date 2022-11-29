@@ -154,17 +154,21 @@ const resolvers = {
     addProduct: async (parent, {productInput: product}, context) => {
       try {
         if(context.user){
-          let newCloudPic = await cloudinary.uploader.upload(product.image, options);
-          console.log(newCloudPic);
+          let newImages = product.images.map(async (item) => {
+            let newCloudPic = await cloudinary.uploader.upload(item, options);
+            console.log(newCloudPic);
   
-          let sizedPic = await cloudinary.uploader.explicit(newCloudPic.public_id, {
-              type: 'upload',
-                  eager: [{width: 450, height: 300}]
+            let sizedPic = await cloudinary.uploader.explicit(newCloudPic.public_id, {
+                type: 'upload',
+                    eager: [{width: 450, height: 300}]
+            })
+            return sizedPic.eager[0].secure_url
+
           })
 
           let newProductObj = {
             ...product,
-            image: sizedPic.eager[0].secure_url
+            images: newImages
           }
 
           let business = await Business.findOneAndUpdate(
