@@ -9,22 +9,22 @@ function Navbar() {
 {/* <Icon src="https://c.tenor.com/TYWdCAZu258AAAAC/guardians-of-the-galaxy-rocket-raccoon.gif"/> */}
 
         <NavMenu>
-        <a>
+        <a href="/saved">
             {/* <img src='/images/saved-icon.png' alt='saved'/> */}
             <span>SAVED</span>
         </a>
 
-        <a>
+        <a href="/usershop"> 
             {/* <img src='/images/shop-icon.png' alt='shop'/> */}
             <span>MY SHOP</span>
         </a>
 
-        <a>
+        <a href="/profile">
             {/* <img src='/images/profile-icon.png alt='profile'/> */}
             <span>PROFILE</span>
         </a>
 
-        <a>
+        <a href="/cart">
             {/* <img src='/images/cart-icon.png' alt='cart'/> */}
             <span>CART</span>
         </a>
