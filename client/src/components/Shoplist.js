@@ -5,8 +5,6 @@ const ShopList = ({ shops, title }) => {
   if (!shops.length) {
     return <h1>No Shops Yet</h1>;
   }
-
-
   return (
     <Container>
       <h2>{title}</h2>
