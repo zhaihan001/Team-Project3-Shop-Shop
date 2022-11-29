@@ -317,6 +317,18 @@ const resolvers = {
       } catch (error) {
         return error
       }
+    },
+    deleteUser: async (parent, args, context) => {
+      try {
+        let removedUser = await User.findByIdAndDelete(context.user._id);
+
+        let removedShop = await Business.findOneAndDelete({userId: context.user._id})
+
+        return {msg: `user ${contex.user._id} has been removed`}
+
+      } catch (error) {
+        return error
+      }
     }
   }
 };
