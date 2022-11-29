@@ -1,5 +1,8 @@
 import React from "react";
 import styled from "styled-components";
+import { useQuery } from "@apollo/client";
+import { GET_SHOPS } from "../utils/queries";
+
 
 // function ShopList() {
 //   return (
@@ -56,9 +59,18 @@ import styled from "styled-components";
 //   );
 // }
 
-const ShopList = ({ shops, title }) => {
-  if (!shops.length) {
+const ShopList = ({ title }) => {
+  const { loading, data } = useQuery(GET_SHOPS);
+  console.log(data);
+  const shops = data?.shops || [];
+  
+  if (shops === undefined) {
     return <h3>No Shops Yet</h3>;
+  }
+  console.log(shops);
+
+  if(shops !== undefined){
+    console.log(shops);
   }
 
   return (

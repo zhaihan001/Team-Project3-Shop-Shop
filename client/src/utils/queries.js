@@ -4,12 +4,20 @@ export const GET_SHOPS = gql`
     query shops{
         shops{
             _id
-            user
+            userId{
+                _id
+                firstName
+                lastName
+            }
             businessName
             image
             orders{
                 _id
-                userId
+                userId{
+                    _id
+                    firstName
+                    lastName
+                }
                 businessId
                 purchaseDate
                 products{
@@ -24,11 +32,11 @@ export const GET_SHOPS = gql`
             }
             products{
                 _id
-                    name
-                    description
-                    image
-                    price
-                    quantity
+                name
+                description
+                image
+                price
+                quantity
             }
         }
     }
@@ -77,7 +85,10 @@ export const GET_PRODUCT = gql`
             image
             orders{
                 _id
-                userId
+                userId{
+                    _id
+                    username
+                }
                 businessId
                 purchaseDate
                 products{
