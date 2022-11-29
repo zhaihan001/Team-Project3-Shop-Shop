@@ -3,6 +3,22 @@ const { User, Business, Cart, Order } = require('../models');
 const { signToken } = require('../utils/auth');
 const stripe = require('stripe')('sk_test_4eC39HqLyjWDarjtT1zdp7dc');
 
+const cloudinary = require("cloudinary").v2;
+
+cloudinary.config({
+  cloud_name: process.env.CLOUD_NAME,
+  api_key: process.env.API_KEY,
+  api_secret: process.env.API_SECRET,
+  secure: true
+})
+
+const options = {
+  use_filename: true,
+  unique_filename: false,
+  overwrite: true,
+};
+
+
 const resolvers = {
   Query: {
     shops: async () => {
@@ -106,12 +122,54 @@ const resolvers = {
 
       return { token, user };
     },
-    addProduct: async (parent, {products}, context) => {
+    addShop: async (parent, {businessName, image, primaryHex, secondaryHex}, context) => {
       try {
         if(context.user){
+          let newCloudPic = await cloudinary.uploader.upload(image, options);
+          console.log(newCloudPic);
+  
+          let sizedPic = await cloudinary.uploader.explicit(newCloudPic.public_id, {
+              type: 'upload',
+                  eager: [{width: 450, height: 300}]
+          })
+  
+          let newShop = await Business.create(
+            {
+              businessName,
+              image: sizedPic.eager[0].secure_url,
+              primaryHex,
+              secondaryHex,
+              userId: context.user._id
+            }
+          )
+  
+          return newShop
+
+        }
+        
+      } catch (error) {
+        return error
+      }
+    },
+    addProduct: async (parent, {productInput: product}, context) => {
+      try {
+        if(context.user){
+          let newCloudPic = await cloudinary.uploader.upload(product.image, options);
+          console.log(newCloudPic);
+  
+          let sizedPic = await cloudinary.uploader.explicit(newCloudPic.public_id, {
+              type: 'upload',
+                  eager: [{width: 450, height: 300}]
+          })
+
+          let newProductObj = {
+            ...product,
+            image: sizedPic.eager[0].secure_url
+          }
+
           let business = await Business.findOneAndUpdate(
             {userId: context.user._id}, 
-            {$push: { products }},
+            {$push: { products: newProductObj }},
             {new: true, runValidators: true}
           )
 
@@ -242,6 +300,20 @@ const resolvers = {
 
         return updatedUser
 
+      } catch (error) {
+        return error
+      }
+    },
+    updateProductQuanitity: async (parent, {quanitity}, context) => {
+      try {
+        let shop = await findOneAndUpdate(
+          {_id: context.user._id},
+          {$set: {quanitity: quanitity}},
+          {new: true}
+        )
+
+        return shop
+        
       } catch (error) {
         return error
       }
