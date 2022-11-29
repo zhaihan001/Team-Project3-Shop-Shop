@@ -187,6 +187,18 @@ const resolvers = {
         return error
       }
     },
+    addToCart: async (parent, {productInput: product}, context) => {
+      try {
+        let addedItem = await Cart.findOneAndUpdate(
+          {userId: contex.user._id},
+          {$push: {products: product}},
+          {new: true, runValidators: true}
+        )
+
+      } catch (error) {
+        return error
+      }
+    },
     submitOrder: async (parent, { businessId, products }, context) => {
       try {
         if(context.user){
@@ -232,7 +244,7 @@ const resolvers = {
 
           let updateNote = await Business.findOneAndUpdate(
             {_id: context.user._id},
-            {$push: {products: {...product}}},
+            {$push: {products: product}},
             {new: true, runValidators: true}
           )
   
