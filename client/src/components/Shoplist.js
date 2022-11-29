@@ -68,7 +68,7 @@ const ShopList = ({ shops, title }) => {
         {shops &&
           shops.map((shop) => (
             <Wrap>
-              <img src={shop.image} alt={shop.businessName} />
+                <img src={shop.image} alt={shop.businessName} />
               <a href={"/shops/" + shop._id}>
                 <div>
                   <h4>Visit Shop</h4>

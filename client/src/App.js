@@ -34,6 +34,12 @@ const client = new ApolloClient({
 });
 
 function App() {
+
+  const adminLogin = {
+    email: "test@test.com",
+    password: "password123"
+  }
+
   return (
     <ApolloProvider client={client}>
    <div className="App">
