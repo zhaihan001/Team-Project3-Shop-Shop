@@ -7,22 +7,32 @@ import "slick-carousel/slick/slick-theme.css";
 function Banner() {
 
     let settings = {
-        arrows: true,
         dots: true,
         infinite: true,
-        speed: 600,
-        slidesToShow: 1,
+        speed: 1000,
+        autoplaySpeed: 5000,
+        slidesToShow: 2,
         slidesToScroll: 1,
-        // autoplay: true
+        // fade: true,
+        autoplay: true
     }
     
   return (
     <Carousel {...settings}>
        <Wrap>
-        <img src="/images/soap.jpg" alt="slide1"/>
+        <div className="slideA">
+        <h2>124</h2>
+        </div>
        </Wrap>
        <Wrap>
-        <img src="/images/camera.jpg" alt="slide2"/>
+       <div className="slideB">
+        <h2>Hello</h2>
+        </div>
+       </Wrap>
+       <Wrap>
+       <div className="slideC">
+        <h2>Book</h2>
+        </div>
        </Wrap>
     </Carousel>
   )
@@ -31,7 +41,8 @@ function Banner() {
 export default Banner
 
 const Carousel = styled(Slider)`
-    margin-top: 20px;
+
+margin-bottom: 50px;
 
     ul li button {
         &:before {
@@ -55,16 +66,33 @@ const Carousel = styled(Slider)`
 
 const Wrap = styled.div`
     cursor: pointer;
+    height: 70vh;
+    // max-height: 70vh;
+    overflow-y: hidden;
+    background-color: black;
+    color: white;
 
-    img {
-        border: 4px solid black;
-        border-radius: 4px;
+    div {
+        background-size: cover;
         width: 100%;
         height: 100%;
-        transition-duration: 300ms;
+        object-fit: cover;
+        border: 4px solid black;
 
         &:hover {
             border: 4px solid grey;
         }
+    }
+
+    .slideA {
+        background-image: url("/images/teddy-bear.jpg");
+    }
+
+    .slideB {
+        background-image: url("/images/soap.jpg");
+    }
+
+    .slideC {
+        background-image: url("/images/bedtime-book.jpg");
     }
 `
