@@ -20,7 +20,6 @@ function Signup() {
   const submitNewUserForm = async (e) => {
     e.preventDefault();
     try {
-      console.log("hit");
       const { data } = await newUser({
         variables: {
           username: userForm.username,
