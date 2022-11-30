@@ -93,10 +93,6 @@ export const GET_USER = gql`
       email
       orders {
         _id
-        userId {
-          _id
-          username
-        }
         businessId {
           _id
           businessName
@@ -123,13 +119,16 @@ export const GET_CART = gql`
         username
       }
       products {
-        _id
-        name
-        description
-        image
-        price
+        product{
+          _id
+          name
+          description
+          image
+          price
+          quantity
+
+        }
         quantity
-        quantityInCart
       }
     }
   }
