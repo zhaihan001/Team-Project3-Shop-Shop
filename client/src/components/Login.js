@@ -1,13 +1,47 @@
-import React from 'react'
+import React, { useState } from 'react'
 import styled from 'styled-components'
+import { useUserContext } from '../contexts/UserContext';
+import Auth from "../utils/auth";
 
 function Login() {
+  const [userData, setUserData] = useState({username:'', password: ''});
+  const { login } = useUserContext();
+
+  const handleFormChange = (e) => {
+    const {name, value} = e.target
+    setUserData(prev => {
+      return {
+        ...prev,
+        [name]: value
+      }
+    })
+  }
+
+  const formSubmit = async (e) => {
+    e.preventDefault();
+    try {
+      const { data } = await login({
+        variables: {
+          username: userData.username,
+          password: userData.password
+        }
+      })
+
+      Auth.login(data.checkUser.token)
+
+      return data
+      
+    } catch (error) {
+      return error
+    }
+  }
+
   return (
       <Container>
         <LoginForm>
           <form>
           <h2>Login</h2>
-          <label htmlFor='name'>Username:</label>
+          <label htmlFor='username'>Username:</label>
           <input type='text' name='username' id='username'/>
           <label htmlFor='password'>Password:</label>
           <input type='password' name='password' id='password'/>
