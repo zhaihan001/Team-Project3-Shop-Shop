@@ -23,7 +23,6 @@ function Login() {
       const { data } = await login({
         variables: {...userData}
       })
-      console.log("hit");
       console.log(data)
 
       Auth.login(data.login.token)
