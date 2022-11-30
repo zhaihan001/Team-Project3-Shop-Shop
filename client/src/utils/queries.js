@@ -104,19 +104,17 @@ export const GET_USER = gql`
   query user {
     user {
       _id
-      firstName
-      lastName
+      username
       email
       orders {
         _id
         userId {
           _id
-          firstName
-          lastName
+          username
         }
         businessId {
           _id
-          name
+          businessName
         }
         purchaseDate
         products {
@@ -137,8 +135,7 @@ export const GET_CART = gql`
     cart {
       user {
         _id
-        firstName
-        lastName
+        username
       }
       products {
         _id
