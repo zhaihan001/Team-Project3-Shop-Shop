@@ -11,6 +11,11 @@ const typeDefs = gql`
     products: [Product]
   }
 
+  type CartItem{
+    product: Product
+    userId: User
+  }
+
   type Product {
     _id: ID
     name: String
@@ -25,7 +30,7 @@ const typeDefs = gql`
     userId: User
     businessId: ID
     purchaseDate: String
-    products: [Product]
+    products: [CartItem]
   }
 
   type User {
@@ -39,7 +44,7 @@ const typeDefs = gql`
   type Cart{
     _id: ID
     user: User
-    products: [Product]
+    products: [CartItem]
   }
 
   input productInput {
@@ -82,6 +87,7 @@ const typeDefs = gql`
     submitOrder(businessId: ID!, products: [ID]!): User
     cancelOrder(_id: ID!): User
     updateProductQuantity(quanitity: Int): Product
+    updateCartItemQuantity(productId: ID!, quantity: Int!): CartItem
   }
 `;
 

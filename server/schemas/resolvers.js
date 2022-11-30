@@ -1,5 +1,5 @@
 const { AuthenticationError } = require('apollo-server-express');
-const { User, Business, Cart, Order, Product } = require('../models');
+const { User, Business, Cart, Order, Product, CartItem } = require('../models');
 const { signToken } = require('../utils/auth');
 const stripe = require('stripe')('sk_test_4eC39HqLyjWDarjtT1zdp7dc');
 
@@ -203,20 +203,52 @@ const resolvers = {
         return error
       }
     },
-    addToCart: async (parent, {productId}, context) => {
+    addToCart: async (parent, {productId, quantity}, context) => {
       try {
-        let addedItem = await Cart.findOneAndUpdate(
-          {userId: contex.user._id},
-          {$push: {products: productId}},
-          {new: true, runValidators: true}
+        let newCartItem = await CartItem.create(
+          {
+            product: productId,
+            userId: context.user._id,
+            quantity
+          }
         )
 
-        return addedItem
+        let userCart = await Cart.findOne({userId: context.user._id});
+
+        if(!userCart){
+          let newCart = await Cart.create(
+            {
+              products: newCartItem._id,
+              userId: context.user._id
+            }
+          )
+
+          return newCart
+
+        }else{
+          let updCart = await Cart.findOneAndUpdate(
+            {userId: context.user._id},
+            {$push: {products: newCartItem._id}},
+            {new: true, runValidators: true}
+          )
+
+          return updCart
+
+        }
+
+        // old code
+        // let addedItem = await Cart.findOneAndUpdate(
+        //   {userId: contex.user._id},
+        //   {$push: {products: productId}},
+        //   {new: true, runValidators: true}
+        // )
+
 
       } catch (error) {
         return error
       }
     },
+    // needs refactored
     submitOrder: async (parent, { businessId, products }, context) => {
       try {
         if(context.user){
@@ -312,9 +344,11 @@ const resolvers = {
     },
     deleteFromCart: async (parent, {productId}, context) => {
       try {
+        let deletedCartItem = await CartItem.findOneAndDelete({product: productId});
+
         let removedItem = await Cart.findOneAndUpdate(
           {userId: context.user._id},
-          {$pull: {products: {productId}}},
+          {$pull: {products: deletedCartItem._id}},
           {new: true, runValidators: true}
         )
 
@@ -362,6 +396,20 @@ const resolvers = {
         let removedShop = await Business.findOneAndDelete({userId: context.user._id})
 
         return {msg: `user ${context.user._id} has been removed`}
+
+      } catch (error) {
+        return error
+      }
+    },
+    updateCartItemQuantity: async (parent, {productId, quantity}, context) => {
+      try {
+        let newCartItem = await CartItem.findOneAndUpdate(
+          {product: productId},
+          {$set: {quantity}},
+          {new: true}
+        )
+
+        return newCartItem
 
       } catch (error) {
         return error
