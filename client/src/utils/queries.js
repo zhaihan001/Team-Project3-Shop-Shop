@@ -167,7 +167,7 @@ export const GET_USER = gql`
 export const GET_CART = gql`
   query cart {
     cart {
-      userId {
+      user {
         _id
         firstName
         lastName

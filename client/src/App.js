@@ -17,7 +17,7 @@ import Navbar from "./components/Navbar";
 import Saved from "./components/Saved";
 import Profile from "./components/Profile";
 import UserShop from "./components/UserShop";
-import Cart from "./pages/CartPage";
+import CartPage from "./pages/CartPage";
 
 const httpLink = createHttpLink({
   uri: "/graphql",
@@ -62,7 +62,7 @@ function App() {
 
             <Route path="/usershop" element={<UserShop />} />
 
-            <Route path="/cart" element={<Cart />} />
+            <Route path="/cart" element={<CartPage />} />
           </Routes>
         </Router>
       </div>
