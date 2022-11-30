@@ -5,7 +5,7 @@ const { Schema, Types, model } = mongoose;
 const productSchema = new Schema({
   userId: {
     type: String,
-    required: true
+    required: true,
   },
   name: {
     type: String,
@@ -15,9 +15,11 @@ const productSchema = new Schema({
   description: {
     type: String,
   },
-  images: [{
-    type: String,
-  }],
+  images: [
+    {
+      type: String,
+    },
+  ],
   price: {
     type: Number,
     required: true,
@@ -28,8 +30,13 @@ const productSchema = new Schema({
     min: 0,
     default: 0,
   },
+  quantityInCart: {
+    type: Number,
+    min: 0,
+    default: 0,
+  },
 });
 
-const Product = model("Product", productSchema)
+const Product = model("Product", productSchema);
 
 module.exports = Product;
