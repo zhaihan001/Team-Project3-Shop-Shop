@@ -395,7 +395,7 @@ const resolvers = {
 
         let removedShop = await Business.findOneAndDelete({userId: context.user._id})
 
-        return {msg: `user ${context.user._id} has been removed`}
+        return {msg: `user ${removedUser._id} has been removed`}
 
       } catch (error) {
         return error

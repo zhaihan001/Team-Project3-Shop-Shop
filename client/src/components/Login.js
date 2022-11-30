@@ -7,8 +7,8 @@ function Login() {
         <LoginForm>
           <form>
           <h2>Login</h2>
-          <label htmlFor='name'>Name:</label>
-          <input type='text' name='name' id='name'/>
+          <label htmlFor='name'>Username:</label>
+          <input type='text' name='username' id='username'/>
           <label htmlFor='email'>Email:</label>
           <input type='email' name='email' id='email'/>
           <label htmlFor='password'>Password:</label>
