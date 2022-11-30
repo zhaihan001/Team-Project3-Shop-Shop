@@ -32,6 +32,15 @@ const resolvers = {
         return error
       }
     },
+    myShop: async (parent, args, context) => {
+      try {
+        let userShop = await Business.findOne({userId: context.user._id});
+
+        return userShop
+      } catch (error) {
+        return error
+      }
+    },
     shops: async () => {
       try {
         let shops = await Business.find().populate("orders");

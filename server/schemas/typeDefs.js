@@ -65,6 +65,7 @@ const typeDefs = gql`
   }
 
   type Query {
+    myShop: Business
     users: [User]
     shops: [Business]
     getShop(_id:ID!): Business
