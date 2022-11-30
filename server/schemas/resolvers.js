@@ -256,19 +256,11 @@ const resolvers = {
 
         }
 
-        // old code
-        // let addedItem = await Cart.findOneAndUpdate(
-        //   {userId: contex.user._id},
-        //   {$push: {products: productId}},
-        //   {new: true, runValidators: true}
-        // )
-
 
       } catch (error) {
         return error
       }
     },
-    // needs refactored
     submitOrder: async (parent, { businessId, products }, context) => {
       try {
         if(context.user){
