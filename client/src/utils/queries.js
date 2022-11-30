@@ -1,35 +1,44 @@
 import { gql } from "@apollo/client";
 
-export const GET_SHOPS = gql`
-  query shops {
-    shops {
+export const GET_MY_SHOP = gql`
+  query myShop{
+    myShop{
       _id
-      userId {
-        _id
-        username
-      }
       businessName
       image
       orders {
         _id
         userId {
           _id
-          username
+          email
         }
         businessId {
           _id
-          businessName
         }
         purchaseDate
         products {
-          _id
-          name
-          description
-          image
-          price
-          quantity
+          product{
+            _id
+            name
+            description
+            image
+            price
+            quantity
+
+          }
+          quanitity
         }
       }
+    }
+  }
+`
+
+export const GET_SHOPS = gql`
+  query shops {
+    shops {
+      _id
+      businessName
+      image
       products {
         _id
         name
@@ -46,32 +55,8 @@ export const GET_SHOP = gql`
   query getShop($_id: ID!) {
     getShop(_id: $_id) {
       _id
-      user {
-        _id
-        username
-      }
       businessName
       image
-      orders {
-        _id
-        userId {
-          _id
-          username
-        }
-        businessId {
-          _id
-          businessName
-        }
-        purchaseDate
-        products {
-          _id
-          name
-          description
-          image
-          price
-          quantity
-        }
-      }
       products {
         _id
         name
