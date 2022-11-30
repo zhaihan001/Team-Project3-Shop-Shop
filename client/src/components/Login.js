@@ -21,17 +21,17 @@ function Login() {
     e.preventDefault();
     try {
       const { data } = await login({
-        variables: {
-          username: userData.username,
-          password: userData.password
-        }
+        variables: {...userData}
       })
+      console.log("hit");
+      console.log(data)
 
-      Auth.login(data.checkUser.token)
+      Auth.login(data.login.token)
 
       return data
       
     } catch (error) {
+      console.log(error)
       return error
     }
   }
@@ -39,12 +39,12 @@ function Login() {
   return (
       <Container>
         <LoginForm>
-          <form>
+          <form onSubmit={formSubmit}>
           <h2>Login</h2>
           <label htmlFor='username'>Username:</label>
-          <input type='text' name='username' id='username'/>
+          <input onChange={handleFormChange} value={userData.username} type='text' name='username' id='username'/>
           <label htmlFor='password'>Password:</label>
-          <input type='password' name='password' id='password'/>
+          <input onChange={handleFormChange} value={userData.password} type='password' name='password' id='password'/>
           <input type="submit" value="Login" />
           <a href="/signup">Need an account? Signup Here</a>
           </form>

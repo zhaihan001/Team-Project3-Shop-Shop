@@ -12,10 +12,10 @@ export const UserProvider = ({children}) => {
 
         const [login, {err, data: prevUserData}] = useMutation(LOGIN_USER);
 
-        const [newUser, { err, data: newUserData}] = useMutation(ADD_USER);
+        const [newUser, { err: newUserErr, data: newUserData}] = useMutation(ADD_USER);
 
         return (
-            <UserContext.Provider value={{newUser, login, userData, newUserData}}>
+            <UserContext.Provider value={{newUser, login, newUserData}}>
                 {children}
             </UserContext.Provider>
         )
