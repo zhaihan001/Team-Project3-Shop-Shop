@@ -27,6 +27,9 @@ function Login() {
 
       Auth.login(data.login.token)
 
+      // navigate to my shop or user account page after
+
+
       return data
       
     } catch (error) {
