@@ -5,6 +5,7 @@ const typeDefs = gql`
     _id: ID
     userId: User
     businessName: String
+    slogan: String
     image: String
     orders: [Order]
     products: [Product]
@@ -62,6 +63,7 @@ const typeDefs = gql`
     shops: [Business]
     getShop(_id:ID!): Business
     product(_id: ID!, productId: ID!): Business
+    cart: Cart
     user: User
     checkout(products: [ID]!): Checkout
   }
@@ -71,15 +73,15 @@ const typeDefs = gql`
     updateUser(firstName: String!, lastName: String!, email: String!, password: String): User
     deleteUser: User
     login(email: String!, password: String!): Auth
-    addShop(businessName: String!, userId: ID! image: String!, primaryHex: String!, secondaryHex: String!): Business 
+    addShop(businessName: String!,slogan: String!, image: String!, primaryHex: String!, secondaryHex: String!): Business 
     addProduct(productInput: productInput): Business
     updateProduct(productId: ID!, productInput: productInput!): Business
     deleteProduct(productId: ID!): Business
     addToCart(productInput: productInput): Cart
     deleteFromCart(productId: ID!): Cart
-    submitOrder(businessId: ID!, products: [productInput]!): User
+    submitOrder(businessId: ID!, products: [ID]!): User
     cancelOrder(_id: ID!): User
-    updateProductQuantity(quanitity: Int): Business
+    updateProductQuantity(quanitity: Int): Product
   }
 `;
 

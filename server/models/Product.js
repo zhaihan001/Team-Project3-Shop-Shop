@@ -1,11 +1,11 @@
 const mongoose = require("mongoose");
 
-const { Schema, Types } = mongoose;
+const { Schema, Types, model } = mongoose;
 
 const productSchema = new Schema({
-  productId: {
-    type: Schema.Types.ObjectId,
-    default: () => new Types.ObjectId()
+  userId: {
+    type: String,
+    required: true,
   },
   name: {
     type: String,
@@ -15,9 +15,11 @@ const productSchema = new Schema({
   description: {
     type: String,
   },
-  images: [{
-    type: String,
-  }],
+  images: [
+    {
+      type: String,
+    },
+  ],
   price: {
     type: Number,
     required: true,
@@ -28,6 +30,13 @@ const productSchema = new Schema({
     min: 0,
     default: 0,
   },
+  quantityInCart: {
+    type: Number,
+    min: 0,
+    default: 0,
+  },
 });
 
-module.exports = productSchema;
+const Product = model("Product", productSchema);
+
+module.exports = Product;

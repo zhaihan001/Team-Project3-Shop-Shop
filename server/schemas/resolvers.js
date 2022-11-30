@@ -1,5 +1,5 @@
 const { AuthenticationError } = require('apollo-server-express');
-const { User, Business, Cart, Order } = require('../models');
+const { User, Business, Cart, Order, Product } = require('../models');
 const { signToken } = require('../utils/auth');
 const stripe = require('stripe')('sk_test_4eC39HqLyjWDarjtT1zdp7dc');
 
@@ -112,6 +112,19 @@ const resolvers = {
       });
 
       return { session: session.id };
+    },
+    cart: async (parent,args, context) => {
+      try {
+        if(context.user){
+          let cart = await Cart.findOne({userId: context.user._id});
+  
+          return cart
+
+        }
+
+      } catch (error) {
+        return error
+      }
     }
   },
 
@@ -168,12 +181,15 @@ const resolvers = {
 
           let newProductObj = {
             ...product,
-            images: newImages
+            images: newImages,
+            userId: context.user._id
           }
+
+          let newProduct = await Product.create(newProductObj);
 
           let business = await Business.findOneAndUpdate(
             {userId: context.user._id}, 
-            {$push: { products: newProductObj }},
+            {$push: { products: newProduct._id }},
             {new: true, runValidators: true}
           )
 
@@ -187,13 +203,15 @@ const resolvers = {
         return error
       }
     },
-    addToCart: async (parent, {productInput: product}, context) => {
+    addToCart: async (parent, {productId}, context) => {
       try {
         let addedItem = await Cart.findOneAndUpdate(
           {userId: contex.user._id},
-          {$push: {products: product}},
+          {$push: {products: productId}},
           {new: true, runValidators: true}
         )
+
+        return addedItem
 
       } catch (error) {
         return error
@@ -211,12 +229,12 @@ const resolvers = {
           )
 
           let productIds = order.products.map(item => {
-            return item.productId
+            return item
           });
 
           let removedItemsFromCart = await Cart.findOneAndUpdate(
             {userId: context.user._id},
-            {$pullAll: {[products.productId]: productIds}}
+            {$pullAll: {products: productIds}}
           )
 
           return order
@@ -234,21 +252,21 @@ const resolvers = {
       
       throw new AuthenticationError('Not logged in');
     },
-    updateProduct: async (parent, {productInput: product}, context) => {
+    updateProduct: async (parent, {_id, productInput: product}, context) => {
       try {
         if(context.user){
-          let business = await Business.findOneAndUpdate(
-            {_id: context.user._id},
-            {$pull: {products: {productId: product.productId}}}
-          );
+          let updProduct = {
+            ...product,
+            userId: context.user._id
+          }
 
-          let updateNote = await Business.findOneAndUpdate(
-            {_id: context.user._id},
-            {$push: {products: product}},
+          let newProduct = await Product.findOneAndUpdate(
+            {_id},
+            {$set: {product: updProduct}},
             {new: true, runValidators: true}
           )
-  
-          return updateNote
+
+          return newProduct
 
         }
 
@@ -256,15 +274,18 @@ const resolvers = {
         return error
       }
     },
-    deleteProduct: async (parent, {productId}, context) => {
+    deleteProduct: async (parent, {_id}, context) => {
       try {
         if(context.user){
-          let business = await Business.findOneAndUpdate(
-            {_id: context.user._id},
-            {$pull: { products: {productId}}},
+          let deletedProduct = await Product.findOneAndDelete({_id});
+
+          let updShop = await Business.findOneAndUpdate(
+            {userId: context.user._id},
+            {$pull: {products: deletedProduct._id}},
             {new: true, runValidators: true}
           )
-          return business
+
+          return updShop
 
         }
 
@@ -322,13 +343,13 @@ const resolvers = {
     },
     updateProductQuantity: async (parent, {quanitity}, context) => {
       try {
-        let shop = await findOneAndUpdate(
+        let product = await Product.findOneAndUpdate(
           {_id: context.user._id},
-          {$set: {quanitity: quanitity}},
+          {$set: {quanitity}},
           {new: true}
         )
 
-        return shop
+        return product
         
       } catch (error) {
         return error
