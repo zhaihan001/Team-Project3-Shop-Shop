@@ -21,6 +21,17 @@ const options = {
 
 const resolvers = {
   Query: {
+    //for testing
+    users: async () => {
+      try {
+        let users = await User.find();
+
+        return users
+
+      } catch (error) {
+        return error
+      }
+    },
     shops: async () => {
       try {
         let shops = await Business.find().populate("orders");

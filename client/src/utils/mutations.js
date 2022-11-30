@@ -20,11 +20,18 @@ export const ADD_USER = gql`
                     }
                     purchaseDate
                     products{
-                        _id
-                        name
-                        description
-                        image
-                        price
+                        product{
+                            _id
+                            name
+                            description
+                            image
+                            price
+                            quantity
+
+                        }
+                        userId{
+                            _id
+                        }
                         quantity
                     }
                 }

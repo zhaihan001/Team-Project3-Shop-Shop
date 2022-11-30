@@ -14,6 +14,7 @@ const typeDefs = gql`
   type CartItem{
     product: Product
     userId: User
+    quantity: Int
   }
 
   type Product {
@@ -28,7 +29,7 @@ const typeDefs = gql`
   type Order {
     _id: ID
     userId: User
-    businessId: ID
+    businessId: Business
     purchaseDate: String
     products: [CartItem]
   }
@@ -64,6 +65,7 @@ const typeDefs = gql`
   }
 
   type Query {
+    users: [User]
     shops: [Business]
     getShop(_id:ID!): Business
     product(_id: ID!): Product

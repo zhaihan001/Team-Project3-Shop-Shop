@@ -7,7 +7,6 @@ function Signup() {
   const { newUser } = useUserContext();
 
   const [userForm, setUserForm] = useState({username: '', email: '', password: '', confirmPassword: ''})
-  console.log(userForm);
   const handleFormChange = (e) => {
     const {name, value} = e.target
     setUserForm(prev => {
@@ -21,6 +20,7 @@ function Signup() {
   const submitNewUserForm = async (e) => {
     e.preventDefault();
     try {
+      console.log("hit");
       const { data } = await newUser({
         variables: {
           username: userForm.username,
@@ -28,9 +28,12 @@ function Signup() {
           password: userForm.password
         }
       })
-
-      Auth.login(data.newUser.token);
       console.log(data);
+
+      Auth.login(data.addUser.token);
+
+      // navigate to my shop or user account page after
+
       return data
       
     } catch (error) {
