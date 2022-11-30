@@ -1,20 +1,33 @@
-import React from 'react'
+import React, { useState } from 'react'
 import styled from 'styled-components'
 
 function Signup() {
+  const [userForm, setUserForm] = useState({username: '', email: '', password: '', confirmPassword: ''})
+  console.log(userForm);
+  const handleFormChange = (e) => {
+    const {name, value} = e.target
+    setUserForm(prev => {
+      return {
+        ...prev,
+        [name]: value
+      }
+    })
+  }
+
   return (
     <Container>
     <SignupForm>
       <form>
       <h2>Signup</h2>
-      <label htmlFor='name'>Name:</label>
-      <input type='text' name='name' id='name'/>
+      <label htmlFor='name'>Username:</label>
+      <input value={userForm.username} onChange={handleFormChange} type='text' name='username' id='username'/>
       <label htmlFor='email'>Email:</label>
-      <input type='email' name='email' id='email'/>
+      <input value={userForm.email} onChange={handleFormChange} type='email' name='email' id='email'/>
       <label htmlFor='password'>Password:</label>
-      <input type='password' name='password' id='password'/>
-      <label htmlFor='password'>Confirm Password:</label>
-      <input type='password' name='password' id='password'/>
+      <input value={userForm.password} onChange={handleFormChange} type='password' name='password' id='password'/>
+      <label htmlFor='confirmPassword'>Confirm Password:</label>
+      <input value={userForm.confirmPassword} onChange={handleFormChange} type='password' name='confirmPassword' id='confirmPassword' style={{border: userForm.password !== userForm.confirmPassword ? "2px solid red" : ""}}/>
+      {userForm.password !== userForm.confirmPassword && <small>Password does not match.</small>}
       <input type="submit" value="Signup" />
       <a href="/login">Already have an account? Login Here</a>
       </form>
@@ -75,6 +88,10 @@ form {
     margin-bottom: 1rem;
     font-weight: bold;
     color: black;
+  }
+
+  small {
+    color: red;
   }
 
   // Signup BUTTON STYLES
