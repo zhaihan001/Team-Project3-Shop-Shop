@@ -29,7 +29,7 @@ const businessSchema = new Schema({
   products: [
     {
       type: Schema.Types.ObjectId,
-      ref: 'Project'
+      ref: 'product'
     }
   ],
   userId: {

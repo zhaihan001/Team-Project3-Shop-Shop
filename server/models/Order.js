@@ -17,7 +17,7 @@ const orderSchema = new Schema({
   products: [
     {
       type: Schema.Types.ObjectId,
-      ref: 'Project'
+      ref: 'CartItem'
     }
   ],
 });

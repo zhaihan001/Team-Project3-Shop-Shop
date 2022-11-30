@@ -29,12 +29,7 @@ const productSchema = new Schema({
     type: Number,
     min: 0,
     default: 0,
-  },
-  quantityInCart: {
-    type: Number,
-    min: 0,
-    default: 0,
-  },
+  }
 });
 
 const Product = model("Product", productSchema);
