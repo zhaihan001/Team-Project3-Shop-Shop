@@ -9,6 +9,12 @@ function Navbar() {
 {/* <Icon src="https://c.tenor.com/TYWdCAZu258AAAAC/guardians-of-the-galaxy-rocket-raccoon.gif"/> */}
 
         <NavMenu>
+
+        <a href="/">
+            {/* <img src='/images/saved-icon.png' alt='saved'/> */}
+            <span>HOME</span>
+        </a>
+
         <a href="/saved">
             {/* <img src='/images/saved-icon.png' alt='saved'/> */}
             <span>SAVED</span>
