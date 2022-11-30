@@ -10,7 +10,7 @@ export const useUserContext = () => {
 
 export const UserProvider = ({children}) => {
 
-        const { loading, data: userData } = useQuery(LOGIN_USER);
+        const { loading, data: userData } = useMutation(LOGIN_USER);
         console.log(userData);
 
         const [newUser, { err, data: newUserData}] = useMutation(ADD_USER);

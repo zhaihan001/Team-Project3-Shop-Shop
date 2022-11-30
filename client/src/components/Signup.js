@@ -1,7 +1,11 @@
 import React, { useState } from 'react'
 import styled from 'styled-components'
+import { useUserContext } from '../contexts/UserContext';
+import Auth from '../utils/auth';
 
 function Signup() {
+  const { newUser } = useUserContext();
+
   const [userForm, setUserForm] = useState({username: '', email: '', password: '', confirmPassword: ''})
   console.log(userForm);
   const handleFormChange = (e) => {
@@ -14,10 +18,30 @@ function Signup() {
     })
   }
 
+  const submitNewUserForm = async (e) => {
+    e.preventDefault();
+    try {
+      const { data } = await newUser({
+        variables: {
+          username: userForm.username,
+          email: userForm.email,
+          password: userForm.password
+        }
+      })
+
+      Auth.login(data.newUser.token);
+      console.log(data);
+      return data
+      
+    } catch (error) {
+      return error
+    }
+  }
+
   return (
     <Container>
     <SignupForm>
-      <form>
+      <form onSubmit={submitNewUserForm}>
       <h2>Signup</h2>
       <label htmlFor='name'>Username:</label>
       <input value={userForm.username} onChange={handleFormChange} type='text' name='username' id='username'/>
@@ -27,7 +51,7 @@ function Signup() {
       <input value={userForm.password} onChange={handleFormChange} type='password' name='password' id='password'/>
       <label htmlFor='confirmPassword'>Confirm Password:</label>
       <input value={userForm.confirmPassword} onChange={handleFormChange} type='password' name='confirmPassword' id='confirmPassword' style={{border: userForm.password !== userForm.confirmPassword ? "2px solid red" : ""}}/>
-      {userForm.password !== userForm.confirmPassword && <small>Password does not match.</small>}
+      {userForm.password !== userForm.confirmPassword && <small>Passwords do not match.</small>}
       <input type="submit" value="Signup" />
       <a href="/login">Already have an account? Login Here</a>
       </form>
