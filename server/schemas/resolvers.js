@@ -280,6 +280,16 @@ const resolvers = {
             }
           )
 
+          let updUser = await User.findOneAndUpdate(
+            {_id: context.user._id},
+            {$push: {orders: order._id}}
+          )
+
+          let updBusiness = await Business.findOneAndUpdate(
+            {_id: businessId},
+            {$push: {orders: order._id}},
+          )
+
           let productIds = order.products.map(item => {
             return item
           });
