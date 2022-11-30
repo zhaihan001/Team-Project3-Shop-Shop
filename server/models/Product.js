@@ -1,11 +1,11 @@
 const mongoose = require("mongoose");
 
-const { Schema, Types } = mongoose;
+const { Schema, Types, model } = mongoose;
 
 const productSchema = new Schema({
-  productId: {
-    type: Schema.Types.ObjectId,
-    default: () => new Types.ObjectId()
+  userId: {
+    type: String,
+    required: true
   },
   name: {
     type: String,
@@ -30,4 +30,6 @@ const productSchema = new Schema({
   },
 });
 
-module.exports = productSchema;
+const Product = model("Product", productSchema)
+
+module.exports = Product;

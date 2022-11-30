@@ -1,5 +1,4 @@
 const mongoose = require("mongoose");
-const productSchema = require("./Product");
 const { Schema } = mongoose;
 
 const orderSchema = new Schema({
@@ -15,7 +14,12 @@ const orderSchema = new Schema({
     type: Schema.Types.ObjectId,
     ref: "Business"
   },
-  products: [productSchema],
+  products: [
+    {
+      type: Schema.Types.ObjectId,
+      ref: 'Project'
+    }
+  ],
 });
 
 const Order = mongoose.model("Order", orderSchema);
