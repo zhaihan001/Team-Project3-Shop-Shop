@@ -9,6 +9,10 @@ const businessSchema = new Schema({
     required: true,
     trim: true,
   },
+  slogan: {
+    type: String,
+    required: true
+  },
   image: {
     type: String,
     required: true
@@ -22,7 +26,12 @@ const businessSchema = new Schema({
     required: true
   },
   orders: [{type: Schema.Types.ObjectId, ref: 'Order'}],
-  products: [productSchema],
+  products: [
+    {
+      type: Schema.Types.ObjectId,
+      ref: 'Project'
+    }
+  ],
   userId: {
     type: Schema.Types.ObjectId,
     ref: "User",
