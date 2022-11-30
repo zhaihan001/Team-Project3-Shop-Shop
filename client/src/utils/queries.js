@@ -29,6 +29,14 @@ export const GET_MY_SHOP = gql`
           quanitity
         }
       }
+      products{
+        _id
+        name
+        description
+        image
+        price
+        quantity
+      }
     }
   }
 `
