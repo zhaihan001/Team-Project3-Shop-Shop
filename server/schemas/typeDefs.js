@@ -29,6 +29,7 @@ const typeDefs = gql`
   type Order {
     _id: ID
     userId: User
+    businessId: Business
     purchaseDate: String
     products: [CartItem]
   }
