@@ -10,10 +10,6 @@ const orderSchema = new Schema({
     type: Schema.Types.ObjectId,
     ref: "User",
   },
-  businessId: {
-    type: Schema.Types.ObjectId,
-    ref: "Business"
-  },
   products: [
     {
       type: Schema.Types.ObjectId,
