@@ -306,8 +306,8 @@ export const DELETE_PRODUCT = gql`
 `
 
 export const ADD_TO_CART = gql`
-    mutation addToCart($productId: ID!){
-        addToCart(productId: $productId){
+    mutation addToCart($productId: ID!, $quantity: Int!, $businessId: ID!){
+        addToCart(productId: $productId, quantity: $quantity, businessId: $businessId){
             _id
             userId{
                 _id
