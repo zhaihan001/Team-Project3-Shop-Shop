@@ -1,13 +1,32 @@
 import React from "react";
 import styled from "styled-components";
+import { useMutation } from "@apollo/client";
+import { SUBMIT_ORDER } from "../utils/mutations";
 
 const ShoppingCart = ({ cartItems, title }) => {
   // if (!cartItems.length) {
   //   return <h1>Your Cart is Empty</h1>;
   // }
+  const [submitOrder, { error }] = useMutation(SUBMIT_ORDER);
+  const handleSubmit = async (event) => {
+    event.preventDefault();
+    try {
+      const { data } = await submitOrder({
+        // passing data
+        variables: { data },
+      });
+      window.location.reload();
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
   return (
     <Container>
       <h2>{title}</h2>
+      <button type="submit" onSubmit={handleSubmit}>
+        Submit Order
+      </button>
       <Content>
         <Wrap>
           <img src="/images/soap.jpg" alt="product" />
@@ -22,7 +41,7 @@ const ShoppingCart = ({ cartItems, title }) => {
               <option value="5">5</option>
             </select>
             <br></br>
-            Total Price: <br></br>
+            Total: <br></br>
           </p>
         </Wrap>
         {cartItems &&
@@ -43,6 +62,7 @@ const ShoppingCart = ({ cartItems, title }) => {
                 Total Price: <br></br>
               </p>
             </Wrap>
+
             // <Wrap>
             //   <img src={item.image} alt={item.businessName} />
             //   <a href={"/shops/" + item._id}>
