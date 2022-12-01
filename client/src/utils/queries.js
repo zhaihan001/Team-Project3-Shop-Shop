@@ -138,6 +138,9 @@ export const GET_CART = gql`
         }
         quantity
       }
+      businessId{
+        _id
+      }
     }
   }
 `;
