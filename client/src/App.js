@@ -57,8 +57,8 @@ function App() {
               {/* route when user clicks to view a specific shop - id = id of that shop */}
               {/* <Route path="/shop/:id" element={<ShopPage />} /> */}
 
-              {/* route for when user clicks on a specific product on that shop's page id = id of that product */}
-              {/* <Route path="/product/:id" element={<ProductPage />} /> */}
+              {/* route for when user clicks on a specific product on that shop's page id = id of that shop and productId = id of that product */}
+              {/* <Route path="/shop/:id/product/:productId" element={<ProductPage />} /> */}
 
               <Route path="/login" element={<Login />} />
 
