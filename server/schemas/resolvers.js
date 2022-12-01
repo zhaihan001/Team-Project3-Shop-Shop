@@ -21,6 +21,26 @@ const options = {
 
 const resolvers = {
   Query: {
+    //for testing
+    users: async () => {
+      try {
+        let users = await User.find();
+
+        return users
+
+      } catch (error) {
+        return error
+      }
+    },
+    myShop: async (parent, args, context) => {
+      try {
+        let userShop = await Business.findOne({userId: context.user._id});
+
+        return userShop
+      } catch (error) {
+        return error
+      }
+    },
     shops: async () => {
       try {
         let shops = await Business.find().populate("orders");
@@ -236,19 +256,11 @@ const resolvers = {
 
         }
 
-        // old code
-        // let addedItem = await Cart.findOneAndUpdate(
-        //   {userId: contex.user._id},
-        //   {$push: {products: productId}},
-        //   {new: true, runValidators: true}
-        // )
-
 
       } catch (error) {
         return error
       }
     },
-    // needs refactored
     submitOrder: async (parent, { businessId, products }, context) => {
       try {
         if(context.user){
@@ -258,6 +270,16 @@ const resolvers = {
               businessId, 
               products
             }
+          )
+
+          let updUser = await User.findOneAndUpdate(
+            {_id: context.user._id},
+            {$push: {orders: order._id}}
+          )
+
+          let updBusiness = await Business.findOneAndUpdate(
+            {_id: businessId},
+            {$push: {orders: order._id}},
           )
 
           let productIds = order.products.map(item => {
@@ -325,9 +347,10 @@ const resolvers = {
         return error
       }
     },
-    login: async (parent, { email, password }) => {
-      const user = await User.findOne({ email });
-
+    login: async (parent, { username, password }) => {
+      console.log(username);
+      const user = await User.findOne({ username });
+      console.log(user);
       if (!user) {
         throw new AuthenticationError('Incorrect credentials');
       }
@@ -395,7 +418,7 @@ const resolvers = {
 
         let removedShop = await Business.findOneAndDelete({userId: context.user._id})
 
-        return {msg: `user ${context.user._id} has been removed`}
+        return {msg: `user ${removedUser._id} has been removed`}
 
       } catch (error) {
         return error

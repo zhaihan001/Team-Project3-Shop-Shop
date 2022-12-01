@@ -1,18 +1,52 @@
-import React from 'react'
+import React, { useState } from 'react'
 import styled from 'styled-components'
+import { useUserContext } from '../contexts/UserContext';
+import Auth from "../utils/auth";
 
 function Login() {
+  const [userData, setUserData] = useState({username:'', password: ''});
+  const { login } = useUserContext();
+
+  const handleFormChange = (e) => {
+    const {name, value} = e.target
+    setUserData(prev => {
+      return {
+        ...prev,
+        [name]: value
+      }
+    })
+  }
+
+  const formSubmit = async (e) => {
+    e.preventDefault();
+    try {
+      const { data } = await login({
+        variables: {...userData}
+      })
+      console.log(data)
+
+      Auth.login(data.login.token)
+
+      // navigate to my shop or user account page after
+
+
+      return data
+      
+    } catch (error) {
+      console.log(error)
+      return error
+    }
+  }
+
   return (
       <Container>
         <LoginForm>
-          <form>
+          <form onSubmit={formSubmit}>
           <h2>Login</h2>
-          <label htmlFor='name'>Name:</label>
-          <input type='text' name='name' id='name'/>
-          <label htmlFor='email'>Email:</label>
-          <input type='email' name='email' id='email'/>
+          <label htmlFor='username'>Username:</label>
+          <input onChange={handleFormChange} value={userData.username} type='text' name='username' id='username'/>
           <label htmlFor='password'>Password:</label>
-          <input type='password' name='password' id='password'/>
+          <input onChange={handleFormChange} value={userData.password} type='password' name='password' id='password'/>
           <input type="submit" value="Login" />
           <a href="/signup">Need an account? Signup Here</a>
           </form>

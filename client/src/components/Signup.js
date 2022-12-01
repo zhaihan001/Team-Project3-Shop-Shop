@@ -1,20 +1,59 @@
-import React from 'react'
+import React, { useState } from 'react'
 import styled from 'styled-components'
+import { useUserContext } from '../contexts/UserContext';
+import Auth from '../utils/auth';
 
 function Signup() {
+  const { newUser } = useUserContext();
+
+  const [userForm, setUserForm] = useState({username: '', email: '', password: '', confirmPassword: ''})
+  const handleFormChange = (e) => {
+    const {name, value} = e.target
+    setUserForm(prev => {
+      return {
+        ...prev,
+        [name]: value
+      }
+    })
+  }
+
+  const submitNewUserForm = async (e) => {
+    e.preventDefault();
+    try {
+      const { data } = await newUser({
+        variables: {
+          username: userForm.username,
+          email: userForm.email,
+          password: userForm.password
+        }
+      })
+      console.log(data);
+
+      Auth.login(data.addUser.token);
+
+      // navigate to my shop or user account page after
+
+      return data
+      
+    } catch (error) {
+      return error
+    }
+  }
+
   return (
     <Container>
     <SignupForm>
-      <form>
+      <form onSubmit={submitNewUserForm}>
       <h2>Signup</h2>
-      <label htmlFor='name'>Name:</label>
-      <input type='text' name='name' id='name'/>
+      <label htmlFor='name'>Username:</label>
+      <input value={userForm.username} onChange={handleFormChange} type='text' name='username' id='username'/>
       <label htmlFor='email'>Email:</label>
-      <input type='email' name='email' id='email'/>
+      <input value={userForm.email} onChange={handleFormChange} type='email' name='email' id='email'/>
       <label htmlFor='password'>Password:</label>
-      <input type='password' name='password' id='password'/>
-      <label htmlFor='password'>Confirm Password:</label>
-      <input type='password' name='password' id='password'/>
+      <input value={userForm.password} onChange={handleFormChange} type='password' name='password' id='password'/>
+      <label htmlFor='confirmPassword'>Confirm Password:</label>
+      <input value={userForm.confirmPassword} onChange={handleFormChange} type='password' name='confirmPassword' id='confirmPassword' style={{border: userForm.password !== userForm.confirmPassword ? "2px solid red" : ""}}/>
+      {userForm.password !== userForm.confirmPassword && <small>Passwords do not match.</small>}
       <input type="submit" value="Signup" />
       <a href="/login">Already have an account? Login Here</a>
       </form>
@@ -75,6 +114,10 @@ form {
     margin-bottom: 1rem;
     font-weight: bold;
     color: black;
+  }
+
+  small {
+    color: red;
   }
 
   // Signup BUTTON STYLES

@@ -1,37 +1,52 @@
 import { gql } from "@apollo/client";
 
-export const GET_SHOPS = gql`
-  query shops {
-    shops {
+export const GET_MY_SHOP = gql`
+  query myShop{
+    myShop{
       _id
-      userId {
-        _id
-        firstName
-        lastName
-      }
       businessName
       image
       orders {
         _id
         userId {
           _id
-          firstName
-          lastName
+          email
         }
         businessId {
           _id
-          name
         }
         purchaseDate
         products {
-          _id
-          name
-          description
-          image
-          price
-          quantity
+          product{
+            _id
+            name
+            description
+            image
+            price
+            quantity
+
+          }
+          quanitity
         }
       }
+      products{
+        _id
+        name
+        description
+        image
+        price
+        quantity
+      }
+    }
+  }
+`
+
+export const GET_SHOPS = gql`
+  query shops {
+    shops {
+      _id
+      businessName
+      image
       products {
         _id
         name
@@ -48,34 +63,8 @@ export const GET_SHOP = gql`
   query getShop($_id: ID!) {
     getShop(_id: $_id) {
       _id
-      user {
-        _id
-        firstName
-        lastName
-      }
       businessName
       image
-      orders {
-        _id
-        userId {
-          _id
-          firstName
-          lastName
-        }
-        businessId {
-          _id
-          name
-        }
-        purchaseDate
-        products {
-          _id
-          name
-          description
-          image
-          price
-          quantity
-        }
-      }
       products {
         _id
         name
@@ -89,45 +78,17 @@ export const GET_SHOP = gql`
 `;
 
 export const GET_PRODUCT = gql`
-  query product($_id: ID!, $productId: String!) {
+  query product($_id: ID!) {
     product(_id: $_id) {
-      _id
-      user {
+      userId{
         _id
-        firstName
-        lastName
+        username
       }
-      businessName
-      image
-      orders {
-        _id
-        userId {
-          _id
-          firstName
-          lastName
-        }
-        businessId {
-          _id
-          name
-        }
-        purchaseDate
-        products {
-          _id
-          name
-          description
-          image
-          price
-          quantity
-        }
-      }
-      products {
-        _id
-        name
-        description
-        image
-        price
-        quantity
-      }
+      name
+      description
+      images
+      price
+      quantity
     }
   }
 `;
@@ -136,19 +97,13 @@ export const GET_USER = gql`
   query user {
     user {
       _id
-      firstName
-      lastName
+      username
       email
       orders {
         _id
-        userId {
-          _id
-          firstName
-          lastName
-        }
         businessId {
           _id
-          name
+          businessName
         }
         purchaseDate
         products {
@@ -169,17 +124,19 @@ export const GET_CART = gql`
     cart {
       user {
         _id
-        firstName
-        lastName
+        username
       }
       products {
-        _id
-        name
-        description
-        image
-        price
+        product{
+          _id
+          name
+          description
+          image
+          price
+          quantity
+
+        }
         quantity
-        quantityInCart
       }
     }
   }

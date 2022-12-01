@@ -14,6 +14,7 @@ const typeDefs = gql`
   type CartItem{
     product: Product
     userId: User
+    quantity: Int
   }
 
   type Product {
@@ -28,15 +29,14 @@ const typeDefs = gql`
   type Order {
     _id: ID
     userId: User
-    businessId: ID
+    businessId: Business
     purchaseDate: String
     products: [CartItem]
   }
 
   type User {
     _id: ID
-    firstName: String
-    lastName: String
+    username: String
     email: String
     orders: [Order]
   }
@@ -65,24 +65,26 @@ const typeDefs = gql`
   }
 
   type Query {
+    myShop: Business
+    users: [User]
     shops: [Business]
     getShop(_id:ID!): Business
-    product(_id: ID!, productId: ID!): Business
+    product(_id: ID!): Product
     cart: Cart
     user: User
     checkout(products: [ID]!): Checkout
   }
 
   type Mutation {
-    addUser(firstName: String!, lastName: String!, email: String!, password: String!): Auth
-    updateUser(firstName: String!, lastName: String!, email: String!, password: String): User
+    addUser(username: String!, email: String!, password: String!): Auth
+    updateUser(username: String!, email: String!, password: String): User
     deleteUser: User
-    login(email: String!, password: String!): Auth
+    login(username: String!, password: String!): Auth
     addShop(businessName: String!,slogan: String!, image: String!, primaryHex: String!, secondaryHex: String!): Business 
     addProduct(productInput: productInput): Business
-    updateProduct(productId: ID!, productInput: productInput!): Business
-    deleteProduct(productId: ID!): Business
-    addToCart(productInput: productInput): Cart
+    updateProduct(_id: ID!, productInput: productInput!): Product
+    deleteProduct(_id: ID!): Product
+    addToCart(productId: ID!): Cart
     deleteFromCart(productId: ID!): Cart
     submitOrder(businessId: ID!, products: [ID]!): User
     cancelOrder(_id: ID!): User
