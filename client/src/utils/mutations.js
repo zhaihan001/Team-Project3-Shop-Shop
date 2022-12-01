@@ -12,7 +12,7 @@ export const ADD_USER = gql`
                     _id
                     userId{
                         _id
-                        username
+                        email
                     }
                     businessId{
                         _id 
