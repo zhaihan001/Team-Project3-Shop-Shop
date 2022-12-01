@@ -53,6 +53,7 @@ function App() {
             <Navbar />
             <Routes>
               <Route path="/" element={<Home />} />
+              <Route path="/shop/:id" element={<ShopPage />} />
 
               <Route path="/login" element={<Login />} />
 
