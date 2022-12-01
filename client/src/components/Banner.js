@@ -3,6 +3,8 @@ import styled from 'styled-components';
 import Slider from 'react-slick';
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
+import { Palette } from './Palette';
+
 
 function Banner() {
 
@@ -21,12 +23,12 @@ function Banner() {
     <Carousel {...settings}>
        <Wrap>
         <div className="slideA">
-        <h2>124</h2>
+        {/* <h2>124</h2> */}
         </div>
        </Wrap>
        <Wrap>
        <div className="slideB">
-        <h2>Hello</h2>
+        {/* <h2>Hello</h2> */}
         </div>
        </Wrap>
        <Wrap>
@@ -69,7 +71,7 @@ const Wrap = styled.div`
     height: 70vh;
     // max-height: 70vh;
     overflow-y: hidden;
-    background-color: black;
+    background-color: ${Palette.brown};
     color: white;
 
     div {
@@ -77,19 +79,23 @@ const Wrap = styled.div`
         width: 100%;
         height: 100%;
         object-fit: cover;
-        border: 4px solid black;
+        border: 4px solid ${Palette.brown};
+        border-bottom-width: 30px;
+        transition: all 400ms cubic-bezier(0.25, 0.46, 0.45, 0.94) 0s;
 
         &:hover {
-            border: 4px solid grey;
+            border: 4px solid ${Palette.grey};
         }
     }
 
     .slideA {
-        background-image: url("/images/teddy-bear.jpg");
+        background-image: url("/images/sale1.jpg");
+        background-color: red;
     }
 
     .slideB {
-        background-image: url("/images/soap.jpg");
+        background-image: url("/images/wooden-spoons.jpg");
+        background-color: green;
     }
 
     .slideC {

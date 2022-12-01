@@ -1,5 +1,6 @@
 import React from 'react'
 import styled from 'styled-components'
+import { Palette } from './Palette'
 
 
 function Navbar() {
@@ -50,7 +51,7 @@ export default Navbar
 
 const Nav = styled.nav`
 height: 70px;
-background: black;
+background:  ${Palette.brown};
 display: flex;
 align-items: center;
 padding: 0 36px;
@@ -67,7 +68,7 @@ const NavMenu = styled.div`
 
     a:visited { 
         text-decoration: none;
-        color: white; 
+        color: ${Palette.grey};
        }
     
 
@@ -76,7 +77,7 @@ const NavMenu = styled.div`
         align-items: center;
         padding: 0 12px;
         cursor: pointer;
-        color: white;
+        color: ${Palette.grey};
         text-decoration: none; 
 
         img {
@@ -92,8 +93,8 @@ const NavMenu = styled.div`
 
             &:after {
                 content: "";
-                height: 2px;
-                background: white;
+                height: 4px;
+                background: ${Palette.blue};
                 position: absolute;
                 left: 0;
                 right: 0;

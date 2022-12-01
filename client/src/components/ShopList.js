@@ -1,9 +1,11 @@
 import React from "react";
 import styled from "styled-components";
+import { Palette } from './Palette';
 
 const ShopList = ({ shops, title }) => {
-  if (!shops.length) {
-    return <h1>No Shops Yet</h1>;
+  // Reminder add the ! back
+  if (shops.length) {
+    return <Container><h2>No Shops Yet 🥲</h2></Container>;
   }
   return (
     <Container>
@@ -46,14 +48,14 @@ const ShopList = ({ shops, title }) => {
 
 const Container = styled.div`
   padding: 0 calc(3.5vw + 5px);
-  padding-top: 2vw;
+  padding-top: 0.5vw;
   padding-bottom: 13vw;
 
   h2 {
     font-size: 40px;
     padding: 15px;
     text-decoration: underline;
-    color: black;
+    color: ${Palette.red};
     font-weight: bold;
     letter-spacing: 1px;
     word-spacing: 4px;
@@ -83,7 +85,7 @@ const Wrap = styled.div`
   border-radius: 3px;
   cursor: pointer;
   position: relative;
-  border: 3px solid black;
+  border: 3px solid ${Palette.brown};
   transition: all 250ms cubic-bezier(0.25, 0.46, 0.45, 0.94) 0s;
 
   img {
@@ -96,7 +98,7 @@ const Wrap = styled.div`
   h3 {
     border-radius: 3px;
     border: 3px solid rgba(249, 249, 249, 0.1);
-    background: grey;
+    background: ${Palette.blue};
     padding: 4px;
     color: white;
     font-size: 30px;
@@ -130,11 +132,11 @@ const Wrap = styled.div`
       padding: 8px;
       border-radius: 20px;
       border: 3px solid rgba(249, 249, 249, 0.1);
-      background: grey;
+      background: ${Palette.blue};
       transition: all 250ms cubic-bezier(0.25, 0.46, 0.45, 0.94) 0s;
 
       &:hover {
-        background: orange;
+        background: ${Palette.red};
       }
     }
   }
@@ -145,14 +147,14 @@ const Wrap = styled.div`
     cursor: pointer;
 
     h3 {
-      background: black;
+      background: ${Palette.blue};
       color: white;
     }
 
     div {
       opacity: 1;
       object-fit: cover;
-      background: rgba(37, 39, 58, 0.76);
+      background: ${Palette.opacityBrown};
     }
   }
 `;
