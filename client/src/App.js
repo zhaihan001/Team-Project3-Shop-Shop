@@ -20,6 +20,7 @@ import Profile from "./components/Profile";
 import UserShop from "./components/UserShop";
 import CartPage from "./pages/CartPage";
 import { UserProvider } from "./contexts/UserContext";
+import { ShopProvider } from "./contexts/ShopContext";
 
 const httpLink = createHttpLink({
   uri: "/graphql",
@@ -49,35 +50,38 @@ function App() {
   return (
     <ApolloProvider client={client}>
       <UserProvider>
-        <div className="App">
-          <Router>
-            <Navbar />
-            <Routes>
-              <Route path="/" element={<Home />} />
+        <ShopProvider>
 
-              {/* route when user clicks to view a specific shop - id = id of that shop */}
-              {/* <Route path="/shop/:id" element={<ShopPage />} /> */}
+          <div className="App">
+            <Router>
+              <Navbar />
+              <Routes>
+                <Route path="/" element={<Home />} />
 
-              {/* route for when user clicks on a specific product on that shop's page id = id of that shop and productId = id of that product */}
-              {/* <Route path="/shop/:id/product/:productId" element={<ProductPage />} /> */}
+                {/* route when user clicks to view a specific shop - id = id of that shop */}
+                {/* <Route path="/shop/:id" element={<ShopPage />} /> */}
 
-              <Route path="/login" element={<Login />} />
+                {/* route for when user clicks on a specific product on that shop's page id = id of that shop and productId = id of that product */}
+                {/* <Route path="/shop/:id/product/:productId" element={<ProductPage />} /> */}
 
-              <Route path="/signup" element={<Signup />} />
+                <Route path="/login" element={<Login />} />
 
-              <Route path="/saved" element={<Saved />} />
+                <Route path="/signup" element={<Signup />} />
 
-              <Route path="/profile" element={<Profile />} />
+                <Route path="/saved" element={<Saved />} />
 
-              <Route path="/usershop" element={<UserShop />} />
+                <Route path="/profile" element={<Profile />} />
 
-              <Route path="/cart" element={<CartPage />} />
+                <Route path="/usershop" element={<UserShop />} />
 
-              <Route path="*" element={<Home />} />
-            </Routes>
-            <Footer />
-          </Router>
-        </div>
+                <Route path="/cart" element={<CartPage />} />
+
+                <Route path="*" element={<Home />} />
+              </Routes>
+              <Footer />
+            </Router>
+          </div>
+        </ShopProvider>
       </UserProvider>
     </ApolloProvider>
   );

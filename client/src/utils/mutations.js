@@ -137,8 +137,8 @@ export const LOGIN_USER = gql`
 `
 
 export const ADD_SHOP = gql`
-    mutation addShop($businessName: String!, $image: String!, $primaryHex: String!, $secondaryHex: String!){
-        addShop(businessName: $businessName, image: $image, primaryHex: $primaryHex, secondaryHex: $secondaryHex){
+    mutation addShop($businessName: String!, $slogan: String!, $image: String!, $primaryHex: String!, $secondaryHex: String!){
+        addShop(businessName: $businessName, slogan: $slogan image: $image, primaryHex: $primaryHex, secondaryHex: $secondaryHex){
             _id
             userId{
                 _id
@@ -154,16 +154,21 @@ export const ADD_SHOP = gql`
                 }
                 businessId{
                     _id
-                    name
+                    businessName
                 }
                 purchaseDate
                 products{
-                    _id
-                    name
-                    description
-                    image
-                    price
+                    product{
+                        _id
+                        name
+                        description
+                        image
+                        price
+                        quantity
+
+                    }
                     quantity
+                    
                 }
 
             }
@@ -195,15 +200,23 @@ export const ADD_PRODUCT = gql`
                     _id
                     username
                 }
-                businessId
+                businessId {
+                _id
+                businessName
+                }
                 purchaseDate
                 products{
-                    _id
-                    name
-                    description
-                    image
-                    price
+                    product{
+                        _id
+                        name
+                        description
+                        image
+                        price
+                        quantity
+
+                    }
                     quantity
+                    
                 }
 
             }
@@ -237,16 +250,21 @@ export const UPDATE_PRODUCT = gql`
                 }
                 businessId{
                     _id
-                    name
+                    businessName
                 }
                 purchaseDate
                 products{
-                    _id
-                    name
-                    description
-                    image
-                    price
+                    product{
+                        _id
+                        name
+                        description
+                        image
+                        price
+                        quantity
+
+                    }
                     quantity
+                    
                 }
 
             }
@@ -284,12 +302,17 @@ export const DELETE_PRODUCT = gql`
                 }
                 purchaseDate
                 products{
-                    _id
-                    name
-                    description
-                    image
-                    price
+                    product{
+                        _id
+                        name
+                        description
+                        image
+                        price
+                        quantity
+
+                    }
                     quantity
+                    
                 }
 
             }
@@ -306,23 +329,28 @@ export const DELETE_PRODUCT = gql`
 `
 
 export const ADD_TO_CART = gql`
-    mutation addToCart($productId: ID!, $quantity: Int!, $businessId: ID!){
-        addToCart(productId: $productId, quantity: $quantity, businessId: $businessId){
+mutation addToCart($productId: ID!, $quantity: Int!, $businessId: ID!){
+    addToCart(productId: $productId, quantity: $quantity, businessId: $businessId){
+        _id
+        user {
             _id
-            userId{
-                _id
-                username
-            }
-            products{
+            username
+        }
+        products{
+            product{
                 _id
                 name
                 description
                 image
                 price
                 quantity
+
             }
+            quantity
+            
         }
     }
+}
 `
 
 export const DELETE_FROM_CART = gql`
@@ -334,19 +362,24 @@ export const DELETE_FROM_CART = gql`
                 username
             }
             products{
-                _id
-                name
-                description
-                image
-                price
+                product{
+                    _id
+                    name
+                    description
+                    image
+                    price
+                    quantity
+
+                }
                 quantity
+                
             }
         }
     }
 `
 
 export const SUBMIT_ORDER = gql`
-    mutation submitOrder($businessId: ID!, $products: productInput){
+    mutation submitOrder($businessId: ID!, $products: [ID]!){
         submitOrder(businessId: $businessId, products: $products){
             _id
             username
@@ -363,12 +396,17 @@ export const SUBMIT_ORDER = gql`
                 }
                 purchaseDate
                 products{
-                    _id
-                    name
-                    description
-                    images
-                    price
+                    product{
+                        _id
+                        name
+                        description
+                        image
+                        price
+                        quantity
+
+                    }
                     quantity
+                    
                 }
             }
         }
@@ -393,12 +431,17 @@ export const CANCEL_ORDER = gql`
                 }
                 purchaseDate
                 products{
-                    _id
-                    name
-                    description
-                    images
-                    price
+                    product{
+                        _id
+                        name
+                        description
+                        image
+                        price
+                        quantity
+
+                    }
                     quantity
+                    
                 }
             }
         }
@@ -428,12 +471,17 @@ export const UPDATE_QUANTITY = gql`
                 }
                 purchaseDate
                 products{
-                    _id
-                    name
-                    description
-                    images
-                    price
+                    product{
+                        _id
+                        name
+                        description
+                        image
+                        price
+                        quantity
+
+                    }
                     quantity
+                    
                 }
 
             }

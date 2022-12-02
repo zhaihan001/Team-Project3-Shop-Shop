@@ -11,13 +11,17 @@ export const useShopContext = () => {
 
 export const ShopProvider = ({children}) => {
 
-        const { loading, data: shopData } = useQuery(GET_SHOP);
-        console.log(shopData);
+        // use on page that will accept parameter to complete the query
+        // const { loading, data } = useQuery(GET_SHOP, {
+        //     variables: { id }
+        // });
+
+        
 
         const [newShop, { err, data: newShopData}] = useMutation(ADD_SHOP);
 
         return (
-            <ShopContext.Provider value={{newShop, shopData, newShopData}}>
+            <ShopContext.Provider value={{newShop, newShopData}}>
                 {children}
             </ShopContext.Provider>
         )
