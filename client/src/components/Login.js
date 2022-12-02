@@ -1,62 +1,72 @@
-import React, { useState } from 'react'
-import styled from 'styled-components'
-import { useUserContext } from '../contexts/UserContext';
+import React, { useState } from "react";
+import styled from "styled-components";
+import { useUserContext } from "../contexts/UserContext";
 import Auth from "../utils/auth";
 import { Palette } from './Palette';
 
 function Login() {
-  const [userData, setUserData] = useState({username:'', password: ''});
+  const [userData, setUserData] = useState({ username: "", password: "" });
   const { login } = useUserContext();
 
   const handleFormChange = (e) => {
-    const {name, value} = e.target
-    setUserData(prev => {
+    const { name, value } = e.target;
+    setUserData((prev) => {
       return {
         ...prev,
-        [name]: value
-      }
-    })
-  }
+        [name]: value,
+      };
+    });
+  };
 
   const formSubmit = async (e) => {
     e.preventDefault();
     try {
       const { data } = await login({
-        variables: {...userData}
-      })
-      console.log(data)
-
-      Auth.login(data.login.token)
+        variables: { ...userData },
+      });
+      Auth.login(data.login.token);
 
       // navigate to my shop or user account page after
 
+      window.location.assign("/");
 
-      return data
-      
+      return data;
     } catch (error) {
-      console.log(error)
-      return error
+      console.log(error);
+      return error;
     }
-  }
+  };
 
   return (
-      <Container>
-        <LoginForm>
-          <form onSubmit={formSubmit}>
+    <Container>
+      <LoginForm>
+        <form onSubmit={formSubmit}>
           <h2>Login</h2>
-          <label htmlFor='username'>Username:</label>
-          <input onChange={handleFormChange} value={userData.username} type='text' name='username' id='username'/>
-          <label htmlFor='password'>Password:</label>
-          <input onChange={handleFormChange} value={userData.password} type='password' name='password' id='password'/>
+          <label htmlFor="username">Username:</label>
+          <input
+            onChange={handleFormChange}
+            value={userData.username}
+            type="text"
+            name="username"
+            id="username"
+          />
+          <label htmlFor="password">Password:</label>
+          <input
+            onChange={handleFormChange}
+            value={userData.password}
+            type="password"
+            name="password"
+            id="password"
+          />
           <input type="submit" value="Login" />
           <a href="/signup">Need an account? Signup Here</a>
-          </form>
-        </LoginForm>
-      </Container>
-  )
+        </form>
+      </LoginForm>
+    </Container>
+  );
 }
 
-export default Login
+export default Login;
 
 const Container = styled.div`
   padding-top: 3vw;
@@ -74,25 +84,23 @@ const Container = styled.div`
     word-spacing: 4px;
     text-underline-offset: 8px;
     margin-bottom: 5vh;
- }
-    
-`
+  }
+`;
 
 const LoginForm = styled.div`
-
-display: flex;
-flex-direction: row;
-align-items: center;
-justify-content: center;
-
-form {
   display: flex;
+  flex-direction: row;
   align-items: center;
   justify-content: center;
-  flex-direction: column;
-  width: 100%;
-  font-size: 16px;
-  padding: 60px;
+
+  form {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    width: 100%;
+    font-size: 16px;
+    padding: 60px;
 
   input {
     width: 300px;
@@ -103,6 +111,7 @@ form {
     border: 1px solid ${Palette.brown};
     &:focus {
       border: 2px solid ${Palette.red};
+
       }
     }
   }
@@ -134,12 +143,11 @@ form {
       color: white;
     }
   }
-  
+
   // Signup link
 
   a {
     padding-top: 20px;
     color: ${Palette.red};
   }
-  
-  `
+`;
