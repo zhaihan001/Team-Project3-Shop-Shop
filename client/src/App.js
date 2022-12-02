@@ -54,6 +54,12 @@ function App() {
             <Routes>
               <Route path="/" element={<Home />} />
 
+              {/* route when user clicks to view a specific shop - id = id of that shop */}
+              {/* <Route path="/shop/:id" element={<ShopPage />} /> */}
+
+              {/* route for when user clicks on a specific product on that shop's page id = id of that shop and productId = id of that product */}
+              {/* <Route path="/shop/:id/product/:productId" element={<ProductPage />} /> */}
+
               <Route path="/login" element={<Login />} />
 
               <Route path="/signup" element={<Signup />} />
@@ -65,6 +71,8 @@ function App() {
               <Route path="/usershop" element={<UserShop />} />
 
               <Route path="/cart" element={<CartPage />} />
+
+              <Route path="*" element={<Home />} />
             </Routes>
           </Router>
         </div>

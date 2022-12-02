@@ -1,5 +1,6 @@
 import React from 'react'
 import styled from 'styled-components'
+import Auth from '../utils/auth'
 
 
 function Navbar() {
@@ -35,10 +36,12 @@ function Navbar() {
             <span>CART</span>
         </a>
 
-        <a href="/login">
+        {!Auth.loggedIn() ? <a href="/login">
             {/* <img src='/images/cart-icon.png' alt='cart'/> */}
             <span>LOGIN</span>
-        </a>
+        </a> :
+        <button onClick={() => Auth.logout()}>LOGOUT</button>
+        }
 
         </NavMenu>
 

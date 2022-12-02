@@ -223,7 +223,7 @@ const resolvers = {
         return error
       }
     },
-    addToCart: async (parent, {productId, quantity}, context) => {
+    addToCart: async (parent, {productId, quantity, businessId}, context) => {
       try {
         let newCartItem = await CartItem.create(
           {
@@ -238,8 +238,9 @@ const resolvers = {
         if(!userCart){
           let newCart = await Cart.create(
             {
-              products: newCartItem._id,
-              userId: context.user._id
+              products: [newCartItem._id],
+              userId: context.user._id,
+              businessId
             }
           )
 

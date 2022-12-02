@@ -13,6 +13,10 @@ const cartSchema = new Schema({
     type: Schema.Types.ObjectId,
     ref: "User",
   },
+  businessId: {
+    type: Schema.Types.ObjectId,
+    ref: "Business"
+  }
 });
 
 const Cart = mongoose.model("Cart", cartSchema);
