@@ -26,7 +26,7 @@ export const GET_MY_SHOP = gql`
             quantity
 
           }
-          quanitity
+          quantity
         }
       }
       products{
@@ -107,11 +107,15 @@ export const GET_USER = gql`
         }
         purchaseDate
         products {
-          _id
-          name
-          description
-          image
-          price
+          product{
+            _id
+            name
+            description
+            image
+            price
+            quantity
+
+          }
           quantity
         }
       }

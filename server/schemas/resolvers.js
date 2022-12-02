@@ -35,9 +35,12 @@ const resolvers = {
     },
     myShop: async (parent, args, context) => {
       try {
-        let userShop = await Business.findOne({userId: context.user._id});
+        if(context.user){
+          let userShop = await Business.findOne({userId: context.user._id});
+  
+          return userShop
 
-        return userShop
+        }
       } catch (error) {
         console.log(error);
         return error
@@ -93,7 +96,6 @@ const resolvers = {
   
           return user;
         }
-        throw new AuthenticationError('Not logged in');
 
         
       } catch (error) {
