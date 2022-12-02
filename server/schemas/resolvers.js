@@ -29,6 +29,7 @@ const resolvers = {
         return users
 
       } catch (error) {
+        console.log(error);
         return error
       }
     },
@@ -38,6 +39,7 @@ const resolvers = {
 
         return userShop
       } catch (error) {
+        console.log(error);
         return error
       }
     },
@@ -48,6 +50,7 @@ const resolvers = {
         return shops
 
       } catch (error) {
+        console.log(error);
         return error
       }
     },
@@ -58,18 +61,19 @@ const resolvers = {
         return shop
         
       } catch (error) {
+        console.log(error);
         return error
       }
     },
-    product: async (parent, { _id, productId }) => {
+    product: async (parent, { _id }) => {
       try {
-        let shop = await Business.findOne({_id}).populate("orders");
+        let product = await Product.findOne({_id});
 
-        let product = shop.products.find(item => item.productId === productId);
 
         return product
         
       } catch (error) {
+        console.log(error);
         return error
       }
     },
@@ -93,6 +97,7 @@ const resolvers = {
 
         
       } catch (error) {
+        console.log(error);
         return error
       }
 
@@ -143,6 +148,7 @@ const resolvers = {
         }
 
       } catch (error) {
+        console.log(error);
         return error
       }
     }
