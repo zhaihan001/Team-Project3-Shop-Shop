@@ -437,6 +437,11 @@ const resolvers = {
 
         let removedShop = await Business.findOneAndDelete({userId: context.user._id})
 
+        //remove products that belong to that business
+        let removedProducts = await Product.deleteMany({userId: removedUser._id})
+
+        let delCart = await Cart.deleteMany({businessId: removedShop._id})
+
         return {msg: `user ${removedUser._id} has been removed`}
 
       } catch (error) {
