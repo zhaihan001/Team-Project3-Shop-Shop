@@ -1,9 +1,11 @@
 import React from "react";
 import styled from "styled-components";
+import { Palette } from './Palette';
 
 const ShopList = ({ shops, title }) => {
-  if (!shops.length) {
-    return <h1>No Shops Yet</h1>;
+  // Reminder add the ! back when adding shops is in
+  if (shops.length) {
+    return <Container><h2>No Shops Yet 🥲</h2></Container>;
   }
   return (
     <Container>
@@ -19,12 +21,30 @@ const ShopList = ({ shops, title }) => {
           </a>
         </Wrap>
         <Wrap>
-          <img src="/images/soap.jpg" alt="product" />
+          <img src="/images/cookie-tin.jpg" alt="product" />
           <a href="/signup">
             <div>
               <h4>Visit Shop</h4>
             </div>
-            <h3>Marnie's Soaps</h3>
+            <h3>Snap Baked Goods</h3>
+          </a>
+        </Wrap>
+        <Wrap>
+          <img src="/images/crochet.jpg" alt="product" />
+          <a href="/signup">
+            <div>
+              <h4>Visit Shop</h4>
+            </div>
+            <h3>Seaside Creations: Crochet and Embroidery</h3>
+          </a>
+        </Wrap>
+        <Wrap>
+          <img src="/images/stickers.jpg" alt="product" />
+          <a href="/signup">
+            <div>
+              <h4>Visit Shop</h4>
+            </div>
+            <h3>Shinyfins Stickers</h3>
           </a>
         </Wrap>
         {shops &&
@@ -46,14 +66,14 @@ const ShopList = ({ shops, title }) => {
 
 const Container = styled.div`
   padding: 0 calc(3.5vw + 5px);
-  padding-top: 2vw;
+  padding-top: 0.5vw;
   padding-bottom: 13vw;
 
   h2 {
     font-size: 40px;
     padding: 15px;
     text-decoration: underline;
-    color: black;
+    color: ${Palette.red};
     font-weight: bold;
     letter-spacing: 1px;
     word-spacing: 4px;
@@ -70,11 +90,11 @@ const Content = styled.div`
     grid-template-columns: repeat(3, minmax(0, 1fr));
   }
 
-  @media (max-width: 700px) {
+  @media (max-width: 800px) {
     grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 
-  @media (max-width: 500px) {
+  @media (max-width: 600px) {
     grid-template-columns: repeat(1, minmax(0, 1fr));
   }
 `;
@@ -83,8 +103,9 @@ const Wrap = styled.div`
   border-radius: 3px;
   cursor: pointer;
   position: relative;
-  border: 3px solid black;
+  border: 3px solid ${Palette.brown};
   transition: all 250ms cubic-bezier(0.25, 0.46, 0.45, 0.94) 0s;
+  max-height: 300px;
 
   img {
     width: 100%;
@@ -96,11 +117,16 @@ const Wrap = styled.div`
   h3 {
     border-radius: 3px;
     border: 3px solid rgba(249, 249, 249, 0.1);
-    background: grey;
+    background: ${Palette.blue};
     padding: 4px;
     color: white;
     font-size: 30px;
     text-align: center;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    max-height: 80px;
+    max-width: 1000px;
   }
 
   a {
@@ -130,11 +156,11 @@ const Wrap = styled.div`
       padding: 8px;
       border-radius: 20px;
       border: 3px solid rgba(249, 249, 249, 0.1);
-      background: grey;
+      background: ${Palette.blue};
       transition: all 250ms cubic-bezier(0.25, 0.46, 0.45, 0.94) 0s;
 
       &:hover {
-        background: orange;
+        background: ${Palette.red};
       }
     }
   }
@@ -145,14 +171,14 @@ const Wrap = styled.div`
     cursor: pointer;
 
     h3 {
-      background: black;
+      background: ${Palette.blue};
       color: white;
     }
 
     div {
       opacity: 1;
       object-fit: cover;
-      background: rgba(37, 39, 58, 0.76);
+      background: ${Palette.opacityBrown};
     }
   }
 `;

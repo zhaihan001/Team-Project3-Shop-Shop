@@ -17,7 +17,7 @@ function Home() {
           <div>Loading...</div>
         ) : (
           // render shoplist
-          <ShopList shops={shops} title="List of the Shops" />
+          <ShopList shops={shops} title="Featured Shops" />
         )}
       </Container>
     </div>
@@ -30,6 +30,8 @@ const Container = styled.div`
 overflow-x: hidden;
 position: relative;
 padding: 0;
+background-image: url("/images/bluegrid.png");
+background-size: contain;
 
 &:before {
   top: 0;
