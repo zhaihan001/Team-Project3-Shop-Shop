@@ -107,6 +107,7 @@ const ShoppingCart = ({ cartItems, title }) => {
             // </Wrap>
           ))}
       </Content>
+
       <button type="submit" id="submit" onSubmit={handleSubmit}>
         Submit Order
       </button>
@@ -144,7 +145,7 @@ const Container = styled.div`
   #submit {
     position: absolute;
     right: 50%;
-    bottom: 20%;
+    bottom: 20;
     font-size: x-large;
   }
 `;
