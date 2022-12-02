@@ -3,7 +3,7 @@ import styled from "styled-components";
 import { Palette } from './Palette';
 
 const ShopList = ({ shops, title }) => {
-  // Reminder add the ! back
+  // Reminder add the ! back when adding shops is in
   if (shops.length) {
     return <Container><h2>No Shops Yet 🥲</h2></Container>;
   }

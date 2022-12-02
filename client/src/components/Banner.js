@@ -15,7 +15,6 @@ function Banner() {
         autoplaySpeed: 5000,
         slidesToShow: 2,
         slidesToScroll: 1,
-        // fade: true,
         autoplay: true
     }
     
