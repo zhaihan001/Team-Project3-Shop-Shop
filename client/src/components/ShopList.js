@@ -1,62 +1,29 @@
 import React from "react";
+import { Link } from "react-router-dom";
 import styled from "styled-components";
 import { Palette } from './Palette';
 
 const ShopList = ({ shops, title }) => {
   // Reminder add the ! back when adding shops is in
-  if (shops.length) {
-    return <Container><h2>No Shops Yet 🥲</h2></Container>;
-  }
+  console.log(shops);
+  
+  // if (shops.length) {
+  //   return <Container><h2>No Shops Yet 🥲</h2></Container>;
+  // }
   return (
     <Container>
       <h2>{title}</h2>
       <Content>
-        <Wrap>
-          <img src="/images/soap.jpg" alt="product" />
-          <a href="/signup">
-            <div>
-              <h4>Visit Shop</h4>
-            </div>
-            <h3>Marnie's Soaps</h3>
-          </a>
-        </Wrap>
-        <Wrap>
-          <img src="/images/cookie-tin.jpg" alt="product" />
-          <a href="/signup">
-            <div>
-              <h4>Visit Shop</h4>
-            </div>
-            <h3>Snap Baked Goods</h3>
-          </a>
-        </Wrap>
-        <Wrap>
-          <img src="/images/crochet.jpg" alt="product" />
-          <a href="/signup">
-            <div>
-              <h4>Visit Shop</h4>
-            </div>
-            <h3>Seaside Creations: Crochet and Embroidery</h3>
-          </a>
-        </Wrap>
-        <Wrap>
-          <img src="/images/stickers.jpg" alt="product" />
-          <a href="/signup">
-            <div>
-              <h4>Visit Shop</h4>
-            </div>
-            <h3>Shinyfins Stickers</h3>
-          </a>
-        </Wrap>
         {shops &&
           shops.map((shop) => (
             <Wrap>
               <img src={shop.image} alt={shop.businessName} />
-              <a href={"/shops/" + shop._id}>
+              <Link to={"/shop"}>
                 <div>
                   <h4>Visit Shop</h4>
                 </div>
                 <h3>{shop.businessName}</h3>
-              </a>
+              </Link>
             </Wrap>
           ))}
       </Content>
