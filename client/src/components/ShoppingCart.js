@@ -49,9 +49,7 @@ const ShoppingCart = ({ cartItems, title }) => {
   return (
     <Container>
       <h2>{title}</h2>
-      <button type="submit" onSubmit={handleSubmit}>
-        Submit Order
-      </button>
+
       <Content>
         <Wrap>
           <img src="/images/soap.jpg" alt="product" />
@@ -109,6 +107,9 @@ const ShoppingCart = ({ cartItems, title }) => {
             // </Wrap>
           ))}
       </Content>
+      <button type="submit" id="submit" onSubmit={handleSubmit}>
+        Submit Order
+      </button>
     </Container>
   );
 };
@@ -139,6 +140,12 @@ const Container = styled.div`
     &:hover {
       transform: scale(1.05);
     }
+  }
+  #submit {
+    position: absolute;
+    right: 50%;
+    bottom: 20%;
+    font-size: x-large;
   }
 `;
 
