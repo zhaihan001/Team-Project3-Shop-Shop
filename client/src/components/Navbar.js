@@ -69,6 +69,20 @@ const NavMenu = styled.div`
     margin-left: 25px;
     align-items: center;
 
+    button {
+        background: none;
+        font-size: 20px;
+        font-weight: bold;
+        color: ${Palette.grey};
+        transition: all 400ms cubic-bezier(0.25, 0.46, 0.45, 0.94) 0s;
+
+        &:hover {
+            transform: scaleX(1);
+            opacity: 1;
+            color: ${Palette.red};
+        }
+    }
+
     a:visited { 
         text-decoration: none;
         color: ${Palette.grey}; 
@@ -88,7 +102,6 @@ const NavMenu = styled.div`
         }
 
         span {
-            font-size: 13px;
             letter-spacing: 1.42px;
             position: relative;
             font-size: 20px;
