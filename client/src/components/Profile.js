@@ -7,7 +7,10 @@ function Profile() {
     <Container>
     <h2>My Profile</h2>
     <Wrap>
+    <Col>
    <img src="/images/plastic-horses.jpg" alt=""/>
+   <button>Edit Profile Image</button>
+   </Col>
    <Content>
   <h3>Welcome Skully</h3>
   <p>Buyer | Seller</p>
@@ -30,7 +33,7 @@ background-image: url("/images/scribbles.png");
     flex-direction: row;
     align-items: left;
     justify-content: left;
-    padding-left: 15%;
+    padding-left: 17%;
     padding-top: 8vw;
     margin-bottom: 70px;
     font-size: 40px;
@@ -40,8 +43,30 @@ background-image: url("/images/scribbles.png");
     letter-spacing: 1px;
     word-spacing: 4px;
     text-underline-offset: 8px;
+    text-shadow: 2px 2px white;
  }
 
+`
+
+const Col = styled.div`
+display: flex;
+flex-direction: column;
+align-items: center;
+
+button {
+  color: white;
+  background-color: ${Palette.blue};
+  font-size: 20px;
+  padding: 10px;
+  margin: 10px;
+  margin-left: 110px;
+  transition: all 400ms cubic-bezier(0.25, 0.46, 0.45, 0.94) 0s;
+
+  &:hover {
+    background-color: ${Palette.red};
+    transform: scale(1.05);
+  }
+}
 `
 
 const Content = styled.div`
@@ -87,9 +112,10 @@ display: flex;
 padding-bottom: 80px;
 flex-direction: row;
 
+
 img {
-  width: 30%;
-  height: 30%;
+  width: 80%;
+  height: 80%;
   margin: 10px 0px 10px 100px;
   clip-path: circle();
 }
