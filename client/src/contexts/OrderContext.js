@@ -15,6 +15,8 @@ export const OrderProvider = ({children}) => {
         const { loading, data: orderData } = useQuery(GET_PRODUCT);
         console.log(orderData);
 
+        
+
         const [newOrder, { err, data: newOrderData}] = useMutation(ADD_TO_CART);
 
         const [completedOrder, {data: completedOrderData}] = useMutation(SUBMIT_ORDER);
