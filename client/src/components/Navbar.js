@@ -1,7 +1,6 @@
 import React from 'react'
 import styled from 'styled-components'
 import Auth from '../utils/auth'
-import { Palette } from './Palette'
 
 
 function Navbar() {
@@ -54,7 +53,7 @@ export default Navbar
 
 const Nav = styled.nav`
 height: 70px;
-background:  ${Palette.brown};
+background: black;
 display: flex;
 align-items: center;
 padding: 0 36px;
@@ -71,7 +70,7 @@ const NavMenu = styled.div`
 
     a:visited { 
         text-decoration: none;
-        color: ${Palette.grey};
+        color: white; 
        }
     
 
@@ -80,7 +79,7 @@ const NavMenu = styled.div`
         align-items: center;
         padding: 0 12px;
         cursor: pointer;
-        color: ${Palette.grey};
+        color: white;
         text-decoration: none; 
 
         img {
@@ -96,8 +95,8 @@ const NavMenu = styled.div`
 
             &:after {
                 content: "";
-                height: 4px;
-                background: ${Palette.blue};
+                height: 2px;
+                background: white;
                 position: absolute;
                 left: 0;
                 right: 0;
