@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import styled from "styled-components";
 import { useUserContext } from "../contexts/UserContext";
 import Auth from "../utils/auth";
+import { Palette } from './Palette';
 
 function Login() {
   const [userData, setUserData] = useState({ username: "", password: "" });
@@ -69,11 +70,15 @@ export default Login;
 
 const Container = styled.div`
   padding-top: 3vw;
+  overflow-x: hidden;
+  position: relative;
+  background-image: url("/images/scribbles.png");
+  background-size: cover;
 
   h2 {
     font-size: 40px;
     text-decoration: underline;
-    color: black;
+    color: ${Palette.red};
     font-weight: bold;
     letter-spacing: 1px;
     word-spacing: 4px;
@@ -97,15 +102,16 @@ const LoginForm = styled.div`
     font-size: 16px;
     padding: 60px;
 
-    input {
-      width: 300px;
-      min-height: 35px;
-      padding: 7px;
-      outline: none;
-      border-radius: 5px;
-      border: 1px solid rgb(123, 145, 171);
-      &:focus {
-        border: 2px solid rgb(144, 57, 57);
+  input {
+    width: 300px;
+    min-height: 35px;
+    padding: 7px;
+    outline: none;
+    border-radius: 5px;
+    border: 1px solid ${Palette.brown};
+    &:focus {
+      border: 2px solid ${Palette.red};
+
       }
     }
   }
@@ -114,7 +120,7 @@ const LoginForm = styled.div`
     margin-top: 1rem;
     margin-bottom: 1rem;
     font-weight: bold;
-    color: black;
+    color: ${Palette.blue};
   }
 
   // LOGIN BUTTON STYLES
@@ -125,7 +131,7 @@ const LoginForm = styled.div`
     cursor: pointer;
     font-size: 1.5rem;
     font-weight: bold;
-    background: black;
+    background: ${Palette.blue};
     color: white;
     border: none;
     transition: all 250ms cubic-bezier(0.25, 0.46, 0.45, 0.94) 0s;
@@ -133,8 +139,8 @@ const LoginForm = styled.div`
     &:hover {
       transform: scale(1.05);
       border-color: rgba(249, 249, 249, 0.8);
-      background: grey;
-      color: black;
+      background: ${Palette.blue};
+      color: white;
     }
   }
 
@@ -142,5 +148,6 @@ const LoginForm = styled.div`
 
   a {
     padding-top: 20px;
+    color: ${Palette.red};
   }
 `;
