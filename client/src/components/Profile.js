@@ -1,15 +1,19 @@
 import React from 'react'
 import styled from 'styled-components'
+import { Palette } from './Palette';
 
 function Profile() {
   return (
     <Container>
     <h2>My Profile</h2>
     <Wrap>
-   <img src="/images/teddy-bear.jpg" alt=""/>
-   <p>
-   Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
-   </p>
+   <img src="/images/plastic-horses.jpg" alt=""/>
+   <Content>
+  <h3>Welcome Skully</h3>
+  <p>Buyer | Seller</p>
+  <button>View My Shop</button>
+  <button>Edit My Shop</button>
+  </Content>
    </Wrap>
 </Container>
   )
@@ -18,6 +22,8 @@ function Profile() {
 export default Profile
 
 const Container = styled.div`
+background-image: url("/images/scribbles.png");
+  background-size: cover;
 
   h2 {
     display: flex;
@@ -29,7 +35,7 @@ const Container = styled.div`
     margin-bottom: 70px;
     font-size: 40px;
     text-decoration: underline;
-    color: black;
+    color: ${Palette.red};
     font-weight: bold;
     letter-spacing: 1px;
     word-spacing: 4px;
@@ -38,24 +44,54 @@ const Container = styled.div`
 
 `
 
+const Content = styled.div`
+margin: 10px 100px 10px 100px;
+font-size: 20px;
+border: thick solid ${Palette.grey};
+background-color: white;
+color: #273748;
+padding: 20px;
+border-radius: 3px;
+width: 50%;
+align-items: center;
+text-align: center;
+
+h3 {
+  color: ${Palette.red};
+  text-decoration: underline dotted;
+  text-underline-offset: 5px;
+}
+
+p {
+  color: ${Palette.fadedGrey};
+}
+
+button {
+  color: white;
+  background-color: ${Palette.blue};
+  font-size: 20px;
+  padding: 10px;
+  margin: 10px;
+  transition: all 400ms cubic-bezier(0.25, 0.46, 0.45, 0.94) 0s;
+
+  &:hover {
+    background-color: ${Palette.red};
+    transform: scale(1.05);
+  }
+}
+`
+
 const Wrap = styled.div`
 
 display: flex;
 padding-bottom: 80px;
+flex-direction: row;
 
 img {
   width: 30%;
   height: 30%;
   margin: 10px 0px 10px 100px;
-  border-radius: 3px;
+  clip-path: circle();
 }
 
-p {
-  margin: 10px 100px 10px 100px;
-  font-size: 20px;
-  border: thick solid black;
-  color: #273748;
-  padding: 20px;
-  border-radius: 3px;
-}
 `
