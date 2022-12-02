@@ -6,13 +6,13 @@ function Footer() {
   return (
     <Container>
         <h4>Thanks for Shop-Shopping</h4>
-        <a>Home</a>
-        <a>Saved</a>
-        <a>My Shop</a>
-        <a>Profile</a>
-        <a>Cart</a>
-        <a>Login</a>
-        <a>Signup</a>
+        <a href="/">Home</a>
+        <a href="/saved">Saved</a>
+        <a href="/usershop">My Shop</a>
+        <a href="/profile">Profile</a>
+        <a href="/cart">Cart</a>
+        <a href="/login">Login</a>
+        <a href="/signup">Signup</a>
     </Container>
   )
 }
