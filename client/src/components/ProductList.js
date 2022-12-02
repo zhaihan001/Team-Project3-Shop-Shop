@@ -1,8 +1,16 @@
+import { useQuery } from '@apollo/client'
 import React from 'react'
 import { Link } from 'react-router-dom'
+import { GET_SHOP } from '../utils/queries'
 import { Container, Content, Wrap } from './ShopList'
 
-export default function ProductList() {
+export default function ProductList({id}) {
+    const {loading, data} = useQuery(GET_SHOP, {
+        variables: {
+            _id: id
+        }
+    })
+
   return (
     <>
         <Container>

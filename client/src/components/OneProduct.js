@@ -1,7 +1,9 @@
 import React from 'react'
 import { Container, Content, Wrap } from './ShopList'
 
-export default function OneProduct() {
+export default function OneProduct({businessId, productId}) {
+    
+
   return (
     <>
         <Container>
