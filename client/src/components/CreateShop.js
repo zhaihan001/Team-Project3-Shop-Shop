@@ -1,32 +1,91 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import styled from 'styled-components'
+import { useUserContext } from '../contexts/UserContext';
 
 
 function CreateShop() {
-    return (
-        <Container>
-            <ShopForm>  
-                <form>
-                <h2>Create Your Shop</h2>
-                <label htmlFor='shopname'>Shop Name:</label>
-                <input type='text' name='shopname' id='shopname' />
-                <label htmlFor='shopdesc'>Give a brief description of your shop.</label>
-                <input type='text' name='shopdesc' id='shopdesc' />
-                <label htmlFor='logo'>Upload an image for your shop's logo.</label>
-                <input type='file' name='logo' id='logo' /><br></br>
-                <input type='submit'>Confirm Logo</input>
-                <label htmlFor='primary'>Pick a primary color for your shop.</label>
-                <input type="color" id="primary" name="primary"
-                    value="#e66465"></input>
-                <label htmlFor='secondary'>Pick a secondary color for your shop.</label>
-                <input type="color" id="secondary" name="secondary"
-                    value="#e66465"></input>
-                <input type='submit'>Create Shop</input>
-            </form>
-            </ShopForm>
+  const [shopData, setShopData] = useState({businessName: '', slogan: '', primaryHex: '', secondaryHex: '' })
+  const [image, setImage] = useState(null);
+  const [dataUrl, setDataUrl] = useState("")
 
-        </Container>
-    )
+  const { newShop } = useUserContext();
+
+  const handleImageChange = (e) => {
+    setImage(e.target.files[0]);
+  }
+
+  const handleFormChange = (e) => {
+    const {name, value} = e.target
+    setShopData(prev => {
+      return {
+        ...prev,
+        [name]: value
+      }
+    })
+  }
+
+  const submitShopData = async (e) => {
+    e.preventDefault();
+    try {
+      // const { data } = await newShop({
+      //   variables: {
+      //     ...shopData,
+      //     image: dataUrl
+      //   }
+      // })
+
+      const data = {
+        ...shopData,
+        image: dataUrl
+      }
+      
+      console.log(data);
+
+      return data
+
+    } catch (error) {
+      return error
+    }
+  }
+
+  useEffect(() => {
+    if(image){
+      const reader = new FileReader();
+  
+      reader.onloadend = (e) => {
+        setDataUrl(e.target.result)
+      }
+  
+      reader.readAsDataURL(image)
+
+    }
+
+  }, [image])
+
+  return (
+      <Container>
+          <ShopForm>  
+              <form onSubmit={submitShopData}>
+              <h2>Create Your Shop</h2>
+              <label htmlFor='shopname'>Shop Name:</label>
+              <input value={shopData.businessName} onChange={handleFormChange} type='text' name='shopname' id='shopname' />
+              <label htmlFor='shopdesc'>Give a brief description of your shop.</label>
+              <input value={shopData.slogan} onChange={handleFormChange} type='text' name='shopdesc' id='shopdesc' />
+              <label htmlFor='logo'>Upload an image for your shop's logo.</label>
+              <input value={dataUrl} onChange={handleImageChange} type='file' name='logo' id='logo' /><br></br>
+              <input type='submit'>Confirm Logo</input>
+              <label htmlFor='primary'>Pick a primary color for your shop.</label>
+              <input value={shopData.primaryHex} onChange={handleFormChange} type="color" id="primary" name="primary"
+                ></input>
+              <label htmlFor='secondary'>Pick a secondary color for your shop.</label>
+              <input value={shopData.secondaryHex} onChange={handleFormChange} type="color" id="secondary" name="secondary"
+                ></input>
+              <input type='submit'>Create Shop</input>
+          </form>
+          </ShopForm>
+
+      </Container>
+  )
 }
 
 export default CreateShop

@@ -81,7 +81,7 @@ const resolvers = {
           user.orders.sort((a, b) => b.purchaseDate - a.purchaseDate);
 
           // if this query finds a business that belongs to the user then the business data will be returned with the user info
-          const userBusiness = await Business.findOne({userId: context.user._id}).populate("orders");
+          const userBusiness = await Business.findOne({userId: context.user._id}).populate("orders").populate("products");
 
           if(userBusiness){
             return { user, userBusiness }
@@ -136,7 +136,7 @@ const resolvers = {
     cart: async (parent,args, context) => {
       try {
         if(context.user){
-          let cart = await Cart.findOne({userId: context.user._id});
+          let cart = await Cart.findOne({userId: context.user._id}).populate("products");
   
           return cart
 
@@ -155,7 +155,7 @@ const resolvers = {
 
       return { token, user };
     },
-    addShop: async (parent, {businessName, image, primaryHex, secondaryHex}, context) => {
+    addShop: async (parent, {businessName, slogan, image, primaryHex, secondaryHex}, context) => {
       try {
         if(context.user){
           let newCloudPic = await cloudinary.uploader.upload(image, options);
@@ -169,6 +169,7 @@ const resolvers = {
           let newShop = await Business.create(
             {
               businessName,
+              slogan,
               image: sizedPic.eager[0].secure_url,
               primaryHex,
               secondaryHex,
