@@ -1,19 +1,21 @@
 import React from "react";
+import { Link } from "react-router-dom";
 import styled from "styled-components";
 
 function Saved() {
+
   return (
     <Container>
       <h2>My Saved Shops</h2>
       <Content>
-        <Wrap>
+      <Wrap>
           <img src="/images/soap.jpg" alt="product" />
-          <a href="/signup">
+          <Link to="/shop">
             <div>
               <h4>Visit Shop</h4>
             </div>
-            <h3>Marnie's Soaps</h3>
-          </a>
+            <h3>Marnie's Soaps <a href="login"><button>♥️</button></a></h3>
+          </Link>
         </Wrap>
         <Wrap>
           <img src="/images/soap.jpg" alt="product" />
@@ -58,7 +60,7 @@ function Saved() {
 
 export default Saved;
 
-const Container = styled.div`
+export const Container = styled.div`
   padding: 0 calc(3.5vw + 5px);
   padding-top: 2vw;
   padding-bottom: 13vw;
@@ -75,7 +77,7 @@ const Container = styled.div`
   }
 `;
 
-const Content = styled.div`
+export const Content = styled.div`
   display: grid;
   grid-gap: 100px 40px;
   grid-template-columns: repeat(4, minmax(0, 1fr));
@@ -93,93 +95,95 @@ const Content = styled.div`
   }
 `;
 
-const Wrap = styled.div`
+export const Wrap = styled.div`
   border-radius: 3px;
   cursor: pointer;
   position: relative;
   border: 3px solid black;
   transition: all 250ms cubic-bezier(0.25, 0.46, 0.45, 0.94) 0s;
 
-  img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    z-index: 1;
-  }
-
-  h3 {
-    border-radius: 3px;
-    border: 3px solid rgba(249, 249, 249, 0.1);
-    background: grey;
-    padding: 4px;
-    color: white;
-    font-size: 30px;
-    text-align: center;
-  }
-
-  a {
-    text-decoration: none;
-  }
-
-  a:visited {
-    text-decoration: none;
-    color: white;
-  }
-
-  div {
-    width: 100%;
-    height: 100%;
-    position: absolute;
-    object-fit: cover;
-    top: 0px;
-    opacity: 0;
-    z-index: 0;
-    transition: all 250ms cubic-bezier(0.25, 0.46, 0.45, 0.94) 0s;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-
-    h4 {
-      color: white;
-      padding: 8px;
-      border-radius: 20px;
-      border: 3px solid rgba(249, 249, 249, 0.1);
-      background: grey;
-      transition: all 250ms cubic-bezier(0.25, 0.46, 0.45, 0.94) 0s;
-
-      &:hover {
-        background: orange;
-      }
+ 
+    img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      z-index: 1;
     }
-  }
-
-  &:hover {
-    transform: scale(1.05);
-    border-color: rgba(249, 249, 249, 0.8);
-    cursor: pointer;
 
     h3 {
-      background: black;
+      border-radius: 3px;
+      border: 3px solid rgba(249, 249, 249, 0.1);
+      background: grey;
+      padding: 4px;
+      color: white;
+      font-size: 30px;
+      text-align: center;
+    }
+
+    Link {
+      text-decoration: none;
+    }
+
+    Link:visited {
+      text-decoration: none;
       color: white;
     }
 
     div {
-      opacity: 1;
+      width: 100%;
+      height: 100%;
+      position: absolute;
       object-fit: cover;
-      background: rgba(37, 39, 58, 0.76);
-    }
-  }
+      top: 0px;
+      opacity: 0;
+      z-index: 0;
+      transition: all 250ms cubic-bezier(0.25, 0.46, 0.45, 0.94) 0s;
+      display: flex;
+      justify-content: center;
+      align-items: center;
 
-  button {
-    border-radius: 50px;
-    // background: white;
-    color: white;
-    transition: all 250ms cubic-bezier(0.25, 0.46, 0.45, 0.94) 0s;
+      h4 {
+        color: white;
+        padding: 8px;
+        border-radius: 20px;
+        border: 3px solid rgba(249, 249, 249, 0.1);
+        background: grey;
+        transition: all 250ms cubic-bezier(0.25, 0.46, 0.45, 0.94) 0s;
+
+        &:hover {
+          background: orange;
+        }
+      }
+    }
 
     &:hover {
-        background: red;
+      transform: scale(1.05);
+      border-color: rgba(249, 249, 249, 0.8);
+      cursor: pointer;
+
+      h3 {
+        background: black;
         color: white;
+      }
+
+      div {
+        opacity: 1;
+        object-fit: cover;
+        background: rgba(37, 39, 58, 0.76);
+      }
     }
-  }
+
+    button {
+      border-radius: 50px;
+      // background: white;
+      color: white;
+      transition: all 250ms cubic-bezier(0.25, 0.46, 0.45, 0.94) 0s;
+
+      &:hover {
+          background: red;
+          color: white;
+      }
+    }
+  
 
 `;

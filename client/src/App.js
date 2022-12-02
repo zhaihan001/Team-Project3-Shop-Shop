@@ -21,6 +21,10 @@ import UserShop from "./components/UserShop";
 import CartPage from "./pages/CartPage";
 import { UserProvider } from "./contexts/UserContext";
 import { ShopProvider } from "./contexts/ShopContext";
+import ShopPage from "./pages/ShopPage";
+import ProductPage from "./pages/ProductPage";
+
+
 
 const httpLink = createHttpLink({
   uri: "/graphql",
@@ -58,11 +62,12 @@ function App() {
               <Routes>
                 <Route path="/" element={<Home />} />
 
+                {/* refactor to include parameters */}
                 {/* route when user clicks to view a specific shop - id = id of that shop */}
-                {/* <Route path="/shop/:id" element={<ShopPage />} /> */}
+                <Route path="/shop" element={<ShopPage />} />
 
                 {/* route for when user clicks on a specific product on that shop's page id = id of that shop and productId = id of that product */}
-                {/* <Route path="/shop/:id/product/:productId" element={<ProductPage />} /> */}
+                <Route path="/shop/product/" element={<ProductPage />} />
 
                 <Route path="/login" element={<Login />} />
 
