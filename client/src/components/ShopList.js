@@ -7,16 +7,16 @@ const ShopList = ({ shops, title }) => {
   // Reminder add the ! back when adding shops is in
   console.log(shops);
   
-  // if (shops.length) {
-  //   return <Container><h2>No Shops Yet 🥲</h2></Container>;
-  // }
+  if (!shops) {
+    return <Container><h2>No Shops Yet 🥲</h2></Container>;
+  }
   return (
     <Container>
       <h2>{title}</h2>
       <Content>
         {shops &&
-          shops.map((shop) => (
-            <Wrap>
+          shops.map((shop, index) => (
+            <Wrap key={index}>
               <img src={shop.image} alt={shop.businessName} />
               <Link to={"/shop"}>
                 <div>
@@ -31,7 +31,7 @@ const ShopList = ({ shops, title }) => {
   );
 };
 
-const Container = styled.div`
+export const Container = styled.div`
   padding: 0 calc(3.5vw + 5px);
   padding-top: 0.5vw;
   padding-bottom: 13vw;
@@ -48,7 +48,7 @@ const Container = styled.div`
   }
 `;
 
-const Content = styled.div`
+export const Content = styled.div`
   display: grid;
   grid-gap: 100px 40px;
   grid-template-columns: repeat(4, minmax(0, 1fr));
@@ -66,7 +66,7 @@ const Content = styled.div`
   }
 `;
 
-const Wrap = styled.div`
+export const Wrap = styled.div`
   border-radius: 3px;
   cursor: pointer;
   position: relative;

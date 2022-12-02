@@ -1,6 +1,6 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
-import { Container, Content, Wrap } from './Saved'
+import { Container, Content, Wrap } from './ShopList'
 
 export default function ProductList() {
   return (

@@ -1,5 +1,5 @@
 import React from 'react'
-import { Container, Content, Wrap } from './Saved'
+import { Container, Content, Wrap } from './ShopList'
 
 export default function OneProduct() {
   return (
