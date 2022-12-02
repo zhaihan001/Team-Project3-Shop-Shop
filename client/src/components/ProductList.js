@@ -15,7 +15,7 @@ export default function ProductList({id}) {
   return (
     <>
         <Container>
-            <h2>{data.getShop.businessName}'s Products</h2>
+            {data && <h2>{data.getShop.businessName}'s Products</h2>}
             <Content>
                 <Wrap>
                 <img src="/images/soap.jpg" alt="product" />
