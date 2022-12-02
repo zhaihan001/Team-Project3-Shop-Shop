@@ -14,6 +14,7 @@ import Home from "./pages/Home";
 import Login from "./components/Login";
 import Signup from "./components/Signup";
 import Navbar from "./components/Navbar";
+import Footer from "./components/Footer";
 import Saved from "./components/Saved";
 import Profile from "./components/Profile";
 import UserShop from "./components/UserShop";
@@ -66,6 +67,7 @@ function App() {
 
               <Route path="/cart" element={<CartPage />} />
             </Routes>
+            <Footer />
           </Router>
         </div>
       </UserProvider>

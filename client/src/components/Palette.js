@@ -4,4 +4,5 @@ export const Palette = {
     red: "#e9425c",
     blue: "#00aae1",
     grey: "#cfc2bd",
+    fadedGrey: "#a88c81",
   };
