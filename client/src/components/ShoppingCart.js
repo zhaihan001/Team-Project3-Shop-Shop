@@ -1,7 +1,7 @@
 import React from "react";
 import styled from "styled-components";
 import { useMutation } from "@apollo/client";
-import { SUBMIT_ORDER } from "../utils/mutations";
+import { SUBMIT_ORDER, DELETE_FROM_CART } from "../utils/mutations";
 
 const ShoppingCart = ({ cartItems, title }) => {
   // if (!cartItems.length) {
@@ -32,6 +32,20 @@ const ShoppingCart = ({ cartItems, title }) => {
     }
   };
 
+  const removeItem = useMutation(DELETE_FROM_CART);
+
+  const handleRemoval = async (event) => {
+    event.preventDefault();
+    try {
+      const { data } = await removeItem({
+        variables: { productId: event.target.id },
+      });
+      window.location.assign("/cart");
+    } catch (err) {
+      console.error(err);
+    }
+  };
+
   return (
     <Container>
       <h2>{title}</h2>
@@ -53,6 +67,9 @@ const ShoppingCart = ({ cartItems, title }) => {
             </select>
             <br></br>
             Total: <br></br>
+            <button type="delete" onSubmit={handleRemoval}>
+              Remove Item
+            </button>
           </p>
         </Wrap>
         {cartItems &&
@@ -71,6 +88,13 @@ const ShoppingCart = ({ cartItems, title }) => {
                 </select>
                 <br></br>
                 Total Price: <br></br>
+                <button
+                  type="delete"
+                  id={item.product._id}
+                  onSubmit={handleRemoval}
+                >
+                  Remove Item
+                </button>
               </p>
             </Wrap>
 
