@@ -72,7 +72,7 @@ const Container = styled.div`
   padding-top: 3vw;
   overflow-x: hidden;
   position: relative;
-  background-image: url("/images/scribbles.png");
+  background-image: url("/images/splotches.png");
   background-size: cover;
 
   h2 {
