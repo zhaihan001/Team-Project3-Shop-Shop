@@ -4,6 +4,7 @@ import { useUserContext } from '../contexts/UserContext';
 
 
 function CreateShop() {
+
   const [shopData, setShopData] = useState({businessName: '', slogan: '', primaryHex: '', secondaryHex: '' })
   const [image, setImage] = useState(null);
   const [dataUrl, setDataUrl] = useState("")
@@ -85,7 +86,8 @@ function CreateShop() {
           </ShopForm>
 
       </Container>
-  )
+
+ 
 }
 
 export default CreateShop

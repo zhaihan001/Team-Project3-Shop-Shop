@@ -7,13 +7,24 @@ const ShoppingCart = ({ cartItems, title }) => {
   // if (!cartItems.length) {
   //   return <h1>Your Cart is Empty</h1>;
   // }
+
+  let cartItemsId = [];
+  if (cartItems.products) {
+    cartItemsId = cartItems.products.map((e) => {
+      return e._id;
+    });
+  }
+
   const [submitOrder, { error }] = useMutation(SUBMIT_ORDER);
   const handleSubmit = async (event) => {
     event.preventDefault();
     try {
       const { data } = await submitOrder({
         // passing data
-        variables: { data },
+        variables: {
+          products: cartItemsId,
+          businessId: cartItems.businessId._Id,
+        },
       });
       window.location.reload();
     } catch (error) {
@@ -47,11 +58,11 @@ const ShoppingCart = ({ cartItems, title }) => {
         {cartItems &&
           cartItems.map((item) => (
             <Wrap>
-              <img src="/images/soap.jpg" alt="product" />
+              <img src={item.product.image[0]} alt={item.businessId} />
               <p>
                 Unit Price: <br></br>
                 Quantity(maximum 5 items):
-                <select name="quantity" id="quantity">
+                <select name="quantity">
                   <option value="1">1</option>
                   <option value="2">2</option>
                   <option value="3">3</option>
