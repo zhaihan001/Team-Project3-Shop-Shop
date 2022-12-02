@@ -23,6 +23,7 @@ import { UserProvider } from "./contexts/UserContext";
 import { ShopProvider } from "./contexts/ShopContext";
 import ShopPage from "./pages/ShopPage";
 import ProductPage from "./pages/ProductPage";
+import SignInPage from "./pages/SignInPage";
 
 
 
@@ -69,9 +70,7 @@ function App() {
                 {/* route for when user clicks on a specific product on that shop's page id = id of that shop and productId = id of that product */}
                 <Route path="/shop/product/" element={<ProductPage />} />
 
-                <Route path="/login" element={<Login />} />
-
-                <Route path="/signup" element={<Signup />} />
+                <Route path="/login" element={<SignInPage />} />
 
                 <Route path="/saved" element={<Saved />} />
 

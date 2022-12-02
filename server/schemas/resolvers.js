@@ -36,7 +36,7 @@ const resolvers = {
     myShop: async (parent, args, context) => {
       try {
         if(context.user){
-          let userShop = await Business.findOne({userId: context.user._id});
+          let userShop = await Business.findOne({userId: context.user._id}).populate("products");
   
           return userShop
 

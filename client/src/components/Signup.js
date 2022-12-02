@@ -4,7 +4,7 @@ import { useUserContext } from '../contexts/UserContext';
 import Auth from '../utils/auth';
 import { Palette } from './Palette';
 
-function Signup() {
+function Signup({setShowSignUp}) {
   const { newUser } = useUserContext();
 
   const [userForm, setUserForm] = useState({
@@ -48,6 +48,8 @@ function Signup() {
     <Container>
       <SignupForm>
         <form onSubmit={submitNewUserForm}>
+        <button onClick={() => setShowSignUp(prev => !prev)} style={{alignSelf: 'flex-end', marginRight: "15rem"}}>Login</button>
+
           <h2>Signup</h2>
           <label htmlFor="name">Username:</label>
           <input
