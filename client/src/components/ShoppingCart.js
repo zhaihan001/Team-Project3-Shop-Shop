@@ -2,7 +2,7 @@ import React from "react";
 import styled from "styled-components";
 import { useMutation } from "@apollo/client";
 import { SUBMIT_ORDER, DELETE_FROM_CART } from "../utils/mutations";
-
+import { Palette } from "./Palette";
 const ShoppingCart = ({ cartItems, title }) => {
   // if (!cartItems.length) {
   //   return <h1>Your Cart is Empty</h1>;
@@ -128,6 +128,18 @@ const Container = styled.div`
     word-spacing: 4px;
     text-underline-offset: 8px;
   }
+  button {
+    color: white;
+    background-color: ${Palette.blue};
+    font-size: 20px;
+    padding: 10px;
+    margin: 10px;
+    transition: all 400ms cubic-bezier(0.25, 0.46, 0.45, 0.94) 0s;
+
+    &:hover {
+      transform: scale(1.05);
+    }
+  }
 `;
 
 const Content = styled.div`
@@ -154,7 +166,18 @@ const Wrap = styled.div`
   position: relative;
   border: 3px solid black;
   transition: all 250ms cubic-bezier(0.25, 0.46, 0.45, 0.94) 0s;
+  button {
+    color: white;
+    background-color: ${Palette.red};
+    font-size: 20px;
+    padding: 10px;
+    margin: 10px;
+    transition: all 400ms cubic-bezier(0.25, 0.46, 0.45, 0.94) 0s;
 
+    &:hover {
+      transform: scale(1.05);
+    }
+  }
   p {
     font-size: larger;
   }
