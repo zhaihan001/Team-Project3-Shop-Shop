@@ -10,7 +10,7 @@ As an entrepreneur, I would like to create and manage an online store to sell my
 
 As a consumer, I would like browse and purchase various products from multiple stores on a single platform.
 
-# Live deployment on Heroku
+## Live deployment on Heroku
 
 ## Screenshot of Application
 
