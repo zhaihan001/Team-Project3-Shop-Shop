@@ -158,6 +158,7 @@ const resolvers = {
     addShop: async (parent, {businessName, slogan, image, primaryHex, secondaryHex}, context) => {
       try {
         if(context.user){
+          console.log("logged");
           let newCloudPic = await cloudinary.uploader.upload(image, options);
           console.log(newCloudPic);
   

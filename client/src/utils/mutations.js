@@ -137,8 +137,8 @@ export const LOGIN_USER = gql`
 `
 
 export const ADD_SHOP = gql`
-    mutation addShop($businessName: String!, $image: String!, $primaryHex: String!, $secondaryHex: String!){
-        addShop(businessName: $businessName, image: $image, primaryHex: $primaryHex, secondaryHex: $secondaryHex){
+    mutation addShop($businessName: String!, $slogan: String!, $image: String!, $primaryHex: String!, $secondaryHex: String!){
+        addShop(businessName: $businessName, slogan: $slogan image: $image, primaryHex: $primaryHex, secondaryHex: $secondaryHex){
             _id
             userId{
                 _id
@@ -154,16 +154,21 @@ export const ADD_SHOP = gql`
                 }
                 businessId{
                     _id
-                    name
+                    businessName
                 }
                 purchaseDate
                 products{
-                    _id
-                    name
-                    description
-                    image
-                    price
+                    product{
+                        _id
+                        name
+                        description
+                        image
+                        price
+                        quantity
+
+                    }
                     quantity
+                    
                 }
 
             }
