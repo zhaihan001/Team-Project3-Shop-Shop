@@ -4,7 +4,7 @@ import { useUserContext } from "../contexts/UserContext";
 import Auth from "../utils/auth";
 import { Palette } from './Palette';
 
-function Login() {
+function Login({setShowSignUp}) {
   const [userData, setUserData] = useState({ username: "", password: "" });
   const { login } = useUserContext();
 
@@ -41,6 +41,7 @@ function Login() {
     <Container>
       <LoginForm>
         <form onSubmit={formSubmit}>
+          <button onClick={() => setShowSignUp(prev => !prev)} style={{alignSelf: 'flex-end', marginRight: "15rem"}}>Sign up</button>
           <h2>Login</h2>
           <label htmlFor="username">Username:</label>
           <input

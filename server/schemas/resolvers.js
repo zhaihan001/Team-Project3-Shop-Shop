@@ -36,7 +36,7 @@ const resolvers = {
     myShop: async (parent, args, context) => {
       try {
         if(context.user){
-          let userShop = await Business.findOne({userId: context.user._id});
+          let userShop = await Business.findOne({userId: context.user._id}).populate("products");
   
           return userShop
 
@@ -166,6 +166,12 @@ const resolvers = {
     addShop: async (parent, {businessName, slogan, image, primaryHex, secondaryHex}, context) => {
       try {
         if(context.user){
+          let findExisting = await Business.findOne({userId: context.user._id});
+
+          if(findExisting){
+            return {errMsg: "Existing shop found for this user"}
+          }
+
           console.log("logged");
           let newCloudPic = await cloudinary.uploader.upload(image, options);
           console.log(newCloudPic);
