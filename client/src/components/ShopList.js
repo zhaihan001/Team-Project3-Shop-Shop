@@ -18,7 +18,7 @@ const ShopList = ({ shops, title }) => {
           shops.map((shop, index) => (
             <Wrap key={index}>
               <img src={shop.image} alt={shop.businessName} />
-              <Link to={"/shop"}>
+              <Link to={`/shop/${shop._id}`}>
                 <div>
                   <h4>Visit Shop</h4>
                 </div>

@@ -10,11 +10,12 @@ export default function ProductList({id}) {
             _id: id
         }
     })
+    console.log(data);
 
   return (
     <>
         <Container>
-            <h2>Shop's Products</h2>
+            <h2>{data.getShop.businessName}'s Products</h2>
             <Content>
                 <Wrap>
                 <img src="/images/soap.jpg" alt="product" />
