@@ -21,12 +21,30 @@ const ShopList = ({ shops, title }) => {
           </a>
         </Wrap>
         <Wrap>
-          <img src="/images/soap.jpg" alt="product" />
+          <img src="/images/cookie-tin.jpg" alt="product" />
           <a href="/signup">
             <div>
               <h4>Visit Shop</h4>
             </div>
-            <h3>Marnie's Soaps</h3>
+            <h3>Snap Baked Goods</h3>
+          </a>
+        </Wrap>
+        <Wrap>
+          <img src="/images/crochet.jpg" alt="product" />
+          <a href="/signup">
+            <div>
+              <h4>Visit Shop</h4>
+            </div>
+            <h3>Seaside Creations: Crochet and Embroidery</h3>
+          </a>
+        </Wrap>
+        <Wrap>
+          <img src="/images/stickers.jpg" alt="product" />
+          <a href="/signup">
+            <div>
+              <h4>Visit Shop</h4>
+            </div>
+            <h3>Shinyfins Stickers</h3>
           </a>
         </Wrap>
         {shops &&
@@ -72,11 +90,11 @@ const Content = styled.div`
     grid-template-columns: repeat(3, minmax(0, 1fr));
   }
 
-  @media (max-width: 700px) {
+  @media (max-width: 800px) {
     grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 
-  @media (max-width: 500px) {
+  @media (max-width: 600px) {
     grid-template-columns: repeat(1, minmax(0, 1fr));
   }
 `;
@@ -87,6 +105,7 @@ const Wrap = styled.div`
   position: relative;
   border: 3px solid ${Palette.brown};
   transition: all 250ms cubic-bezier(0.25, 0.46, 0.45, 0.94) 0s;
+  max-height: 300px;
 
   img {
     width: 100%;
@@ -103,6 +122,11 @@ const Wrap = styled.div`
     color: white;
     font-size: 30px;
     text-align: center;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    max-height: 80px;
+    max-width: 1000px;
   }
 
   a {
