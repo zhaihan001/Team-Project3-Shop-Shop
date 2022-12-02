@@ -350,6 +350,14 @@ const resolvers = {
             {new: true, runValidators: true}
           )
 
+          let deletedCartItem = await CartItem.deleteMany({product: {_id} });
+
+          let updCart = await Cart.updateMany(
+            {products: {product: {_id: deletedCartItem._id}}},
+            {$pull: {products: {_id: deletedCartItem._id} }},
+            {new: true}
+          );
+
           return updShop
 
         }
