@@ -349,7 +349,7 @@ const resolvers = {
             {$pull: {products: deletedProduct._id}},
             {new: true, runValidators: true}
           )
-
+          // will remove product from any user's cart that contains it 
           let deletedCartItem = await CartItem.deleteMany({product: {_id} });
 
           let updCart = await Cart.updateMany(
