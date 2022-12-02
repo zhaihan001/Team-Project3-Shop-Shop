@@ -1,62 +1,29 @@
 import React from "react";
+import { Link } from "react-router-dom";
 import styled from "styled-components";
 import { Palette } from './Palette';
 
 const ShopList = ({ shops, title }) => {
   // Reminder add the ! back when adding shops is in
-  if (shops.length) {
+  console.log(shops);
+  
+  if (!shops) {
     return <Container><h2>No Shops Yet 🥲</h2></Container>;
   }
   return (
     <Container>
       <h2>{title}</h2>
       <Content>
-        <Wrap>
-          <img src="/images/soap.jpg" alt="product" />
-          <a href="/signup">
-            <div>
-              <h4>Visit Shop</h4>
-            </div>
-            <h3>Marnie's Soaps</h3>
-          </a>
-        </Wrap>
-        <Wrap>
-          <img src="/images/cookie-tin.jpg" alt="product" />
-          <a href="/signup">
-            <div>
-              <h4>Visit Shop</h4>
-            </div>
-            <h3>Snap Baked Goods</h3>
-          </a>
-        </Wrap>
-        <Wrap>
-          <img src="/images/crochet.jpg" alt="product" />
-          <a href="/signup">
-            <div>
-              <h4>Visit Shop</h4>
-            </div>
-            <h3>Seaside Creations: Crochet and Embroidery</h3>
-          </a>
-        </Wrap>
-        <Wrap>
-          <img src="/images/stickers.jpg" alt="product" />
-          <a href="/signup">
-            <div>
-              <h4>Visit Shop</h4>
-            </div>
-            <h3>Shinyfins Stickers</h3>
-          </a>
-        </Wrap>
         {shops &&
-          shops.map((shop) => (
-            <Wrap>
+          shops.map((shop, index) => (
+            <Wrap key={index}>
               <img src={shop.image} alt={shop.businessName} />
-              <a href={"/shops/" + shop._id}>
+              <Link to={`/shop/${shop._id}`}>
                 <div>
                   <h4>Visit Shop</h4>
                 </div>
                 <h3>{shop.businessName}</h3>
-              </a>
+              </Link>
             </Wrap>
           ))}
       </Content>
@@ -64,7 +31,7 @@ const ShopList = ({ shops, title }) => {
   );
 };
 
-const Container = styled.div`
+export const Container = styled.div`
   padding: 0 calc(3.5vw + 5px);
   padding-top: 0.5vw;
   padding-bottom: 13vw;
@@ -81,7 +48,7 @@ const Container = styled.div`
   }
 `;
 
-const Content = styled.div`
+export const Content = styled.div`
   display: grid;
   grid-gap: 100px 40px;
   grid-template-columns: repeat(4, minmax(0, 1fr));
@@ -99,7 +66,7 @@ const Content = styled.div`
   }
 `;
 
-const Wrap = styled.div`
+export const Wrap = styled.div`
   border-radius: 3px;
   cursor: pointer;
   position: relative;

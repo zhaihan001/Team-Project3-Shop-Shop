@@ -35,9 +35,12 @@ const resolvers = {
     },
     myShop: async (parent, args, context) => {
       try {
-        let userShop = await Business.findOne({userId: context.user._id});
+        if(context.user){
+          let userShop = await Business.findOne({userId: context.user._id});
+  
+          return userShop
 
-        return userShop
+        }
       } catch (error) {
         console.log(error);
         return error
@@ -93,7 +96,6 @@ const resolvers = {
   
           return user;
         }
-        throw new AuthenticationError('Not logged in');
 
         
       } catch (error) {
@@ -347,6 +349,14 @@ const resolvers = {
             {$pull: {products: deletedProduct._id}},
             {new: true, runValidators: true}
           )
+          // will remove product from any user's cart that contains it 
+          let deletedCartItem = await CartItem.deleteMany({product: {_id} });
+
+          let updCart = await Cart.updateMany(
+            {products: {product: {_id: deletedCartItem._id}}},
+            {$pull: {products: {_id: deletedCartItem._id} }},
+            {new: true}
+          );
 
           return updShop
 
@@ -426,6 +436,11 @@ const resolvers = {
         let removedUser = await User.findByIdAndDelete(context.user._id);
 
         let removedShop = await Business.findOneAndDelete({userId: context.user._id})
+
+        //remove products that belong to that business
+        let removedProducts = await Product.deleteMany({userId: removedUser._id})
+
+        let delCart = await Cart.deleteMany({businessId: removedShop._id})
 
         return {msg: `user ${removedUser._id} has been removed`}
 
