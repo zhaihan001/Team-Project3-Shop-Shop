@@ -3,30 +3,32 @@ import styled from 'styled-components'
 
 
 function CreateShop() {
-    return (
-        <Container>
-            <ShopForm>  
-                <form>
-                <h2>Create Your Shop</h2>
-                <label htmlFor='shopname'>Shop Name:</label>
-                <input type='text' name='shopname' id='shopname' />
-                <label htmlFor='shopdesc'>Give a brief description of your shop.</label>
-                <input type='text' name='shopdesc' id='shopdesc' />
-                <label htmlFor='logo'>Upload an image for your shop's logo.</label>
-                <input type='file' name='logo' id='logo' /><br></br>
-                <input type='submit'>Confirm Logo</input>
-                <label htmlFor='primary'>Pick a primary color for your shop.</label>
-                <input type="color" id="primary" name="primary"
-                    value="#e66465"></input>
-                <label htmlFor='secondary'>Pick a secondary color for your shop.</label>
-                <input type="color" id="secondary" name="secondary"
-                    value="#e66465"></input>
-                <input type='submit'>Create Shop</input>
-            </form>
-            </ShopForm>
+  return (
+    <Container>
+      <ShopForm>
+        <div>
+          <form>
+            <h2>Create Your Shop</h2>
+            <label htmlFor='shopname'>Shop Name:</label>
+            <input type='text' name='shopname' id='shopname' />
+            <label htmlFor='shopdesc'>Give a brief description of your shop.</label>
+            <input type='text' name='shopdesc' id='shopdesc' />
+            <label htmlFor='logo'>Upload an image for your shop's logo.</label>
+            <input type='file' name='logo' id='logo' /><br></br>
+            <input type='submit' value="Confirm Logo"/>
+            <label htmlFor='primary'>Pick a primary color for your shop.</label>
+            <input type="color" id="primary" name="primary"
+              defaultValue="#e66465"></input>
+            <label htmlFor='secondary'>Pick a secondary color for your shop.</label>
+            <input type="color" id="secondary" name="secondary"
+              defaultValue="#e66465"></input>
+            <input type='submit' value="Create Shop"/>
+          </form>
+        </div>
+      </ShopForm>
 
-        </Container>
-    )
+    </Container>
+  )
 }
 
 export default CreateShop
