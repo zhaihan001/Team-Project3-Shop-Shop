@@ -15,7 +15,7 @@ function Saved() {
           <img src="/images/soap.jpg" alt="product" />
          
             <div>
-              <button>
+              <button className="liked">
                 <span></span>
               </button>
               <Link to="/shop">

@@ -1,12 +1,46 @@
-import React from "react";
+import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import styled from "styled-components";
+import { useLocalStorage } from "../hooks/useLocalStorage";
 import { Palette } from './Palette';
 
 const ShopList = ({ shops, title }) => {
   // Reminder add the ! back when adding shops is in
   console.log(shops);
+  const [savedShops, setSavedShops] = useLocalStorage("saved-shops", []);
+
+  const isLiked = (id) => {
+    if(savedShops.filter(item => item._id === id).length > 0){
+      return true
+    }
+    return false
+  }
+
   
+
+  const likeShop = (e) => {
+    console.log(e.target.id);
+    const {id} = e.target;
+    const likedShop = shops.find(item => item._id === id);
+
+    setSavedShops(prev => {
+      return [...prev, {
+        _id: likedShop._id,
+        businessName: likedShop.businessName,
+        image: likedShop.image,
+      }]
+    })
+  }
+  const unLikeShop = (e) => {
+    console.log("this is being called");
+    const {id} = e.target;
+    setSavedShops(savedShops.filter(item => {
+      return item._id !== id
+    }))
+  }
+
+
+
   if (!shops) {
     return <Container><h2>No Shops Yet 🥲</h2></Container>;
   }
@@ -18,12 +52,15 @@ const ShopList = ({ shops, title }) => {
           shops.map((shop, index) => (
             <Wrap key={index}>
               <img src={shop.image} alt={shop.businessName} />
-              <Link to={`/shop/${shop._id}`}>
                 <div>
-                  <h4>Visit Shop</h4>
+                  <button id={shop._id} onClick={!isLiked(shop._id) ? likeShop : unLikeShop} className={`${isLiked(shop._id) ? "liked" : ""}`}>
+                    <span></span>
+                  </button>
+                  <Link to={`/shop/${shop._id}`}>
+                    <h4>Visit Shop</h4>
+                  </Link>
                 </div>
                 <h3>{shop.businessName}</h3>
-              </Link>
             </Wrap>
           ))}
       </Content>
@@ -137,6 +174,9 @@ export const Wrap = styled.div`
     }
 
     // LIKE BUTTON
+    .liked{
+      background-position: right;
+    }
 
     button {
       background-image: url("/images/heart.png");
@@ -155,11 +195,7 @@ export const Wrap = styled.div`
       border: 3px solid rgba(249, 249, 249, 0.1);
       background-color: ${Palette.blue};
       transition: all 250ms cubic-bezier(0.25, 0.46, 0.45, 0.94) 0s;
-
-      &:focus{
-        animation: animate .8s steps(28) 1;
-        background-position: right;
-      }
+      
 
       // LIKE BUTTON ANIMATION
 
