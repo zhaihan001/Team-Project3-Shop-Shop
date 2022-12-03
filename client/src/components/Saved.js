@@ -1,6 +1,8 @@
 import React from "react";
 import { Link } from "react-router-dom";
-import { Container, Content, Wrap } from './ShopList';
+import styled from "styled-components";
+import { Content, Wrap } from './ShopList';
+import { Palette } from './Palette';
 
 
 function Saved() {
@@ -60,3 +62,23 @@ function Saved() {
 }
 
 export default Saved;
+
+export const Container = styled.div`
+  padding: 0 calc(3.5vw + 5px);
+  padding-top: 0.5vw;
+  padding-bottom: 13vw;
+  background-image: url("/images/groovy.png");
+  background-size: cover;
+
+  h2 {
+    font-size: 40px;
+    padding: 15px;
+    text-decoration: underline;
+    color: ${Palette.red};
+    font-weight: bold;
+    letter-spacing: 1px;
+    word-spacing: 4px;
+    text-underline-offset: 8px;
+  }
+`;
+

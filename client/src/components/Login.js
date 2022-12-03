@@ -157,6 +157,7 @@ const LoginForm = styled.div`
 
     &:hover {
       text-decoration: underline;
+      
     }
   }
 `;

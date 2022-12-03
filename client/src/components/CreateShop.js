@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import styled from 'styled-components'
+import { Palette } from './Palette';
 import { useShopContext } from '../contexts/ShopContext';
 
 
@@ -90,11 +91,13 @@ export default CreateShop
 
 const Container = styled.div`
   padding-top: 3vw;
+  background-image: url("/images/pinkgrid.png");
+  background-size: cover;
 
   h2 {
     font-size: 40px;
     text-decoration: underline;
-    color: black;
+    color: ${Palette.red};
     font-weight: bold;
     letter-spacing: 1px;
     word-spacing: 4px;
@@ -136,7 +139,7 @@ form {
     margin-top: 1rem;
     margin-bottom: 1rem;
     font-weight: bold;
-    color: black;
+    color: ${Palette.fadedGrey};
   }
 
   // Signup BUTTON STYLES
@@ -147,7 +150,7 @@ form {
     cursor: pointer;
     font-size: 1.5rem;
     font-weight: bold;
-    background: black;
+    background: ${Palette.blue};
     color: white;
     border: none;
     transition: all 250ms cubic-bezier(0.25, 0.46, 0.45, 0.94) 0s;
@@ -155,8 +158,6 @@ form {
     &:hover {
       transform: scale(1.05);
       border-color: rgba(249, 249, 249, 0.8);
-      background: grey;
-      color: black;
     }
   }
 
