@@ -392,7 +392,7 @@ export const SUBMIT_ORDER = gql`
                 }
                 businessId{
                     _id
-                    businessNames
+                    businessName
                 }
                 purchaseDate
                 products{

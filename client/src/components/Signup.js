@@ -3,9 +3,12 @@ import styled from 'styled-components'
 import { useUserContext } from '../contexts/UserContext';
 import Auth from '../utils/auth';
 import { Palette } from './Palette';
+import {Navigate, useLocation} from "react-router-dom";
+
 
 function Signup({setShowSignUp}) {
   const { newUser } = useUserContext();
+  const location = useLocation();
 
   const [userForm, setUserForm] = useState({
     username: "",
@@ -37,8 +40,8 @@ function Signup({setShowSignUp}) {
       Auth.login(data.addUser.token);
 
       // navigate to my shop or user account page after
-      window.location.assign("/");
-      return data;
+      window.location.assign(`${location.state.previousUrl || '/'}`);
+
     } catch (error) {
       return error;
     }

@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { Navigate, useLocation } from "react-router-dom";
 import styled from "styled-components";
 import { useUserContext } from "../contexts/UserContext";
 import Auth from "../utils/auth";
@@ -7,6 +8,8 @@ import { Palette } from './Palette';
 function Login({setShowSignUp}) {
   const [userData, setUserData] = useState({ username: "", password: "" });
   const { login } = useUserContext();
+  const location = useLocation();
+  const redirectTo = location.state.previousUrl || '/'
 
   const handleFormChange = (e) => {
     const { name, value } = e.target;
@@ -28,9 +31,7 @@ function Login({setShowSignUp}) {
 
       // navigate to my shop or user account page after
 
-      window.location.assign("/");
-
-      return data;
+      window.location.assign(`${redirectTo}`);
     } catch (error) {
       console.log(error);
       return error;

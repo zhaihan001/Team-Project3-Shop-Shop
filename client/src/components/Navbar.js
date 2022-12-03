@@ -1,10 +1,13 @@
 import React from 'react'
+import { Link, useLocation } from 'react-router-dom'
 import styled from 'styled-components'
 import Auth from '../utils/auth'
 import { Palette } from './Palette'
 
 
 function Navbar() {
+    const location = useLocation();
+
   return (
     <Nav>
 
@@ -12,35 +15,35 @@ function Navbar() {
 
         <NavMenu>
 
-        <a href="/">
+        <Link to="/">
             {/* <img src='/images/saved-icon.png' alt='saved'/> */}
             <span>HOME</span>
-        </a>
+        </Link>
 
-        <a href="/saved">
+        <Link to="/saved">
             {/* <img src='/images/saved-icon.png' alt='saved'/> */}
             <span>SAVED</span>
-        </a>
+        </Link>
 
-        <a href="/usershop"> 
+        <Link to="/usershop"> 
             {/* <img src='/images/shop-icon.png' alt='shop'/> */}
             <span>MY SHOP</span>
-        </a>
+        </Link>
 
-        <a href="/profile">
+        <Link to="/profile">
             {/* <img src='/images/profile-icon.png alt='profile'/> */}
             <span>PROFILE</span>
-        </a>
+        </Link>
 
-        <a href="/cart">
+        <Link to="/cart">
             {/* <img src='/images/cart-icon.png' alt='cart'/> */}
             <span>CART</span>
-        </a>
+        </Link>
 
-        {!Auth.loggedIn() ? <a href="/login">
+        {!Auth.loggedIn() ? <Link to="/login" state={{previousUrl: location.pathname}}>
             {/* <img src='/images/cart-icon.png' alt='cart'/> */}
             <span>LOGIN | JOIN</span>
-        </a> :
+        </Link> :
         <button onClick={() => Auth.logout()}>LOGOUT</button>
         }
 

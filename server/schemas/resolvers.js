@@ -90,10 +90,6 @@ const resolvers = {
           // if this query finds a business that belongs to the user then the business data will be returned with the user info
           const userBusiness = await Business.findOne({userId: context.user._id}).populate("orders").populate("products");
 
-          if(userBusiness){
-            return { user, userBusiness }
-          }
-  
           return user;
         }
 

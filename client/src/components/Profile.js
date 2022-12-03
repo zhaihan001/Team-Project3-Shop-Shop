@@ -1,18 +1,35 @@
 import React from 'react'
 import styled from 'styled-components'
 import { Palette } from './Palette';
+import Auth from "../utils/auth"
+import { Navigate, useLocation } from 'react-router-dom';
+import { useUserContext } from '../contexts/UserContext';
 
 function Profile() {
+  const location = useLocation();
+  const {userData} = useUserContext();
+  console.log(userData);
+
+  if(!Auth.loggedIn()){
+    return <Navigate to="/login" state={{previousUrl: location.pathname}} />
+  }
+
+  if(!userData){
+    return (
+      <div>Loading...</div>
+    )
+  }
+
   return (
     <Container>
-    <h2>My Profile</h2>
+    <h2>{userData.user.username}</h2>
     <Wrap>
     <Col>
    <img src="/images/plastic-horses.jpg" alt=""/>
    <button>Edit Profile Image</button>
    </Col>
    <Content>
-  <h3>Welcome Skully</h3>
+  <h3>Welcome, {userData.user.username}</h3>
   <p>Buyer | Seller</p>
   <button>View My Shop</button>
   <button>Edit My Shop</button>
