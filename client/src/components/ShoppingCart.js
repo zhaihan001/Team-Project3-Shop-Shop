@@ -70,13 +70,32 @@ const ShoppingCart = ({ cartItems, title }) => {
             </button>
           </p>
         </Wrap>
+        <Wrap>
+          <img src="/images/soap.jpg" alt="product" />
+          <p>
+            Unit Price: <br></br>
+            Quantity(maximum 5 items):
+            <select name="quantity" id="quantity">
+              <option value="1">1</option>
+              <option value="2">2</option>
+              <option value="3">3</option>
+              <option value="4">4</option>
+              <option value="5">5</option>
+            </select>
+            <br></br>
+            Total: <br></br>
+            <button type="delete" onSubmit={handleRemoval}>
+              Remove Item
+            </button>
+          </p>
+        </Wrap>
         {cartItems &&
           cartItems.map((item) => (
             <Wrap>
               <img src={item.product.image[0]} alt={item.businessId} />
               <p>
                 Unit Price: <br></br>
-                Quantity(maximum 5 items):
+                Quantity(maximum 5 items): 
                 <select name="quantity">
                   <option value="1">1</option>
                   <option value="2">2</option>
@@ -118,13 +137,14 @@ const ShoppingCart = ({ cartItems, title }) => {
 const Container = styled.div`
   padding: 0 calc(3.5vw + 5px);
   padding-top: 2vw;
-  padding-bottom: 13vw;
+  padding-bottom: 5vw;
 
   h2 {
     font-size: 40px;
     padding: 15px;
+    margin-bottom: 20px;
     text-decoration: underline;
-    color: black;
+    color: ${Palette.red};
     font-weight: bold;
     letter-spacing: 1px;
     word-spacing: 4px;
@@ -143,37 +163,26 @@ const Container = styled.div`
     }
   }
   #submit {
-    position: absolute;
-    right: 50%;
-    bottom: 20;
-    font-size: x-large;
+    display: flex;
+    margin: 20px;
   }
 `;
 
 const Content = styled.div`
   display: grid;
-  grid-gap: 100px 40px;
-  grid-template-columns: repeat(4, minmax(0, 1fr));
-
-  @media (max-width: 1000px) {
-    grid-template-columns: repeat(3, minmax(0, 1fr));
-  }
-
-  @media (max-width: 700px) {
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-  }
-
-  @media (max-width: 500px) {
-    grid-template-columns: repeat(1, minmax(0, 1fr));
-  }
+  grid-gap: 20px 40px;
+  grid-template-rows: auto;
 `;
 
 const Wrap = styled.div`
+  display: flex;
+  height: 200px;
   border-radius: 3px;
   cursor: pointer;
   position: relative;
-  border: 3px solid black;
+  border: 3px solid ${Palette.fadedGrey};
   transition: all 250ms cubic-bezier(0.25, 0.46, 0.45, 0.94) 0s;
+  padding: 20px;
   button {
     color: white;
     background-color: ${Palette.red};
@@ -186,17 +195,22 @@ const Wrap = styled.div`
       transform: scale(1.05);
     }
   }
+
   p {
     font-size: larger;
+    color: ${Palette.brown};
   }
+
   select {
+    margin: 5px;
     font-size: large;
+    color: ${Palette.red};
   }
 
   img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
+    margin-right: 20px;
+    border: 3px solid ${Palette.grey};
+    object-fit: contain;
     z-index: 1;
   }
 
@@ -247,8 +261,8 @@ const Wrap = styled.div`
   }
 
   &:hover {
-    transform: scale(1.05);
-    border-color: rgba(249, 249, 249, 0.8);
+    transform: scale(1.03);
+    border-color: ${Palette.blue};
     cursor: pointer;
 
     h3 {

@@ -41,7 +41,7 @@ function Login({setShowSignUp}) {
     <Container>
       <LoginForm>
         <form onSubmit={formSubmit}>
-          <button onClick={() => setShowSignUp(prev => !prev)} style={{alignSelf: 'flex-end', marginRight: "15rem"}}>Sign up</button>
+
           <h2>Login</h2>
           <label htmlFor="username">Username:</label>
           <input
@@ -60,7 +60,9 @@ function Login({setShowSignUp}) {
             id="password"
           />
           <input type="submit" value="Login" />
-          <a href="/signup">Need an account? Signup Here</a>
+
+          {/* Signup Button */}
+          <button onClick={() => setShowSignUp(prev => !prev)} >Need an account? Signup Here</button>
         </form>
       </LoginForm>
     </Container>
@@ -147,8 +149,14 @@ const LoginForm = styled.div`
 
   // Signup link
 
-  a {
+  button {
+    background: none;
     padding-top: 20px;
     color: ${Palette.red};
+    font-weight: bold;
+
+    &:hover {
+      text-decoration: underline;
+    }
   }
 `;
