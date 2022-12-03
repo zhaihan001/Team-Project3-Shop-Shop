@@ -5,6 +5,8 @@ const typeDefs = gql`
     _id: ID
     userId: User
     businessName: String
+    primaryHex: String
+    secondaryHex: String
     slogan: String
     image: String
     orders: [Order]
