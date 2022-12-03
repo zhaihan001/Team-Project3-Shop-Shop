@@ -22,7 +22,7 @@ function Profile() {
 
   return (
     <Container>
-    <h2>{userData.user.username}</h2>
+    <h2>{userData.user.username}'s Profile</h2>
     <Wrap>
     <Col>
    <img src="/images/plastic-horses.jpg" alt=""/>

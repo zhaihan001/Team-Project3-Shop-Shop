@@ -17,7 +17,8 @@
     "concurrently": "^5.1.0"
   },
   "dependencies": {
-    "@react-three/drei": "^9.45.1",
+    "@react-three/drei": "^9.46.0",
+    "@react-three/fiber": "^8.9.1",
     "styled-components": "^5.3.6"
   }
 }

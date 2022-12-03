@@ -105,6 +105,8 @@ export const Wrap = styled.div`
     color: white;
   }
 
+  // HOVER CONTAINER
+
   div {
     width: 100%;
     height: 100%;
@@ -117,6 +119,9 @@ export const Wrap = styled.div`
     display: flex;
     justify-content: center;
     align-items: center;
+    flex-direction: column;
+
+    // VISIT SHOP BUTTON
 
     h4 {
       color: white;
@@ -130,6 +135,48 @@ export const Wrap = styled.div`
         background: ${Palette.red};
       }
     }
+
+    // LIKE BUTTON
+
+    button {
+      background-image: url("/images/heart.png");
+      background-repeat: no-repeat;
+      background-position: left;
+      background-size: 2900%;
+      height: 60px;
+      width: 60px;
+      position: absolute;
+      margin: 10px;
+      top: 0;
+      right: 0;
+      color: white;
+      padding: 5px;
+      border-radius: 50px;
+      border: 3px solid rgba(249, 249, 249, 0.1);
+      background-color: ${Palette.blue};
+      transition: all 250ms cubic-bezier(0.25, 0.46, 0.45, 0.94) 0s;
+
+      &:focus{
+        animation: animate .8s steps(28) 1;
+        background-position: right;
+      }
+
+      // LIKE BUTTON ANIMATION
+
+      @keyframes animate {
+        0%{
+          background-position: left;
+        }
+        100%{
+          background-position: right;
+        }
+      }
+
+      &:hover {
+        border: 3px solid ${Palette.grey};
+      }
+    }
+
   }
 
   &:hover {
