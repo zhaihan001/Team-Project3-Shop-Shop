@@ -14,6 +14,11 @@ function Profile() {
     return <Navigate to="/login" state={{previousUrl: location.pathname}} />
   }
 
+  if(!userData){
+    return (
+      <div>Loading...</div>
+    )
+  }
 
   return (
     <Container>
