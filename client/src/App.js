@@ -24,6 +24,7 @@ import { ShopProvider } from "./contexts/ShopContext";
 import ShopPage from "./pages/ShopPage";
 import ProductPage from "./pages/ProductPage";
 import SignInPage from "./pages/SignInPage";
+import MyShop from "./pages/MyShop";
 
 
 
@@ -76,7 +77,7 @@ function App() {
 
                 <Route path="/profile" element={<Profile />} />
 
-                <Route path="/usershop" element={<UserShop />} />
+                <Route path="/usershop" element={<MyShop />} />
 
                 <Route path="/cart" element={<CartPage />} />
 
