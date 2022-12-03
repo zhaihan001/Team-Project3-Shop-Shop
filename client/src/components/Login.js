@@ -154,5 +154,9 @@ const LoginForm = styled.div`
     padding-top: 20px;
     color: ${Palette.red};
     font-weight: bold;
+
+    &:hover {
+      text-decoration: underline;
+    }
   }
 `;

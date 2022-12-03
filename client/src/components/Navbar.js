@@ -39,7 +39,7 @@ function Navbar() {
 
         {!Auth.loggedIn() ? <a href="/login">
             {/* <img src='/images/cart-icon.png' alt='cart'/> */}
-            <span>LOGIN / SIGNUP</span>
+            <span>LOGIN | JOIN</span>
         </a> :
         <button onClick={() => Auth.logout()}>LOGOUT</button>
         }
