@@ -16,7 +16,8 @@ export const ShopProvider = ({children}) => {
         //     variables: { id }
         // });
 
-        const {loading, data: myShop} = useQuery(GET_MY_SHOP);
+        const {loading, data} = useQuery(GET_MY_SHOP);
+        const myShop = data?.myShop || null;
 
         console.log(myShop);
 

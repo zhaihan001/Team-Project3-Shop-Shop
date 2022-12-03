@@ -17,7 +17,7 @@ function Saved() {
             <div>
               <h4>Visit Shop</h4>
             </div>
-            <h3>Marnie's Soaps <a href="login"><button>♥️</button></a></h3>
+            <h3>Marnie's Soaps </h3>
           </Link>
         </Wrap>
         <Wrap>
@@ -26,7 +26,7 @@ function Saved() {
             <div>
               <h4>Visit Shop</h4>
             </div>
-            <h3>Marnie's Soaps <a href="login"><button>♥️</button></a></h3>
+            <h3>Marnie's Soaps </h3>
           </a>
         </Wrap>
         <Wrap>
