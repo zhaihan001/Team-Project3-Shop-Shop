@@ -39,10 +39,7 @@ export const useStorageFunctions = () => {
         return false
     }
     
-    
     const likeShop = (id) => {
-        // console.log(e.target.id);
-        // const {id} = e.target;
         const likedShop = shops.find(item => item._id === id);
 
         setSavedShops(prev => {
@@ -57,8 +54,6 @@ export const useStorageFunctions = () => {
     }
 
     const unLikeShop = (id) => {
-        // console.log("this is being called");
-        // const {id} = e.target;
         setSavedShops(savedShops.filter(item => {
             return item._id !== id
         }))
