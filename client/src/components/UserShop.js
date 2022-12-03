@@ -20,23 +20,32 @@ const Products = styled.div`
 `
 
 function Usershop({myShop}) {
-  const { myShop: shopData } = myShop;
-  return (
-    <Header style={{backgroundColor: shopData.primaryHex}}>
-      <Products>
-      <div>
-        <img id='logo' src={shopData.image} alt='Logo'/>
-      </div>
-      <div>
-        <h2 style={{color: shopData.secondaryHex}}>{shopData.businessName}</h2>
-        <h4>{shopData.slogan}</h4>
-      </div>
-      </Products>
-    </Header>
-    
-    
+  console.log(myShop);
 
-  );
+  if(myShop){
+    return (
+      <Header style={{backgroundColor: myShop.primaryHex}}>
+        <Products>
+        <div>
+          <img id='logo' src={myShop.image} alt='Logo'/>
+        </div>
+        <div>
+          <h2 style={{color: myShop.secondaryHex}}>{myShop.businessName}</h2>
+          <h4>{myShop.slogan}</h4>
+        </div>
+        </Products>
+      </Header>
+      
+      
+  
+    );
+  }else{
+    return (
+      <>
+        <div>Loading...</div>
+      </>
+    )
+  }
 }
 
 export default Usershop
