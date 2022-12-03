@@ -333,8 +333,8 @@ const resolvers = {
 
           let newProduct = await Product.findOneAndUpdate(
             {_id},
-            {$set: {product: updProduct}},
-            {new: true, runValidators: true}
+            updProduct,
+            {new: true, upsert: true, runValidators: true}
           )
 
           return newProduct
