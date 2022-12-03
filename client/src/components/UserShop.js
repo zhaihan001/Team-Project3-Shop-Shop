@@ -1,5 +1,4 @@
 import React from 'react'
-import { useShopContext } from '../contexts/ShopContext';
 import styled from 'styled-components';
 
 const Header = styled.div`
@@ -20,8 +19,7 @@ const Products = styled.div`
 
 `
 
-function Usershop() {
-  const { myShop } = useShopContext();
+function Usershop({myShop}) {
   const { myShop: shopData } = myShop;
   return (
     <Header style={{backgroundColor: shopData.primaryHex}}>

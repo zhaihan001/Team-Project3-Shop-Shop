@@ -16,7 +16,7 @@ function MyShop() {
     );
   }
   return(
-    <Usershop/>
+    <Usershop myShop={myShop}/>
   )
 
   }
