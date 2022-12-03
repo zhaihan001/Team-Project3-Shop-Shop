@@ -105,6 +105,8 @@ export const Wrap = styled.div`
     color: white;
   }
 
+  // HOVER CONTAINER
+
   div {
     width: 100%;
     height: 100%;
@@ -119,6 +121,8 @@ export const Wrap = styled.div`
     align-items: center;
     flex-direction: column;
 
+    // VISIT SHOP BUTTON
+
     h4 {
       color: white;
       padding: 8px;
@@ -131,6 +135,8 @@ export const Wrap = styled.div`
         background: ${Palette.red};
       }
     }
+
+    // LIKE BUTTON
 
     button {
       background-image: url("/images/heart.png");
@@ -155,6 +161,8 @@ export const Wrap = styled.div`
         background-position: right;
       }
 
+      // LIKE BUTTON ANIMATION
+
       @keyframes animate {
         0%{
           background-position: left;
@@ -165,7 +173,6 @@ export const Wrap = styled.div`
       }
 
       &:hover {
-        // background: ${Palette.red};
         border: 3px solid ${Palette.grey};
       }
     }
