@@ -176,6 +176,7 @@ export const Wrap = styled.div`
     // LIKE BUTTON
     .liked{
       background-position: right;
+      animation: animate .8s steps(28) 1;
     }
 
     button {
