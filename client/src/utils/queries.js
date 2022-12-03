@@ -6,6 +6,8 @@ export const GET_MY_SHOP = gql`
       _id
       businessName
       image
+      primaryHex
+      secondaryHex
       orders {
         _id
         userId {
@@ -55,6 +57,8 @@ export const GET_SHOPS = gql`
         price
         quantity
       }
+      primaryHex
+      secondaryHex
     }
   }
 `;
@@ -73,6 +77,8 @@ export const GET_SHOP = gql`
         price
         quantity
       }
+      primaryHex
+      secondaryHex
     }
   }
 `;

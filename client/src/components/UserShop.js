@@ -1,37 +1,34 @@
 import React from 'react'
-import { useShopContext } from '../contexts/ShopContext';
 import styled from 'styled-components';
 
+const Header = styled.div`
 
 
-function Usershop() {
-  const { shopData } = useShopContext();
+image{
+  float: left;
+  width: 400px;
+  height: 400px;
+  border: solid black 3px; 
+  margin-top: 15px;
+  margin-left: 10px;
+  margin-right: 10px;
+  border-radius: 50%;
+}
+`
+const Products = styled.div`
 
-  const Header = styled.div`
-  background-color: ${shopData.primaryHex}
-  
-  image{
-    float: left;
-    width: 400px;
-    height: 400px;
-    border: solid black 3px; 
-    margin-top: 15px;
-    margin-left: 10px;
-    margin-right: 10px;
-    border-radius: 50%;
-  }
-  `
-  const Products = styled.div`
+`
 
-  `
+function Usershop({myShop}) {
+  const { myShop: shopData } = myShop;
   return (
-    <Header>
+    <Header style={{backgroundColor: shopData.primaryHex}}>
       <Products>
       <div>
         <img id='logo' src={shopData.image} alt='Logo'/>
       </div>
       <div>
-        <h2>Welcome to {shopData.businessName}</h2>
+        <h2 style={{color: shopData.secondaryHex}}>{shopData.businessName}</h2>
         <h4>{shopData.slogan}</h4>
       </div>
       </Products>

@@ -1,9 +1,14 @@
 import React from "react";
 import Usershop from "../components/UserShop";
 import CreateShop from '../components/CreateShop';
+import { useShopContext } from "../contexts/ShopContext";
+import { useUserContext } from "../contexts/UserContext";
 
-function MyShop(shop) {
-  if (!shop.id) {
+function MyShop() {
+  const { myShop } = useShopContext();
+  // const { userData } = useUserContext();
+
+  if (!myShop) {
     return (
       <div>
         <CreateShop />
@@ -11,7 +16,7 @@ function MyShop(shop) {
     );
   }
   return(
-    <Usershop/>
+    <Usershop myShop={myShop}/>
   )
 
   }
