@@ -4,10 +4,12 @@ import Banner from "../components/Banner";
 import { useQuery } from "@apollo/client";
 import { GET_SHOPS } from "../utils/queries";
 import styled from 'styled-components';
+import { useShopContext } from "../contexts/ShopContext";
 
 function Home() {
-  const { loading, data } = useQuery(GET_SHOPS);
-  const shops = data?.shops || [];
+  // const { loading, data } = useQuery(GET_SHOPS);
+  // const shops = data?.shops || [];
+  const { shops, loading } = useShopContext();
 
   return (
     <div>
