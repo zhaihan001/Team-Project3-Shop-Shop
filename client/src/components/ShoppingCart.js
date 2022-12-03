@@ -3,10 +3,20 @@ import styled from "styled-components";
 import { useMutation } from "@apollo/client";
 import { SUBMIT_ORDER, DELETE_FROM_CART } from "../utils/mutations";
 import { Palette } from "./Palette";
+import { useLocation, Navigate } from "react-router-dom";
+import Auth from "../utils/auth";
 const ShoppingCart = ({ cartItems, title }) => {
   // if (!cartItems.length) {
   //   return <h1>Your Cart is Empty</h1>;
   // }
+  const [submitOrder, { error }] = useMutation(SUBMIT_ORDER);
+  const removeItem = useMutation(DELETE_FROM_CART);
+
+  const location = useLocation();
+
+  if(!Auth.loggedIn()){
+    return <Navigate to="/login" state={{previousUrl: location.pathname}} />
+  }
 
   let cartItemsId = [];
   if (cartItems.products) {
@@ -15,7 +25,6 @@ const ShoppingCart = ({ cartItems, title }) => {
     });
   }
 
-  const [submitOrder, { error }] = useMutation(SUBMIT_ORDER);
   const handleSubmit = async (event) => {
     event.preventDefault();
     try {
@@ -35,7 +44,6 @@ const ShoppingCart = ({ cartItems, title }) => {
     }
   };
 
-  const removeItem = useMutation(DELETE_FROM_CART);
 
   const handleRemoval = async (event) => {
     event.preventDefault();
