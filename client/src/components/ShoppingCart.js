@@ -138,6 +138,8 @@ const Container = styled.div`
   padding: 0 calc(3.5vw + 5px);
   padding-top: 2vw;
   padding-bottom: 5vw;
+  background-image: url("/images/blotches.png");
+  background-size: cover;
 
   h2 {
     font-size: 40px;
@@ -175,6 +177,7 @@ const Content = styled.div`
 `;
 
 const Wrap = styled.div`
+  background-color: white;
   display: flex;
   height: 200px;
   border-radius: 3px;
