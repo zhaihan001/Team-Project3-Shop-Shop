@@ -1,7 +1,7 @@
 import { useMutation, useQuery } from '@apollo/client';
 import React, { Component, createContext, useContext } from 'react';
 import { ADD_SHOP } from '../utils/mutations';
-import { GET_MY_SHOP, GET_SHOP } from '../utils/queries';
+import { GET_MY_SHOP, GET_SHOP, GET_SHOPS } from '../utils/queries';
 
 export const ShopContext = createContext();
 
@@ -16,7 +16,11 @@ export const ShopProvider = ({children}) => {
         //     variables: { id }
         // });
 
-        const {loading, data} = useQuery(GET_MY_SHOP);
+        const { loading, data: allShops } = useQuery(GET_SHOPS);
+        const shops = allShops?.shops || [];
+
+
+        const {loading: myShopLoading, data} = useQuery(GET_MY_SHOP);
         const myShop = data?.myShop || null;
 
         console.log(myShop);
@@ -24,7 +28,7 @@ export const ShopProvider = ({children}) => {
         const [newShop, { err, data: newShopData}] = useMutation(ADD_SHOP);
 
         return (
-            <ShopContext.Provider value={{newShop, myShop, newShopData}}>
+            <ShopContext.Provider value={{newShop, loading, myShop, shops, newShopData}}>
                 {children}
             </ShopContext.Provider>
         )
