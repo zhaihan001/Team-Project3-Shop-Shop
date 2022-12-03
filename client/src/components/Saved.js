@@ -13,12 +13,16 @@ function Saved() {
       <Content>
       <Wrap>
           <img src="/images/soap.jpg" alt="product" />
-          <Link to="/shop">
+         
             <div>
+              <button>
+                <span></span>
+              </button>
+              <Link to="/shop">
               <h4>Visit Shop</h4>
+              </Link>
             </div>
             <h3>Marnie's Soaps </h3>
-          </Link>
         </Wrap>
         <Wrap>
           <img src="/images/soap.jpg" alt="product" />
