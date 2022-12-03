@@ -3,63 +3,34 @@ import { Link } from "react-router-dom";
 import styled from "styled-components";
 import { Content, Wrap } from './ShopList';
 import { Palette } from './Palette';
+import { useStorageFunctions } from "../hooks/useLocalStorage";
 
 
 function Saved() {
+  const {savedShops, unLikeShop} = useStorageFunctions();
 
   return (
     <Container>
       <h2>My Saved Shops</h2>
       <Content>
-      <Wrap>
-          <img src="/images/soap.jpg" alt="product" />
-         
-            <div>
-              <button className="liked">
-                <span></span>
-              </button>
-              <Link to="/shop">
-              <h4>Visit Shop</h4>
-              </Link>
-            </div>
-            <h3>Marnie's Soaps </h3>
-        </Wrap>
-        <Wrap>
-          <img src="/images/soap.jpg" alt="product" />
-          <a href="/signup">
-            <div>
-              <h4>Visit Shop</h4>
-            </div>
-            <h3>Marnie's Soaps </h3>
-          </a>
-        </Wrap>
-        <Wrap>
-          <img src="/images/soap.jpg" alt="product" />
-          <a href="/signup">
-            <div>
-              <h4>Visit Shop</h4>
-            </div>
-            <h3>Marnie's Soaps</h3>
-          </a>
-        </Wrap>
-        <Wrap>
-          <img src="/images/soap.jpg" alt="product" />
-          <a href="/signup">
-            <div>
-              <h4>Visit Shop</h4>
-            </div>
-            <h3>Marnie's Soaps</h3>
-          </a>
-        </Wrap>
-        <Wrap>
-          <img src="/images/soap.jpg" alt="product" />
-          <a href="/signup">
-            <div>
-              <h4>Visit Shop</h4>
-            </div>
-            <h3>Marnie's Soaps</h3>
-          </a>
-        </Wrap>
+        {savedShops.map((item,index) => {
+          return (
+            <Wrap key={index}>
+              <img src={item.image} alt="product" />
+            
+              <div>
+                <button id={item._id} onClick={(e) => unLikeShop(item._id)} className="liked">
+                  <span></span>
+                </button>
+                <Link to={`/shop/${item._id}`}>
+                <h4>Visit Shop</h4>
+                </Link>
+              </div>
+              <h3>{item.businessName}</h3>
+            </Wrap>
+
+          )
+        })}
       </Content>
     </Container>
   );
