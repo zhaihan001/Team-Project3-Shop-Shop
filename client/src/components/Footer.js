@@ -1,19 +1,21 @@
 import React from 'react'
-import { Link } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 import styled from "styled-components";
 import { Palette } from './Palette';
 import Auth from "../utils/auth";
 
 function Footer() {
+  const location = useLocation();
+
   return (
     <Container>
         <h4>Thanks for Shop-Shopping</h4>
-        <Link href="/">Home</Link>
-        <Link href="/saved">Saved</Link>
-        <Link href="/usershop">My Shop</Link>
-        <Link href="/profile">Profile</Link>
-        <Link href="/cart">Cart</Link>
-        {!Auth.loggedIn() ? <Link href="/login">Login | Join</Link> : <button onClick={() => Auth.logout()}>Logout</button>}
+        <Link to="/">Home</Link>
+        <Link to="/saved">Saved</Link>
+        <Link to="/usershop">My Shop</Link>
+        <Link to="/profile">Profile</Link>
+        <Link to="/cart">Cart</Link>
+        {!Auth.loggedIn() ? <Link to="/login" state={{previousUrl: location.pathname}}>Login | Join</Link> : <button onClick={() => Auth.logout()}>Logout</button>}
     </Container>
   )
 }

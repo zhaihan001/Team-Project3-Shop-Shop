@@ -9,7 +9,7 @@ function Login({setShowSignUp}) {
   const [userData, setUserData] = useState({ username: "", password: "" });
   const { login } = useUserContext();
   const location = useLocation();
-  console.log(location.state.previousUrl);
+  const redirectTo = location.state.previousUrl || '/'
 
   const handleFormChange = (e) => {
     const { name, value } = e.target;
@@ -31,7 +31,7 @@ function Login({setShowSignUp}) {
 
       // navigate to my shop or user account page after
 
-      window.location.assign(`${location.state.previousUrl || '/'}`);
+      window.location.assign(`${redirectTo}`);
     } catch (error) {
       console.log(error);
       return error;
