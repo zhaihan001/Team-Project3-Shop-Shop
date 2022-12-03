@@ -26,7 +26,10 @@ const ShoppingCart = ({ cartItems, title }) => {
           businessId: cartItems.businessId._Id,
         },
       });
+
       window.location.reload();
+
+      return data
     } catch (error) {
       console.error(error);
     }
