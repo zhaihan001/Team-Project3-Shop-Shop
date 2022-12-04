@@ -24,7 +24,7 @@ const typeDefs = gql`
     name: String
     description: String
     images: [String]
-    price: Float
+    price: Int
     quantity: Int
     userId: User
   }
@@ -54,7 +54,7 @@ const typeDefs = gql`
   input productInput {
     name: String!
     description: String!
-    image: [String]!
+    images: [String]!
     price: Int!
     quantity: Int!
   }
@@ -69,6 +69,7 @@ const typeDefs = gql`
   }
 
   type Query {
+    products: [Product]
     myShop: Business
     users: [User]
     shops: [Business]
@@ -85,7 +86,7 @@ const typeDefs = gql`
     deleteUser: User
     login(username: String!, password: String!): Auth
     addShop(businessName: String!, slogan: String!, image: String!, primaryHex: String!, secondaryHex: String!): Business 
-    addProduct(productInput: productInput): Business
+    addProduct(name: String!, description: String!, images: [String!]!, price: Float!, quantity: Int!): Product
     updateProduct(_id: ID!, productInput: productInput!): Product
     deleteProduct(_id: ID!): Product
     addToCart(productId: ID!, quantity: Int!, businessId: ID!): Cart

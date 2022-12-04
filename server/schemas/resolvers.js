@@ -22,6 +22,9 @@ const options = {
 const resolvers = {
   Query: {
     //for testing
+    products: async () => {
+      return await Product.find();
+    },
     users: async () => {
       try {
         let users = await User.find();
@@ -196,26 +199,49 @@ const resolvers = {
         return error
       }
     },
-    addProduct: async (parent, {productInput: product}, context) => {
+    addProduct: async (parent, {name, description, images, price, quantity}, context) => {
       try {
         if(context.user){
-          let newImages = product.images.map(async (item) => {
-            let newCloudPic = await cloudinary.uploader.upload(item, options);
-            console.log(newCloudPic);
-  
-            let sizedPic = await cloudinary.uploader.explicit(newCloudPic.public_id, {
-                type: 'upload',
-                    eager: [{width: 450, height: 300}]
-            })
-            return sizedPic.eager[0].secure_url
+          console.log(name);
+          console.log("logging hit");
+          const holdImageUrls = [];
+          let newCloudPicOne = await cloudinary.uploader.upload(images[0], options);
 
+          let sizedPic = await cloudinary.uploader.explicit(newCloudPicOne.public_id, {
+              type: 'upload',
+                  eager: [{width: 450, height: 300}]
           })
 
+          holdImageUrls.push(sizedPic.eager[0].secure_url)
+          
+          let newCloudPicTwo = await cloudinary.uploader.upload(images[1], options);
+
+          let sizedPicTwo = await cloudinary.uploader.explicit(newCloudPicTwo.public_id, {
+              type: 'upload',
+                  eager: [{width: 450, height: 300}]
+          })
+
+          holdImageUrls.push(sizedPicTwo.eager[0].secure_url)
+
+          let newCloudPicThree = await cloudinary.uploader.upload(images[2], options);
+
+          let sizedPicThree = await cloudinary.uploader.explicit(newCloudPicThree.public_id, {
+              type: 'upload',
+                  eager: [{width: 450, height: 300}]
+          })
+
+          holdImageUrls.push(sizedPicThree.eager[0].secure_url)
+          
           let newProductObj = {
-            ...product,
-            images: newImages,
+            name,
+            description,
+            price,
+            quantity,
+            images: holdImageUrls,
             userId: context.user._id
           }
+
+          console.log(newProductObj);
 
           let newProduct = await Product.create(newProductObj);
 
@@ -225,13 +251,14 @@ const resolvers = {
             {new: true, runValidators: true}
           )
 
-          return business
+          return newProduct
 
         }
 
         throw new AuthenticationError("Must be logged in");
         
       } catch (error) {
+        console.log(error)
         return error
       }
     },

@@ -192,48 +192,17 @@ export const ADD_SHOP = gql`
 `
 
 export const ADD_PRODUCT = gql`
-    mutation addProduct($productInput: productInput){
-        addProduct(productInput: $productInput){
+    mutation addProduct($name: String!, $description: String!, $images: [String!]!, $price: Float!, $quantity: Int!){
+        addProduct(name: $name, description: $description, images: $images, price: $price, quantity: $quantity){
             _id
+            name
+            description
+            images
+            price
+            quantity
             userId{
                 _id
                 username
-            }
-            businessName
-            image
-            orders{
-                _id
-                userId{
-                    _id
-                    username
-                }
-                businessId {
-                _id
-                businessName
-                }
-                purchaseDate
-                products{
-                    product{
-                        _id
-                        name
-                        description
-                        images
-                        price
-                        quantity
-
-                    }
-                    quantity
-                    
-                }
-
-            }
-            products{
-                _id
-                name
-                description
-                images
-                price
-                quantity
             }
         }
     }
