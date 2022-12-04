@@ -14,6 +14,7 @@ const typeDefs = gql`
   }
 
   type CartItem{
+    _id: ID
     product: Product
     userId: User
     quantity: Int
@@ -70,6 +71,7 @@ const typeDefs = gql`
   }
 
   type Query {
+    cartItems: [CartItem]
     products: [Product]
     myShop: Business
     users: [User]

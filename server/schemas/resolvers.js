@@ -22,6 +22,17 @@ const options = {
 const resolvers = {
   Query: {
     //for testing
+    cartItems: async () => {
+      try {
+        let items = await CartItem.find();
+
+        return items
+
+      } catch (error) {
+        console.log(error);
+        return error
+      }
+    },
     products: async () => {
       return await Product.find();
     },
@@ -267,28 +278,35 @@ const resolvers = {
         return error
       }
     },
-    addToCart: async (parent, {productId, quantity, businessId}, context) => {
+    addToCart: async (parent, {productId, businessId}, context) => {
       try {
         let newCartItem = await CartItem.create(
           {
             product: productId,
             userId: context.user._id,
-            quantity
+            quantity: 1
           }
         )
+
+        console.log(newCartItem)
 
         let userCart = await Cart.findOne({userId: context.user._id});
 
         if(!userCart){
           let newCart = await Cart.create(
             {
-              products: [newCartItem._id],
               userId: context.user._id,
               businessId
             }
           )
 
-          return newCart
+          let addingId = await Cart.findOneAndUpdate(
+            {userId: context.user._id},
+            {$push: {products: newCartItem._id}},
+            {new: true}
+          )
+
+          return addingId
 
         }else{
           let updCart = await Cart.findOneAndUpdate(
@@ -296,6 +314,8 @@ const resolvers = {
             {$push: {products: newCartItem._id}},
             {new: true, runValidators: true}
           )
+
+          console.log(updCart);
 
           return updCart
 
