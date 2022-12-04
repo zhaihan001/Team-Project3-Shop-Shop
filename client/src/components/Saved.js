@@ -31,6 +31,7 @@ function Saved() {
 
           )
         })}
+        {savedShops.length === 0 && <div style={{fontWeight: "bold", marginLeft: '5%'}}>No saved shops yet.</div>}
       </Content>
     </Container>
   );

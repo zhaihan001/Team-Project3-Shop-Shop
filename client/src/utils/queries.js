@@ -1,5 +1,6 @@
 import { gql } from "@apollo/client";
 
+//
 export const GET_MY_SHOP = gql`
   query myShop{
     myShop{
@@ -23,7 +24,7 @@ export const GET_MY_SHOP = gql`
             _id
             name
             description
-            image
+            images
             price
             quantity
 
@@ -35,7 +36,7 @@ export const GET_MY_SHOP = gql`
         _id
         name
         description
-        image
+        images
         price
         quantity
       }
@@ -43,6 +44,7 @@ export const GET_MY_SHOP = gql`
   }
 `
 
+//
 export const GET_SHOPS = gql`
   query shops {
     shops {
@@ -53,7 +55,7 @@ export const GET_SHOPS = gql`
         _id
         name
         description
-        image
+        images
         price
         quantity
       }
@@ -63,6 +65,7 @@ export const GET_SHOPS = gql`
   }
 `;
 
+//
 export const GET_SHOP = gql`
   query getShop($_id: ID!) {
     getShop(_id: $_id) {
@@ -73,7 +76,7 @@ export const GET_SHOP = gql`
         _id
         name
         description
-        image
+        images
         price
         quantity
       }
@@ -83,6 +86,7 @@ export const GET_SHOP = gql`
   }
 `;
 
+//
 export const GET_PRODUCT = gql`
   query product($_id: ID!) {
     product(_id: $_id) {
@@ -99,6 +103,7 @@ export const GET_PRODUCT = gql`
   }
 `;
 
+//
 export const GET_USER = gql`
   query user {
     user {
@@ -117,7 +122,7 @@ export const GET_USER = gql`
             _id
             name
             description
-            image
+            images
             price
             quantity
 
@@ -129,6 +134,7 @@ export const GET_USER = gql`
   }
 `;
 
+//
 export const GET_CART = gql`
   query cart {
     cart {
@@ -141,7 +147,7 @@ export const GET_CART = gql`
           _id
           name
           description
-          image
+          images
           price
           quantity
 

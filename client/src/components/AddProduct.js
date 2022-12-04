@@ -6,13 +6,13 @@ import { useProductContext } from '../contexts/ProductContext';
 function AddProduct() {
 
     const [productData, setProductData] = useState({name: '', description: '', price: '' })
-    const [image, setImage] = useState(null);
-    const [dataUrl, setDataUrl] = useState("")
+    const [images, setImages] = useState([]);
+    const [dataUrlArr, setDataUrlArr] = useState("")
     console.log(productData);
     const { newProduct } = useProductContext();
 
     const handleImageChange = (e) => {
-        setImage(e.target.files[0]);
+        setImages(e.target.files[0]);
       }
     
       const handleFormChange = (e) => {
@@ -31,7 +31,7 @@ function AddProduct() {
           const { data } = await newProduct({
             variables: {
               ...productData,
-              image: dataUrl
+              image: dataUrlArr
             }
           })
           console.log("hit");
@@ -46,18 +46,18 @@ function AddProduct() {
       }
 
       useEffect(() => {
-        if(image){
+        if(images.length > 0){
           const reader = new FileReader();
       
           reader.onloadend = (e) => {
-            setDataUrl(e.target.result)
+            setDataUrlArr(e.target.result)
           }
       
-          reader.readAsDataURL(image)
+          reader.readAsDataURL(images[images.length - 1])
     
         }
     
-      }, [image])
+      }, [images])
 
     return(
         <Container>
@@ -72,7 +72,7 @@ function AddProduct() {
               <input value={productData.price} onChange={handleFormChange} type='number' min='0' max='10000' step='any' name='desc' id='itemdesc' />
               <label htmlFor='itemImg'>Upload an image of your product.</label>
               <input onChange={handleImageChange} type='file' name='itemImg' id='itemImg' /><br></br>
-              {image && <img src={dataUrl} alt="itemImage" style={{width: "20rem"}} />}
+              {images && <img src={dataUrlArr} alt="itemImage" style={{width: "20rem"}} />}
               <button type='submit'>Add Product</button>
           </form>
             </ProductForm>

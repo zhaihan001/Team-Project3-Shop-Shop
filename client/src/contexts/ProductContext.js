@@ -13,8 +13,8 @@ export const useProductContext = () => {
 
 export const ProductProvider = ({children}) => {
 
-        const { loading, data: productData } = useQuery(GET_PRODUCT);
-        console.log(productData);
+        // const { loading, data: productData } = useQuery(GET_PRODUCT);
+        
 
         
 

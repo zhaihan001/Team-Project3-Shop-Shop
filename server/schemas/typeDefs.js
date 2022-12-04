@@ -23,9 +23,10 @@ const typeDefs = gql`
     _id: ID
     name: String
     description: String
-    image: [String]
+    images: [String]
     price: Float
     quantity: Int
+    userId: User
   }
 
   type Order {
@@ -91,7 +92,7 @@ const typeDefs = gql`
     deleteFromCart(productId: ID!): Cart
     submitOrder(businessId: ID!, products: [ID]!): User
     cancelOrder(_id: ID!): User
-    updateProductQuantity(quanitity: Int): Product
+    updateProductQuantity(quantity: Int!): Product
     updateCartItemQuantity(productId: ID!, quantity: Int!): CartItem
   }
 `;
