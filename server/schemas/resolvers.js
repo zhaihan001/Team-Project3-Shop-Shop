@@ -167,7 +167,7 @@ const resolvers = {
           if(findExisting){
             return {errMsg: "Existing shop found for this user"}
           }
-
+          
           console.log("logged");
           let newCloudPic = await cloudinary.uploader.upload(image, options);
           console.log(newCloudPic);

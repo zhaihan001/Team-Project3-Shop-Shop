@@ -1,11 +1,12 @@
 import React from "react";
 import { Link } from "react-router-dom";
-// import styled from "styled-components";
+import styled from "styled-components";
 import { Content, Wrap } from './ShopList';
 // import { Palette } from './Palette';
 
 function DefaultShops() {
   return (
+    <Default>
     <Content>
 
     <Wrap>
@@ -65,7 +66,12 @@ function DefaultShops() {
       <h3>Shinyfins Stickers</h3>
   </Wrap>
   </Content>
+  </Default>
   )
 }
 
 export default DefaultShops
+
+export const Default = styled.div`
+    margin-top: 100px;
+`

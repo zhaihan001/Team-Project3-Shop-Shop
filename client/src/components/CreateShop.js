@@ -29,13 +29,14 @@ function CreateShop() {
   const submitShopData = async (e) => {
     e.preventDefault();
     try {
+      console.log("hit");
       const { data } = await newShop({
         variables: {
           ...shopData,
           image: dataUrl
         }
       })
-      console.log("hit");
+      
       console.log(data);
       window.location.reload();
 
