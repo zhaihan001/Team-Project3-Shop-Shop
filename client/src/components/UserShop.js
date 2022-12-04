@@ -1,8 +1,6 @@
 import React, { useState } from 'react'
 import styled from 'styled-components';
 import AddProduct from './AddProduct';
-import AddProductModal from './AddProductModal';
-import { Content, Wrap } from './ShopList';
 import UserShopHeading from './UserShopHeading';
 
 

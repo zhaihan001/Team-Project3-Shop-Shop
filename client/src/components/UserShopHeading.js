@@ -22,7 +22,7 @@ export default function UserShopHeading({myShop, setShowProductForm}) {
                     Our Products:
                 </h3>
                 <Content>
-                {myShop &&
+                {myShop && myShop.products.length > 0 &&
                     myShop.products.map((product, index) => (
                     <Wrap key={index}>
                         <img src={product.images[0]} alt={product.name} />
