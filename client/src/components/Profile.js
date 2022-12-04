@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import styled from "styled-components";
 import { Palette } from "./Palette";
 import Auth from "../utils/auth";
@@ -31,7 +31,6 @@ function Profile() {
       <Wrap>
         <Col>
           <img src={userData.user.image || "/images/plastic-horses.jpg"} alt="profile-logo" />
-         
           <br></br>
         </Col>
         <Content>
