@@ -62,7 +62,7 @@ const resolvers = {
     },
     getShop: async (parent, {_id}) => {
       try {
-        let shop = await Business.findOne({_id}).populate("orders");
+        let shop = await Business.findOne({_id}).populate("orders").populate("products");
 
         return shop
         
