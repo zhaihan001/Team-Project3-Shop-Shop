@@ -1,8 +1,16 @@
+import { useQuery } from '@apollo/client'
 import React from 'react'
+import { GET_PRODUCT } from '../utils/queries'
 import { Container, Content, Wrap } from './ShopList'
 
 export default function OneProduct({businessId, productId}) {
-    
+  const {loading, data} = useQuery(GET_PRODUCT, {
+    variables: {
+      _id: productId
+    }
+  })
+
+  console.log(data);
 
   return (
     <>
