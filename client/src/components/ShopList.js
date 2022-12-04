@@ -146,11 +146,11 @@ export const Wrap = styled.div`
     // LIKE BUTTON
     .liked{
       background-position: right;
-      animation: animate .8s steps(28) 1;
+      animation: animate .9s steps(27) 1;
     }
 
     button {
-      background-image: url("/images/heart.png");
+      background-image: url("/images/heartart.png");
       background-repeat: no-repeat;
       background-position: left;
       background-size: 2900%;
