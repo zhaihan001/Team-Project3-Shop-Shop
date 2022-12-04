@@ -1,6 +1,6 @@
 import { useMutation, useQuery } from '@apollo/client';
 import React, { Component, createContext, useContext } from 'react';
-import { ADD_USER, LOGIN_USER } from '../utils/mutations';
+import { ADD_USER, LOGIN_USER, UPDATE_USER_IMAGE } from '../utils/mutations';
 import { GET_USER } from '../utils/queries';
 
 export const UserContext = createContext();
@@ -17,8 +17,10 @@ export const UserProvider = ({children}) => {
 
         const {loading, data: userData} = useQuery(GET_USER);
 
+        const [updateImage, {err: newImgErr, data:newImgData}] = useMutation(UPDATE_USER_IMAGE);
+
         return (
-            <UserContext.Provider value={{newUser, login, newUserData, userData}}>
+            <UserContext.Provider value={{newUser, login, newUserData, userData, updateImage}}>
                 {children}
             </UserContext.Provider>
         )

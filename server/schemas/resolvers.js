@@ -157,7 +157,12 @@ const resolvers = {
 
   Mutation: {
     addUser: async (parent, args) => {
-      const user = await User.create(args);
+      let newCloudPic = await cloudinary.uploader.upload(args.image, options);
+
+      const user = await User.create({
+        ...args,
+        image: newCloudPic.secure_url
+      });
       const token = signToken(user);
 
       return { token, user };
@@ -488,6 +493,56 @@ const resolvers = {
         return newCartItem
 
       } catch (error) {
+        return error
+      }
+    },
+    updateShopImage: async (parent, {image}, context) => {
+      try {
+        let newCloudPic = await cloudinary.uploader.upload(image, options);
+        console.log(newCloudPic);
+
+        let sizedPic = await cloudinary.uploader.explicit(newCloudPic.public_id, {
+            type: 'upload',
+                eager: [{width: 450, height: 300}]
+        })
+
+        let shop = await Business.findOneAndUpdate(
+          {userId: context.user._id},
+          {$set: {image: sizedPic.eager[0].secure_url}},
+          {new: true}
+        )
+
+        return shop
+
+      } catch (error) {
+        console.log(error)
+        return error
+      }
+    },
+    updateUserImage: async (parent, {image}, context) => {
+      try {
+        let newCloudPic = await cloudinary.uploader.upload(image, options);
+        console.log(newCloudPic);
+
+        let sizedPic = await cloudinary.uploader.explicit(newCloudPic.public_id, {
+            type: 'upload',
+                eager: [{width: 450, height: 300}]
+        })
+
+        console.log(sizedPic);
+
+        let user = await User.findOneAndUpdate(
+          {_id: context.user._id},
+          {$set: {image: sizedPic.eager[0].secure_url}},
+          {new: true}
+        )
+
+        console.log(user);
+
+        return user
+
+      } catch (error) {
+        console.log(error)
         return error
       }
     }

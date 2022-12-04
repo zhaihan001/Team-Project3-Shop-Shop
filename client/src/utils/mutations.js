@@ -1,13 +1,14 @@
 import { gql } from "@apollo/client";
 
 export const ADD_USER = gql`
-    mutation addUser($username: String!, $email: String!, $password: String!){
-        addUser(username: $username, email: $email, password: $password){
+    mutation addUser($username: String!, $email: String!, $password: String!, $image: String!){
+        addUser(username: $username, email: $email, password: $password, image: $image){
             token
             user {
                 _id
                 username
                 email
+                image
                 orders{
                     _id
                     userId{
@@ -85,6 +86,7 @@ export const DELETE_USER = gql`
         deleteUser{
             _id
             email
+            
             orders{
                 _id
                 userId{
@@ -109,6 +111,7 @@ export const LOGIN_USER = gql`
                 _id
                 username
                 email
+                image
                 orders{
                     _id
                     userId{
@@ -363,6 +366,28 @@ export const UPDATE_QUANTITY = gql`
             images
             price
             quantity
+        }
+    }
+`
+
+export const UPDATE_SHOP_IMAGE = gql`
+    mutation updateShopImage($image: String!){
+        updateShopImage(image: $image){
+            _id
+            businessName
+            image
+            
+        }
+    }
+`
+
+export const UPDATE_USER_IMAGE = gql`
+    mutation updateUserImage($image: String!){
+        updateUserImage(image: $image){
+            _id
+            username
+            image
+            
         }
     }
 `

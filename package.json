@@ -19,7 +19,6 @@
   "dependencies": {
     "@react-three/drei": "^9.46.0",
     "@react-three/fiber": "^8.9.1",
-    "react-bootstrap": "^2.6.0",
     "styled-components": "^5.3.6"
   }
 }
