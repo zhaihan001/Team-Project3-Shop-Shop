@@ -31,7 +31,7 @@ function Saved() {
 
           )
         })}
-        {savedShops.length === 0 && <div style={{fontWeight: "bold", marginLeft: '5%'}}>No saved shops yet.</div>}
+        {savedShops.length === 0 && <div className="noShop" style={{fontWeight: "bold", marginLeft: '5%'}}>No saved shops yet :(</div>}
       </Content>
     </Container>
   );
@@ -55,6 +55,11 @@ export const Container = styled.div`
     letter-spacing: 1px;
     word-spacing: 4px;
     text-underline-offset: 8px;
+  }
+
+  .noShop {
+    color: ${Palette.fadedGrey};
+    font-size: 20px;
   }
 `;
 
