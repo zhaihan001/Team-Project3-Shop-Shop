@@ -90,7 +90,7 @@ const typeDefs = gql`
     addProduct(name: String!, description: String!, images: [String!]!, price: Float!, quantity: Int!): Product
     updateProduct(_id: ID!, productInput: productInput!): Product
     deleteProduct(_id: ID!): Product
-    addToCart(productId: ID!, quantity: Int!, businessId: ID!): Cart
+    addToCart(productId: ID!, businessId: ID!): Cart
     deleteFromCart(productId: ID!): Cart
     submitOrder(businessId: ID!, products: [ID]!): User
     cancelOrder(_id: ID!): User
