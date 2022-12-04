@@ -14,19 +14,19 @@ export default function OneProduct({businessId, productId}) {
 
   return (
     <>
-        <Container>
-            <h2>This Product</h2>
-            <Content>
-                <Wrap>
-                    <img src="/images/soap.jpg" alt="product" />
-                    <div>
-                    <h4>Add to cart</h4>
-                    </div>
-                    <h3>Marnie's Soaps</h3>
-                
-                </Wrap>
-            </Content>
-        </Container>
+      <Container>
+          <h2>This Product</h2>
+          <Content>
+              {data && <Wrap>
+                <img src={data.product.images[0]} alt="product" />
+                <div>
+                <h4>Add to cart</h4>
+                </div>
+                <h3>{data.product.name}</h3>
+              
+              </Wrap>}
+          </Content>
+      </Container>
     </>
   )
 }
