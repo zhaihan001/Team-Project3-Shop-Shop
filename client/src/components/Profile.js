@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import styled from "styled-components";
 import { Palette } from "./Palette";
 import Auth from "../utils/auth";
@@ -23,19 +23,7 @@ function Profile() {
   const handleImageChange = (e) => {
     setImage(e.target.files[0]);
   };
-  // useEffect(() => {
-  //   if(image){
-  //     const reader = new FileReader();
 
-  //     reader.onloadend = (e) => {
-  //       setDataUrl(e.target.result)
-  //     }
-
-  //     reader.readAsDataURL(image)
-
-  //   }
-
-  // }, [image])
   return (
     <Container>
       <h2>{userData.user.username}'s Profile</h2>
@@ -45,8 +33,8 @@ function Profile() {
           <input
             onChange={handleImageChange}
             type="file"
-            name="profileImange"
-            id="profileImange"
+            name="profileImage"
+            id="profileImage"
           />
           <br></br>
         </Col>
