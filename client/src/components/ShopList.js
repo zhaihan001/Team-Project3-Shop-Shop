@@ -3,6 +3,7 @@ import { Link } from "react-router-dom";
 import styled from "styled-components";
 import { useLocalStorage, useStorageFunctions } from "../hooks/useLocalStorage";
 import { Palette } from './Palette';
+import DefaultShops from "./DefaultShops";
 
 const ShopList = ({ shops, title }) => {
   const {isLiked, likeShop, unLikeShop, } = useStorageFunctions();
@@ -13,6 +14,7 @@ const ShopList = ({ shops, title }) => {
   return (
     <Container>
       <h2>{title}</h2>
+      {/* USER CREATED SHOPS */}
       <Content>
         {shops &&
           shops.map((shop, index) => (
@@ -30,6 +32,8 @@ const ShopList = ({ shops, title }) => {
             </Wrap>
           ))}
       </Content>
+         {/* DEFAULT SHOPS */}
+         <DefaultShops />
     </Container>
   );
 };
