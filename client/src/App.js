@@ -25,6 +25,8 @@ import ShopPage from "./pages/ShopPage";
 import ProductPage from "./pages/ProductPage";
 import SignInPage from "./pages/SignInPage";
 import MyShop from "./pages/MyShop";
+import AddProduct from "./components/AddProduct";
+import { ProductProvider } from "./contexts/ProductContext";
 
 
 
@@ -57,6 +59,7 @@ function App() {
     <ApolloProvider client={client}>
       <UserProvider>
         <ShopProvider>
+          <ProductProvider>
 
           <div className="App">
             <Router>
@@ -86,6 +89,7 @@ function App() {
               <Footer />
             </Router>
           </div>
+          </ProductProvider>
         </ShopProvider>
       </UserProvider>
     </ApolloProvider>
