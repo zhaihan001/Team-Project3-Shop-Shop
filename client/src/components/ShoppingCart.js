@@ -67,7 +67,7 @@ const ShoppingCart = ({ cartItems, title }) => {
       <Content>
         {cartItems.length > 0 &&
           cartItems.map((item, index) => (
-            <ShoppingCartItem key={index} cartItem={item} />
+            <ShoppingCartItem key={index} cartItem={item} items={cartItems} />
             // <Wrap>
             //   <img src={item.image} alt={item.businessName} />
             //   <a href={"/shops/" + item._id}>
@@ -80,9 +80,9 @@ const ShoppingCart = ({ cartItems, title }) => {
           ))}
       </Content>
 
-      <button type="submit" id="submit" onSubmit={handleSubmit}>
+      {cartItems.length > 0 && <button type="submit" id="submit" onSubmit={handleSubmit}>
         Submit Order
-      </button>
+      </button>}
     </Container>
   );
 };

@@ -6,7 +6,7 @@ import { useProductContext } from '../contexts/ProductContext';
 import { UPDATE_CARTITEM_QUANTITY } from '../utils/mutations';
 import { Palette } from './Palette';
 
-export default function ShoppingCartItem({cartItem}) {
+export default function ShoppingCartItem({cartItem, items}) {
   const {updateQuantity, updLoading, removeFromCart} = useProductContext();
   const [quantity, setQuantity] = useState(cartItem.quantity);
   const [item, setItem] = useState(cartItem);
@@ -45,7 +45,7 @@ export default function ShoppingCartItem({cartItem}) {
   }
 
   const handleRemoveFromCart = async (id) => {
-    try {
+    try { 
         const {data} = await removeFromCart({
             variables: {
                 productId: item.product._id
@@ -53,6 +53,14 @@ export default function ShoppingCartItem({cartItem}) {
         })
 
         setQuantity(0)
+
+        if(items.filter(product => product.product._id !== id).length < 1){
+            window.location.reload();
+        }
+
+
+
+        
         
     } catch (error) {
         console.log(error)
@@ -72,7 +80,7 @@ export default function ShoppingCartItem({cartItem}) {
        {quantity > 0 && <Wrap>
             {item.product && <img src={item.product && item.product.images[0]} alt={item.businessId} />}
             <p>
-            Unit Price: ${item.product.price}.99
+            Unit Price: ${item.product.price}.00
             <br />
             <span style={{width: "100%"}}>Quantity(maximum 5 items): 
             {/* <select name="quantity">
@@ -82,10 +90,10 @@ export default function ShoppingCartItem({cartItem}) {
                 <option value={4}>4</option>
                 <option value={5}>5</option>
             </select> */}
-            <span><button onClick={(e) => changeQuantity(e)} id="decrement">-</button> <span>{quantity}</span><button onClick={(e) => changeQuantity(e)} id="increment">+</button></span>
+            <span><button onClick={quantity > 1 ? ((e) => changeQuantity(e)) : (() => handleRemoveFromCart(item.product._id))} id="decrement">-</button> <span>{quantity}</span><button style={{backgroundColor: quantity === 5 ? "grey" : ""}} onClick={quantity < 5 ? ((e) => changeQuantity(e)) : (() => true)} id="increment">+</button></span>
             <br></br>
             </span>
-            Total Price: ${(item.product.price + .99) * quantity}
+            Total Price: ${(item.product.price) * quantity}.00
             <br></br>
             <button
                 type="delete"
