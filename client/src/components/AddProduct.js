@@ -99,9 +99,24 @@ function AddProduct({setShowProductForm}) {
 export default AddProduct
 
 const Container = styled.div`
-  padding-top: 3vw;
+  padding: 3vw;
   background-image: url("/images/pinkgrid.png");
   background-size: cover;
+
+  button {
+    padding: 10px;
+    cursor: pointer;
+    font-size: 1.5rem;
+    background: ${Palette.fadedGrey};
+    color: white;
+    border: none;
+    transition: all 250ms cubic-bezier(0.25, 0.46, 0.45, 0.94) 0s;
+
+    &:hover {
+      transform: scale(1.05);
+      background: ${Palette.red};
+    }
+  }
 
   h2 {
     font-size: 40px;
@@ -167,6 +182,7 @@ form {
     &:hover {
       transform: scale(1.05);
       border-color: rgba(249, 249, 249, 0.8);
+      background: ${Palette.blue};
     }
   }
 
