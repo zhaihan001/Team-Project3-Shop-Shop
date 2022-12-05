@@ -3,76 +3,92 @@ import styled from 'styled-components'
 import { Palette } from './Palette';
 import { useProductContext } from '../contexts/ProductContext';
 
-function AddProduct() {
+function AddProduct({setShowProductForm}) {
 
-    const [productData, setProductData] = useState({name: '', description: '', price: '' })
+    const [productData, setProductData] = useState({name: '', description: '', price: '', quantity: "" });
     const [images, setImages] = useState([]);
-    const [dataUrlArr, setDataUrlArr] = useState("")
-    console.log(productData);
+    const [dataUrlArr, setDataUrlArr] = useState([])
     const { newProduct } = useProductContext();
+    
 
     const handleImageChange = (e) => {
-        setImages(e.target.files[0]);
-      }
+      e.persist();
+      setImages(prev => {
+        return [...prev, e.target.files[0]]
+      });
+    }
+
+   
     
-      const handleFormChange = (e) => {
-        const {name, value} = e.target
-        setProductData(prev => {
-          return {
-            ...prev,
-            [name]: value
+    const handleFormChange = (e) => {
+      const {name, value} = e.target
+      setProductData(prev => {
+        return {
+          ...prev,
+          [name]: name === "price" || name === "quantity" ? parseInt(value) : value
+        }
+      })
+    }
+
+    const submitProductData = async (e) => {
+      e.preventDefault();
+      try {
+        const { data } = await newProduct({
+          variables: {
+            ...productData,
+            images: dataUrlArr
           }
         })
-      }
 
-      const submitProductData = async (e) => {
-        e.preventDefault();
-        try {
-          const { data } = await newProduct({
-            variables: {
-              ...productData,
-              image: dataUrlArr
-            }
+
+        console.log(data);
+        window.location.reload();
+  
+        return data
+  
+      } catch (error) {
+        console.log(error)
+        return error
+      }
+    }
+
+    useEffect(() => {
+      if(images.length > 0){
+        const reader = new FileReader();
+    
+        reader.onloadend = (e) => {
+          setDataUrlArr(prev => {
+            return [...prev, e.target.result]
           })
-          console.log("hit");
-          console.log(data);
-          window.location.reload();
-    
-          return data
-    
-        } catch (error) {
-          return error
         }
+    
+        reader.readAsDataURL(images[images.length - 1])
+  
       }
-
-      useEffect(() => {
-        if(images.length > 0){
-          const reader = new FileReader();
-      
-          reader.onloadend = (e) => {
-            setDataUrlArr(e.target.result)
-          }
-      
-          reader.readAsDataURL(images[images.length - 1])
-    
-        }
-    
-      }, [images])
+  
+    }, [images])
 
     return(
         <Container>
+            <button onClick={() => setShowProductForm(prev => !prev)}>Back</button>
             <ProductForm>
             <form onSubmit={submitProductData}>
               <h2>Add Your Product</h2>
               <label htmlFor='productname'>Name:</label>
-              <input value={productData.name} onChange={handleFormChange} type='text' name='itemName' id='itemname' />
-              <label htmlFor='itemdesc'>Item Description.</label>
-              <input value={productData.description} onChange={handleFormChange} type='text' name='desc' id='itemdesc' />
-              <label htmlFor='itemdesc'>Input price.</label>
-              <input value={productData.price} onChange={handleFormChange} type='number' min='0' max='10000' step='any' name='desc' id='itemdesc' />
+              <input value={productData.name} onChange={handleFormChange} type='text' name='name' id='itemname' required />
+              <label htmlFor='itemdesc'>Item Description</label>
+              <input value={productData.description} onChange={handleFormChange} type='text' name='description' id='itemdesc' required />
+              <label htmlFor='itemdesc'>Input price</label>
+              <input value={productData.price} onChange={handleFormChange} type='number' min='0' max='10000' step='any' name='price' id='itemdesc' className='price' required />
+              <label htmlFor='itemdesc'>In stock</label>
+              <input placeholder='Enter quantity' value={productData.quantity} onChange={handleFormChange} type='number' min='0' max='10000' step='any' name='quantity' id='itemdesc' className='quantity' required />
               <label htmlFor='itemImg'>Upload an image of your product.</label>
-              <input onChange={handleImageChange} type='file' name='itemImg' id='itemImg' /><br></br>
-              {images && <img src={dataUrlArr} alt="itemImage" style={{width: "20rem"}} />}
+              <input onChange={handleImageChange} type='file' name='image' required /><br></br>
+              {images[0] && <img src={dataUrlArr[0]} alt="itemImage" style={{width: "20rem"}} />}
+              <input onChange={handleImageChange} type='file' name='image' required /><br></br>
+              {images[1] && <img src={dataUrlArr[1]} alt="itemImage" style={{width: "20rem"}} />}
+              <input onChange={handleImageChange} type='file' name='image' required /><br></br>
+              {images[2] && <img src={dataUrlArr[2]} alt="itemImage" style={{width: "20rem"}} />}
               <button type='submit'>Add Product</button>
           </form>
             </ProductForm>

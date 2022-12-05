@@ -12,20 +12,28 @@ export default function ProductList({id}) {
     })
     console.log(data);
 
+    if(loading){
+        return (
+            <div>Loading...</div>
+        )
+    }
+
   return (
     <>
         <Container>
             {data && <h2>{data.getShop.businessName}'s Products</h2>}
             <Content>
-                <Wrap>
-                <img src="/images/soap.jpg" alt="product" />
-                <Link to="/shop/product">
-                    <div>
-                    <h4>View Product</h4>
-                    </div>
-                    <h3>Marnie's Soaps</h3>
-                </Link>
-                </Wrap>
+                {data && data.getShop.products.map((item,index) => (
+                    <Wrap key={index}>
+                    <img src={item.images[0]} alt="product" />
+                    <Link to={`/shop/${id}/product/${item._id}`}>
+                        <div>
+                        <h4>View Product</h4>
+                        </div>
+                        <h3>Marnie's Soaps</h3>
+                    </Link>
+                    </Wrap>
+                ))}
             </Content>
         </Container>
     </>

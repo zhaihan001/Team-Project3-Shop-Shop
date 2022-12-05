@@ -5,12 +5,15 @@ import { SUBMIT_ORDER, DELETE_FROM_CART } from "../utils/mutations";
 import { Palette } from "./Palette";
 import { useLocation, Navigate } from "react-router-dom";
 import Auth from "../utils/auth";
+import ShoppingCartItem from "./ShoppingCartItem";
 const ShoppingCart = ({ cartItems, title }) => {
   // if (!cartItems.length) {
   //   return <h1>Your Cart is Empty</h1>;
   // }
   const [submitOrder, { error }] = useMutation(SUBMIT_ORDER);
   const removeItem = useMutation(DELETE_FROM_CART);
+
+  console.log(cartItems);
 
   const location = useLocation();
 
@@ -62,70 +65,9 @@ const ShoppingCart = ({ cartItems, title }) => {
       <h2>{title}</h2>
 
       <Content>
-        <Wrap>
-          <img src="/images/soap.jpg" alt="product" />
-          <p>
-            Unit Price: <br></br>
-            Quantity(maximum 5 items):
-            <select name="quantity" id="quantity">
-              <option value="1">1</option>
-              <option value="2">2</option>
-              <option value="3">3</option>
-              <option value="4">4</option>
-              <option value="5">5</option>
-            </select>
-            <br></br>
-            Total: <br></br>
-            <button type="delete" onSubmit={handleRemoval}>
-              Remove Item
-            </button>
-          </p>
-        </Wrap>
-        <Wrap>
-          <img src="/images/soap.jpg" alt="product" />
-          <p>
-            Unit Price: <br></br>
-            Quantity(maximum 5 items):
-            <select name="quantity" id="quantity">
-              <option value="1">1</option>
-              <option value="2">2</option>
-              <option value="3">3</option>
-              <option value="4">4</option>
-              <option value="5">5</option>
-            </select>
-            <br></br>
-            Total: <br></br>
-            <button type="delete" onSubmit={handleRemoval}>
-              Remove Item
-            </button>
-          </p>
-        </Wrap>
-        {cartItems &&
-          cartItems.map((item) => (
-            <Wrap>
-              <img src={item.product.image[0]} alt={item.businessId} />
-              <p>
-                Unit Price: <br></br>
-                Quantity(maximum 5 items): 
-                <select name="quantity">
-                  <option value="1">1</option>
-                  <option value="2">2</option>
-                  <option value="3">3</option>
-                  <option value="4">4</option>
-                  <option value="5">5</option>
-                </select>
-                <br></br>
-                Total Price: <br></br>
-                <button
-                  type="delete"
-                  id={item.product._id}
-                  onSubmit={handleRemoval}
-                >
-                  Remove Item
-                </button>
-              </p>
-            </Wrap>
-
+        {cartItems.length > 0 &&
+          cartItems.map((item, index) => (
+            <ShoppingCartItem key={index} cartItem={item} items={cartItems} />
             // <Wrap>
             //   <img src={item.image} alt={item.businessName} />
             //   <a href={"/shops/" + item._id}>
@@ -138,9 +80,9 @@ const ShoppingCart = ({ cartItems, title }) => {
           ))}
       </Content>
 
-      <button type="submit" id="submit" onSubmit={handleSubmit}>
+      {cartItems.length > 0 && <button type="submit" id="submit" onSubmit={handleSubmit}>
         Submit Order
-      </button>
+      </button>}
     </Container>
   );
 };
@@ -187,108 +129,5 @@ const Content = styled.div`
   grid-template-rows: auto;
 `;
 
-const Wrap = styled.div`
-  background-color: white;
-  display: flex;
-  height: 200px;
-  border-radius: 3px;
-  cursor: pointer;
-  position: relative;
-  border: 3px solid ${Palette.fadedGrey};
-  transition: all 250ms cubic-bezier(0.25, 0.46, 0.45, 0.94) 0s;
-  padding: 20px;
-  button {
-    color: white;
-    background-color: ${Palette.red};
-    font-size: 20px;
-    padding: 10px;
-    margin: 10px;
-    transition: all 400ms cubic-bezier(0.25, 0.46, 0.45, 0.94) 0s;
 
-    &:hover {
-      transform: scale(1.05);
-    }
-  }
-
-  p {
-    font-size: larger;
-    color: ${Palette.brown};
-  }
-
-  select {
-    margin: 5px;
-    font-size: large;
-    color: ${Palette.red};
-  }
-
-  img {
-    margin-right: 20px;
-    border: 3px solid ${Palette.grey};
-    object-fit: contain;
-    z-index: 1;
-  }
-
-  h3 {
-    border-radius: 3px;
-    border: 3px solid rgba(249, 249, 249, 0.1);
-    background: grey;
-    padding: 4px;
-    color: white;
-    font-size: 30px;
-    text-align: center;
-  }
-
-  a {
-    text-decoration: none;
-  }
-
-  a:visited {
-    text-decoration: none;
-    color: white;
-  }
-
-  div {
-    width: 100%;
-    height: 100%;
-    position: absolute;
-    object-fit: cover;
-    top: 0px;
-    opacity: 0;
-    z-index: 0;
-    transition: all 250ms cubic-bezier(0.25, 0.46, 0.45, 0.94) 0s;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-
-    h4 {
-      color: white;
-      padding: 8px;
-      border-radius: 20px;
-      border: 3px solid rgba(249, 249, 249, 0.1);
-      background: grey;
-      transition: all 250ms cubic-bezier(0.25, 0.46, 0.45, 0.94) 0s;
-
-      &:hover {
-        background: orange;
-      }
-    }
-  }
-
-  &:hover {
-    transform: scale(1.03);
-    border-color: ${Palette.blue};
-    cursor: pointer;
-
-    h3 {
-      background: black;
-      color: white;
-    }
-
-    div {
-      opacity: 1;
-      object-fit: cover;
-      background: rgba(37, 39, 58, 0.76);
-    }
-  }
-`;
 export default ShoppingCart;

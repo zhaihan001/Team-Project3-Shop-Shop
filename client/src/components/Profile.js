@@ -1,62 +1,47 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import styled from "styled-components";
 import { Palette } from "./Palette";
 import Auth from "../utils/auth";
-import { Navigate, useLocation } from "react-router-dom";
+import { Navigate, useLocation, Link } from "react-router-dom";
 import { useUserContext } from "../contexts/UserContext";
+import UpdateImageModal from "./UpdateImageModal.js";
+import { Button } from "react-bootstrap";
 
 function Profile() {
-  const [image, setImage] = useState(null);
   const location = useLocation();
+  const [showModal, setShowModal] = useState(false);
   const { userData } = useUserContext();
-  console.log(userData);
+
+
 
   if (!Auth.loggedIn()) {
     return <Navigate to="/login" state={{ previousUrl: location.pathname }} />;
+  }
+  const toggleModal = () => {
+    setShowModal(prev => !prev)
   }
 
   if (!userData) {
     return <div>Loading...</div>;
   }
-  const redirectMyShop = () => window.location.assign("/usershop");
 
-  const handleImageChange = (e) => {
-    setImage(e.target.files[0]);
-  };
-  // useEffect(() => {
-  //   if(image){
-  //     const reader = new FileReader();
-
-  //     reader.onloadend = (e) => {
-  //       setDataUrl(e.target.result)
-  //     }
-
-  //     reader.readAsDataURL(image)
-
-  //   }
-
-  // }, [image])
   return (
-    <Container>
+    <Container >
       <h2>{userData.user.username}'s Profile</h2>
       <Wrap>
         <Col>
-          <img src="/images/plastic-horses.jpg" alt="" />
-          <input
-            onChange={handleImageChange}
-            type="file"
-            name="profileImange"
-            id="profileImange"
-          />
+          <img src={userData.user.image || "/images/plastic-horses.jpg"} alt="profile-logo" />
           <br></br>
+          <Button onClick={toggleModal}>Update Image</Button>
         </Col>
         <Content>
           <h3>Welcome, {userData.user.username}</h3>
           <p>Buyer | Seller</p>
-          <button onClick={redirectMyShop}>View My Shop</button>
+          <Link className=".link" to="/usershop"><button>View My Shop</button></Link>
           <button>Edit My Shop</button>
         </Content>
       </Wrap>
+      <UpdateImageModal showModal={showModal} toggleModal={toggleModal}/>
     </Container>
   );
 }
@@ -91,6 +76,8 @@ const Col = styled.div`
   flex-direction: column;
   align-items: center;
 
+  
+
   button {
     color: white;
     background-color: ${Palette.blue};
@@ -119,6 +106,7 @@ const Content = styled.div`
   align-items: center;
   text-align: center;
 
+  
   h3 {
     color: ${Palette.red};
     text-decoration: underline dotted;

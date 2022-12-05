@@ -110,6 +110,7 @@ export const GET_USER = gql`
       _id
       username
       email
+      image
       orders {
         _id
         businessId {
@@ -160,3 +161,21 @@ export const GET_CART = gql`
     }
   }
 `;
+
+export const GET_CART_ITEMS = gql`
+  query cartItems {
+    cartItems {
+      _id
+      product {
+        _id
+        description
+        images
+        name
+        price
+        quantity
+      }
+      quantity
+    }
+  }
+
+`

@@ -22,6 +22,24 @@ const options = {
 const resolvers = {
   Query: {
     //for testing
+    cartItems: async (parent, args ,context) => {
+      try {
+        if(context.user){
+          let items = await CartItem.find({userId: context.user._id}).populate("product");
+          return items
+
+        }
+        
+        
+
+      } catch (error) {
+        console.log(error);
+        return error
+      }
+    },
+    products: async () => {
+      return await Product.find();
+    },
     users: async () => {
       try {
         let users = await User.find();
@@ -59,7 +77,7 @@ const resolvers = {
     },
     getShop: async (parent, {_id}) => {
       try {
-        let shop = await Business.findOne({_id}).populate("orders");
+        let shop = await Business.findOne({_id}).populate("orders").populate("products");
 
         return shop
         
@@ -154,7 +172,12 @@ const resolvers = {
 
   Mutation: {
     addUser: async (parent, args) => {
-      const user = await User.create(args);
+      let newCloudPic = await cloudinary.uploader.upload(args.image, options);
+
+      const user = await User.create({
+        ...args,
+        image: newCloudPic.secure_url
+      });
       const token = signToken(user);
 
       return { token, user };
@@ -196,26 +219,49 @@ const resolvers = {
         return error
       }
     },
-    addProduct: async (parent, {productInput: product}, context) => {
+    addProduct: async (parent, {name, description, images, price, quantity}, context) => {
       try {
         if(context.user){
-          let newImages = product.images.map(async (item) => {
-            let newCloudPic = await cloudinary.uploader.upload(item, options);
-            console.log(newCloudPic);
-  
-            let sizedPic = await cloudinary.uploader.explicit(newCloudPic.public_id, {
-                type: 'upload',
-                    eager: [{width: 450, height: 300}]
-            })
-            return sizedPic.eager[0].secure_url
+          console.log(name);
+          console.log("logging hit");
+          const holdImageUrls = [];
+          let newCloudPicOne = await cloudinary.uploader.upload(images[0], options);
 
+          let sizedPic = await cloudinary.uploader.explicit(newCloudPicOne.public_id, {
+              type: 'upload',
+                  eager: [{width: 450, height: 300}]
           })
 
+          holdImageUrls.push(sizedPic.eager[0].secure_url)
+          
+          let newCloudPicTwo = await cloudinary.uploader.upload(images[1], options);
+
+          let sizedPicTwo = await cloudinary.uploader.explicit(newCloudPicTwo.public_id, {
+              type: 'upload',
+                  eager: [{width: 450, height: 300}]
+          })
+
+          holdImageUrls.push(sizedPicTwo.eager[0].secure_url)
+
+          let newCloudPicThree = await cloudinary.uploader.upload(images[2], options);
+
+          let sizedPicThree = await cloudinary.uploader.explicit(newCloudPicThree.public_id, {
+              type: 'upload',
+                  eager: [{width: 450, height: 300}]
+          })
+
+          holdImageUrls.push(sizedPicThree.eager[0].secure_url)
+          
           let newProductObj = {
-            ...product,
-            images: newImages,
+            name,
+            description,
+            price,
+            quantity,
+            images: holdImageUrls,
             userId: context.user._id
           }
+
+          console.log(newProductObj);
 
           let newProduct = await Product.create(newProductObj);
 
@@ -225,38 +271,46 @@ const resolvers = {
             {new: true, runValidators: true}
           )
 
-          return business
+          return newProduct
 
         }
 
         throw new AuthenticationError("Must be logged in");
         
       } catch (error) {
+        console.log(error)
         return error
       }
     },
-    addToCart: async (parent, {productId, quantity, businessId}, context) => {
+    addToCart: async (parent, {productId, businessId}, context) => {
       try {
         let newCartItem = await CartItem.create(
           {
             product: productId,
             userId: context.user._id,
-            quantity
+            quantity: 1
           }
         )
+
+        console.log(newCartItem)
 
         let userCart = await Cart.findOne({userId: context.user._id});
 
         if(!userCart){
           let newCart = await Cart.create(
             {
-              products: [newCartItem._id],
               userId: context.user._id,
               businessId
             }
           )
 
-          return newCart
+          let addingId = await Cart.findOneAndUpdate(
+            {userId: context.user._id},
+            {$push: {products: newCartItem._id}},
+            {new: true}
+          )
+
+          return addingId
 
         }else{
           let updCart = await Cart.findOneAndUpdate(
@@ -264,6 +318,8 @@ const resolvers = {
             {$push: {products: newCartItem._id}},
             {new: true, runValidators: true}
           )
+
+          console.log(updCart);
 
           return updCart
 
@@ -388,7 +444,7 @@ const resolvers = {
     },
     deleteFromCart: async (parent, {productId}, context) => {
       try {
-        let deletedCartItem = await CartItem.findOneAndDelete({product: productId});
+        let deletedCartItem = await CartItem.findOneAndDelete({product: {_id: productId}, userId: context.user._id});
 
         let removedItem = await Cart.findOneAndUpdate(
           {userId: context.user._id},
@@ -452,15 +508,76 @@ const resolvers = {
     },
     updateCartItemQuantity: async (parent, {productId, quantity}, context) => {
       try {
+        console.log(productId, quantity);
         let newCartItem = await CartItem.findOneAndUpdate(
-          {product: productId},
+          {product: {_id: productId}, userId: context.user._id},
           {$set: {quantity}},
-          {new: true}
+          {new: true, upsert: true}
         )
+
+        // const cartItem = await CartItem.findOne(
+        //   {product: {_id: productId}}
+        // ).populate("product")
+
+        // cartItem.quantity = quantity;
+
+        // await cartItem.save();
+        console.log("newItem", newCartItem);
 
         return newCartItem
 
       } catch (error) {
+        console.log(error)
+        return error
+      }
+    },
+    updateShopImage: async (parent, {image}, context) => {
+      try {
+        let newCloudPic = await cloudinary.uploader.upload(image, options);
+        console.log(newCloudPic);
+
+        let sizedPic = await cloudinary.uploader.explicit(newCloudPic.public_id, {
+            type: 'upload',
+                eager: [{width: 450, height: 300}]
+        })
+
+        let shop = await Business.findOneAndUpdate(
+          {userId: context.user._id},
+          {$set: {image: sizedPic.eager[0].secure_url}},
+          {new: true}
+        )
+
+        return shop
+
+      } catch (error) {
+        console.log(error)
+        return error
+      }
+    },
+    updateUserImage: async (parent, {image}, context) => {
+      try {
+        let newCloudPic = await cloudinary.uploader.upload(image, options);
+        console.log(newCloudPic);
+
+        let sizedPic = await cloudinary.uploader.explicit(newCloudPic.public_id, {
+            type: 'upload',
+                eager: [{width: 450, height: 300}]
+        })
+
+        console.log(sizedPic);
+
+        let user = await User.findOneAndUpdate(
+          {_id: context.user._id},
+          {$set: {image: sizedPic.eager[0].secure_url}},
+          {new: true}
+        )
+
+        console.log(user);
+
+        return user
+
+      } catch (error) {
+        console.log(error)
         return error
       }
     }

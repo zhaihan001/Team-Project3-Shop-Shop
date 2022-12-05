@@ -1,13 +1,14 @@
 import { gql } from "@apollo/client";
 
 export const ADD_USER = gql`
-    mutation addUser($username: String!, $email: String!, $password: String!){
-        addUser(username: $username, email: $email, password: $password){
+    mutation addUser($username: String!, $email: String!, $password: String!, $image: String!){
+        addUser(username: $username, email: $email, password: $password, image: $image){
             token
             user {
                 _id
                 username
                 email
+                image
                 orders{
                     _id
                     userId{
@@ -85,6 +86,7 @@ export const DELETE_USER = gql`
         deleteUser{
             _id
             email
+            
             orders{
                 _id
                 userId{
@@ -109,6 +111,7 @@ export const LOGIN_USER = gql`
                 _id
                 username
                 email
+                image
                 orders{
                     _id
                     userId{
@@ -192,48 +195,17 @@ export const ADD_SHOP = gql`
 `
 
 export const ADD_PRODUCT = gql`
-    mutation addProduct($productInput: productInput){
-        addProduct(productInput: $productInput){
+    mutation addProduct($name: String!, $description: String!, $images: [String!]!, $price: Float!, $quantity: Int!){
+        addProduct(name: $name, description: $description, images: $images, price: $price, quantity: $quantity){
             _id
+            name
+            description
+            images
+            price
+            quantity
             userId{
                 _id
                 username
-            }
-            businessName
-            image
-            orders{
-                _id
-                userId{
-                    _id
-                    username
-                }
-                businessId {
-                _id
-                businessName
-                }
-                purchaseDate
-                products{
-                    product{
-                        _id
-                        name
-                        description
-                        images
-                        price
-                        quantity
-
-                    }
-                    quantity
-                    
-                }
-
-            }
-            products{
-                _id
-                name
-                description
-                images
-                price
-                quantity
             }
         }
     }
@@ -266,8 +238,8 @@ export const DELETE_PRODUCT = gql`
 `
 //
 export const ADD_TO_CART = gql`
-    mutation addToCart($productId: ID!, $quantity: Int!, $businessId: ID!){
-        addToCart(productId: $productId, quantity: $quantity, businessId: $businessId){
+    mutation addToCart($productId: ID!, $businessId: ID!){
+        addToCart(productId: $productId, businessId: $businessId){
             _id
             userId {
                 _id
@@ -394,6 +366,44 @@ export const UPDATE_QUANTITY = gql`
             images
             price
             quantity
+        }
+    }
+`
+
+export const UPDATE_CARTITEM_QUANTITY = gql`
+    mutation updateCartItemQuantity($productId: ID!, $quantity: Int!){
+        updateCartItemQuantity(productId: $productId, quantity: $quantity){
+            product{
+                _id
+            name
+            description
+            images
+            price
+            quantity
+            }
+            
+        }
+    }
+`
+
+export const UPDATE_SHOP_IMAGE = gql`
+    mutation updateShopImage($image: String!){
+        updateShopImage(image: $image){
+            _id
+            businessName
+            image
+            
+        }
+    }
+`
+
+export const UPDATE_USER_IMAGE = gql`
+    mutation updateUserImage($image: String!){
+        updateUserImage(image: $image){
+            _id
+            username
+            image
+            
         }
     }
 `
