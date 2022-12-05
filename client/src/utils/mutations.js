@@ -287,6 +287,16 @@ export const DELETE_FROM_CART = gql`
     }
 `
 
+export const DELETE_CART = gql`
+    mutation deleteCart($products: [ID]!){
+        deleteCart(products: $products){
+            userId{
+                _id
+            }
+        }
+    }
+`
+
 export const SUBMIT_ORDER = gql`
     mutation submitOrder($businessId: ID!, $products: [ID]!){
         submitOrder(businessId: $businessId, products: $products){

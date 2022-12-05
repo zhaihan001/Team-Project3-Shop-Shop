@@ -103,6 +103,7 @@ const typeDefs = gql`
     updateCartItemQuantity(productId: ID!, quantity: Int!): CartItem
     updateShopImage(image: String!): Business
     updateUserImage(image: String!): User
+    deleteCart(products: [ID]!): Cart
   }
 `;
 

@@ -606,6 +606,21 @@ const resolvers = {
         console.log(error)
         return error
       }
+    },
+    deleteCart: async (parent, {products}, context) => {
+      try {
+        let removeCartItems = await CartItem.deleteMany({product: {_id: {$in: products}}})
+
+        let deletedCart = await Cart.findOneAndDelete(
+          {userId: context.user._id}
+        )
+
+        return deletedCart
+        
+      } catch (error) {
+        return error
+        console.log(error)
+      }
     }
   }
 };

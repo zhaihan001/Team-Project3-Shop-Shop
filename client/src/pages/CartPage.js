@@ -20,12 +20,22 @@ function CartPage() {
   }
   console.log(location.state);
 
+  const replaceCart = async () => {
+    try {
+      
+    } catch (error) {
+      console.log(error)
+    }
+  }
+
 
   if(locationState.errMsg){
     return (
       <>
-        <Modal>
-          <Button>Button</Button>
+        <Modal style={{width: "50%", margin: "auto", backgroundColor: "#eeffff", padding: "2%"}}>
+          <h3>Existing cart!</h3>
+          <p>You currently have items in your cart from a different shop, and adding a new item will remove the older ones. If you choose to continue, click 'replace' to update your cart</p>
+          <Button onClick={replaceCart}>Replace</Button>
           <CloseButton onClick={() => { 
             navigate("/cart", {
               state: {
