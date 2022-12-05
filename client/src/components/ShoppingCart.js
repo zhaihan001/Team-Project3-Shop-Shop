@@ -8,17 +8,28 @@ import Auth from "../utils/auth";
 import ShoppingCartItem from "./ShoppingCartItem";
 import { useUserContext } from "../contexts/UserContext";
 import { GET_CART } from "../utils/queries";
-const ShoppingCart = ({ cartItems, title, total, setTotal }) => {
-  // if (!cartItems.length) {
-  //   return <h1>Your Cart is Empty</h1>;
-  // }
+
+
+const ShoppingCart = ({ title }) => {
+  const { cartItems } = useUserContext();
   const {loading, data: cartWithId} = useQuery(GET_CART);
   const [submitOrder, { error }] = useMutation(SUBMIT_ORDER);
-  const removeItem = useMutation(DELETE_FROM_CART);
-  const [cartItemIds, setCartItemIds] = useState(cartItems?.map(item => item.product._id))
+  const [cartItemIds, setCartItemIds] = useState(cartItems.map(item => item.product._id))
+  const [total, setTotal] = useState(cartItems.map(item => item.productPrice * item.quantity).reduce((a,b) => a + b))
 
-  const businessId = cartWithId?.cart.businessId._id
+  // const [state, setState] = useState(cartWithId)
+  
+  const cart = cartWithId?.cart;
+  const businessId = cart?.businessId._id
+  
 
+
+  console.log(cartItems);
+  console.log(total);
+
+  console.log(cartItems.map(item => {
+    return item.product
+  }));
 
   const location = useLocation();
 
@@ -47,24 +58,14 @@ const ShoppingCart = ({ cartItems, title, total, setTotal }) => {
   };
 
 
-  const handleRemoval = async (event) => {
-    event.preventDefault();
-    try {
-      const { data } = await removeItem({
-        variables: { productId: event.target.id },
-      });
-      window.location.assign("/cart");
-    } catch (err) {
-      console.error(err);
-    }
-  };
+
 
   return (
     <Container>
       <h2>{title}</h2>
 
       <Content>
-        {cartItems?.length > 0 &&
+        {cartItems.length > 0 &&
           cartItems.map((item, index) => (
             <ShoppingCartItem key={index} cartItem={item} items={cartItems} setTotal={setTotal} />
           ))}
@@ -73,7 +74,7 @@ const ShoppingCart = ({ cartItems, title, total, setTotal }) => {
       {cartItems?.length > 0 && <button type="submit" onClick={handleSubmit}>
         Submit Order
       </button>}
-      {total && <h4>Total: ${total}.00</h4>}
+      {cartItems.length > 0 && <h4>Total: ${total}.00</h4>}
     </Container>
   );
 };

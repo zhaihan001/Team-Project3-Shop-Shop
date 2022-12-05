@@ -20,9 +20,11 @@ export const UserProvider = ({children}) => {
         const [updateImage, {err: newImgErr, data:newImgData}] = useMutation(UPDATE_USER_IMAGE);
 
         const { loading: cartLoading, data: myCart} = useQuery(GET_CART_ITEMS);
+        const cartItems = myCart?.cartItems || null;
+
 
         return (
-            <UserContext.Provider value={{newUser, login, cartLoading, newUserData, userData, updateImage, myCart}}>
+            <UserContext.Provider value={{newUser, login, cartLoading, newUserData, userData, updateImage, cartItems}}>
                 {children}
             </UserContext.Provider>
         )

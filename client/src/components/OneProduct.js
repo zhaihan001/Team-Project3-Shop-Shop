@@ -19,19 +19,22 @@ export default function OneProduct({businessId, productId, price}) {
   console.log(price);
 
   const { addToCart } = useProductContext();
-  console.log(data);
+  console.log(newData);
 
   const addItemToCart = async () => {
-    if(businessId !== newData.cart.businessId._id){
-      console.log("attempted");
-      navigate("/cart", {
-        state: {
-          errMsg: "Multiple shop error", 
-          productId, 
-          businessId
-        }
-      })
-      return 
+    if(newData.cart){
+      if(businessId !== newData.cart.businessId._id){
+        console.log("attempted");
+        navigate("/cart", {
+          state: {
+            errMsg: "Multiple shop error", 
+            productId, 
+            businessId
+          }
+        })
+        return 
+      }
+
     }
 
     console.log("hit");

@@ -7,6 +7,7 @@ import DefaultShops from "./DefaultShops";
 
 const ShopList = ({ shops, title }) => {
   const {isLiked, likeShop, unLikeShop, } = useStorageFunctions();
+  console.log(shops);
 
   if (!shops) {
     return <Container><h2>No Shops Yet 🥲</h2></Container>;
