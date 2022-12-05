@@ -22,10 +22,13 @@ const options = {
 const resolvers = {
   Query: {
     //for testing
-    cartItems: async () => {
+    cartItems: async (parent, args ,context) => {
       try {
-        let items = await CartItem.find();
-
+        
+        let items = await CartItem.find({userId: context.user._id}).populate("product");
+        console.log(items);
+        
+        
         return items
 
       } catch (error) {

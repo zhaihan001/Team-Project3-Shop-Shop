@@ -161,3 +161,21 @@ export const GET_CART = gql`
     }
   }
 `;
+
+export const GET_CART_ITEMS = gql`
+  query cartItems {
+    cartItems {
+      _id
+      product {
+        _id
+        description
+        images
+        name
+        price
+        quantity
+      }
+      quantity
+    }
+  }
+
+`

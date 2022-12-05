@@ -1,11 +1,12 @@
 import React from "react";
 import ShoppingCart from "../components/ShoppingCart";
 import { useQuery } from "@apollo/client";
-import { GET_CART } from "../utils/queries";
+import { GET_CART, GET_CART_ITEMS } from "../utils/queries";
 
 function CartPage() {
-  const { loading, data } = useQuery(GET_CART);
-  const cartItems = data?.cart || [];
+  const { loading, data } = useQuery(GET_CART_ITEMS);
+  const cartItems = data?.cartItems || [];
+  console.log(cartItems);
 
   return (
     <div>
