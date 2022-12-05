@@ -2,14 +2,15 @@ import { useMutation } from '@apollo/client';
 import { identity } from 'angular';
 import React, { useEffect, useState, useRef } from 'react'
 import styled from 'styled-components';
+import { useProductContext } from '../contexts/ProductContext';
 import { UPDATE_CARTITEM_QUANTITY } from '../utils/mutations';
 import { Palette } from './Palette';
 
 export default function ShoppingCartItem({cartItem}) {
-    
-  const [updateQuantity, {loading, err}] = useMutation(UPDATE_CARTITEM_QUANTITY)
+  const {updateQuantity, updLoading, removeFromCart} = useProductContext();
   const [quantity, setQuantity] = useState(cartItem.quantity);
   const [item, setItem] = useState(cartItem);
+  
 
   const changeQuantity = async (e) => {
     try {
@@ -43,41 +44,58 @@ export default function ShoppingCartItem({cartItem}) {
     }
   }
 
-    if(cartItem.product === null){
-        return (
-            <div>Loading...</div>
-        )
+  const handleRemoveFromCart = async (id) => {
+    try {
+        const {data} = await removeFromCart({
+            variables: {
+                productId: item.product._id
+            }
+        })
+
+        setQuantity(0)
+        
+    } catch (error) {
+        console.log(error)
+        return error
+        
+    }
+  }
+
+    if(quantity === null){
+      return (
+        <div>Loading...</div>
+      )
     }
 
   return (
     <>
-        <Wrap>
-              {item.product && <img src={item.product && item.product.images[0]} alt={item.businessId} />}
-              <p>
-                Unit Price: ${item.product.price}.99
-                <br />
-                <span style={{width: "100%"}}>Quantity(maximum 5 items): 
-                {/* <select name="quantity">
-                  <option value={1}>1</option>
-                  <option value={2}>2</option>
-                  <option value={3}>3</option>
-                  <option value={4}>4</option>
-                  <option value={5}>5</option>
-                </select> */}
-                <span><button onClick={(e) => changeQuantity(e)} id="decrement">-</button> <span>{quantity}</span><button onClick={(e) => changeQuantity(e)} id="increment">+</button></span>
-                <br></br>
-                </span>
-                Total Price: ${(item.product.price + .99) * quantity}
-                <br></br>
-                <button
-                  type="delete"
-                  id={item.product._id}
-                  onClick={() => console.log("hello", item._id)}
-                >
-                  Remove Item
-                </button>
-              </p>
-            </Wrap>
+       {quantity > 0 && <Wrap>
+            {item.product && <img src={item.product && item.product.images[0]} alt={item.businessId} />}
+            <p>
+            Unit Price: ${item.product.price}.99
+            <br />
+            <span style={{width: "100%"}}>Quantity(maximum 5 items): 
+            {/* <select name="quantity">
+                <option value={1}>1</option>
+                <option value={2}>2</option>
+                <option value={3}>3</option>
+                <option value={4}>4</option>
+                <option value={5}>5</option>
+            </select> */}
+            <span><button onClick={(e) => changeQuantity(e)} id="decrement">-</button> <span>{quantity}</span><button onClick={(e) => changeQuantity(e)} id="increment">+</button></span>
+            <br></br>
+            </span>
+            Total Price: ${(item.product.price + .99) * quantity}
+            <br></br>
+            <button
+                type="delete"
+                id={item.product._id}
+                onClick={() => handleRemoveFromCart(item.product._id)}
+            >
+                Remove Item
+            </button>
+            </p>
+        </Wrap>}
     </>
   )
 }

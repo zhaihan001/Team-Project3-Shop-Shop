@@ -1,11 +1,12 @@
 import { useQuery } from '@apollo/client'
 import React from 'react'
-import { Navigate } from 'react-router-dom'
+import { Navigate, useNavigate } from 'react-router-dom'
 import { useProductContext } from '../contexts/ProductContext'
 import { GET_PRODUCT } from '../utils/queries'
 import { Container, Content, Wrap } from './ShopList'
 
 export default function OneProduct({businessId, productId}) {
+  const navigate = useNavigate();
   const {loading, data} = useQuery(GET_PRODUCT, {
     variables: {
       _id: productId
@@ -26,8 +27,8 @@ export default function OneProduct({businessId, productId}) {
 
       console.log(data);
 
-      return <Navigate to={"/cart"} />
       
+      window.location.replace("/cart")
     } catch (error) {
       console.log(error)
       return error

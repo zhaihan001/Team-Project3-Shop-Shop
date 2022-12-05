@@ -442,7 +442,7 @@ const resolvers = {
     },
     deleteFromCart: async (parent, {productId}, context) => {
       try {
-        let deletedCartItem = await CartItem.findOneAndDelete({product: productId});
+        let deletedCartItem = await CartItem.findOneAndDelete({product: {_id: productId}, userId: context.user._id});
 
         let removedItem = await Cart.findOneAndUpdate(
           {userId: context.user._id},
