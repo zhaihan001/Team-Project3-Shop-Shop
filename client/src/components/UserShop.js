@@ -15,7 +15,8 @@ function Usershop({myShop}) {
   if(myShop){
     return (
     <>
-      {!showProductForm ? <UserShopHeading myShop={myShop} setShowProductForm={setShowProductForm} /> :  <AddProduct setShowProductForm={setShowProductForm}/>}
+      {!showProductForm 
+        ? <UserShopHeading myShop={myShop} setShowProductForm={setShowProductForm} /> :  <AddProduct setShowProductForm={setShowProductForm}/>}
       
     </>
           

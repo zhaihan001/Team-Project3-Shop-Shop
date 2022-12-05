@@ -79,7 +79,7 @@ function AddProduct({setShowProductForm}) {
               <label htmlFor='itemdesc'>Item Description</label>
               <input value={productData.description} onChange={handleFormChange} type='text' name='description' id='itemdesc' required />
               <label htmlFor='itemdesc'>Input price</label>
-              <input value={productData.price} onChange={handleFormChange} type='number' min='0' max='10000' step='any' name='price' id='itemdesc' className='price' required />
+              <div>$ <input value={`${productData.price}.00`} onChange={handleFormChange} type='number' min='0' max='10000' step='any' name='price' id='itemdesc' className='price' required /></div>
               <label htmlFor='itemdesc'>In stock</label>
               <input placeholder='Enter quantity' value={productData.quantity} onChange={handleFormChange} type='number' min='0' max='10000' step='any' name='quantity' id='itemdesc' className='quantity' required />
               <label htmlFor='itemImg'>Upload an image of your product.</label>

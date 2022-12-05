@@ -175,6 +175,8 @@ export const GET_CART_ITEMS = gql`
         quantity
       }
       quantity
+      productPrice
+      total
     }
   }
 

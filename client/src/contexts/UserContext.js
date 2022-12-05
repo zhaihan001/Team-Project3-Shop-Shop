@@ -1,7 +1,7 @@
 import { useMutation, useQuery } from '@apollo/client';
 import React, { Component, createContext, useContext } from 'react';
 import { ADD_USER, LOGIN_USER, UPDATE_USER_IMAGE } from '../utils/mutations';
-import { GET_USER } from '../utils/queries';
+import { GET_USER, GET_CART_ITEMS } from '../utils/queries';
 
 export const UserContext = createContext();
 
@@ -19,8 +19,12 @@ export const UserProvider = ({children}) => {
 
         const [updateImage, {err: newImgErr, data:newImgData}] = useMutation(UPDATE_USER_IMAGE);
 
+        const { loading: cartLoading, data: myCart} = useQuery(GET_CART_ITEMS);
+        const cartItems = myCart?.cartItems || null;
+
+
         return (
-            <UserContext.Provider value={{newUser, login, newUserData, userData, updateImage}}>
+            <UserContext.Provider value={{newUser, login, cartLoading, newUserData, userData, updateImage, cartItems}}>
                 {children}
             </UserContext.Provider>
         )

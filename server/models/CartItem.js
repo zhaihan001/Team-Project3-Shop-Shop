@@ -15,10 +15,25 @@ const cartItemSchema = new Schema({
   quantity: {
     type: Number,
     required: true
+  },
+  productPrice: {
+    type: Number,
+    required: true
   }
-}
+},
+  {
+    toJSON: {
+      virtuals: true
+    },
+    id: false
+
+  }
 );
 
+//needs tested
+cartItemSchema.virtual('total').get(function () {
+  return this.product.price * this.quantity;
+})
 
 const CartItem = mongoose.model("CartItem", cartItemSchema);
 

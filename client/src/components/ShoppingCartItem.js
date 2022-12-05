@@ -1,15 +1,24 @@
 import { useMutation } from '@apollo/client';
 import { identity } from 'angular';
 import React, { useEffect, useState, useRef } from 'react'
+import { Navigate } from 'react-router-dom';
 import styled from 'styled-components';
 import { useProductContext } from '../contexts/ProductContext';
 import { UPDATE_CARTITEM_QUANTITY } from '../utils/mutations';
 import { Palette } from './Palette';
 
-export default function ShoppingCartItem({cartItem, items}) {
+export default function ShoppingCartItem({cartItem, items, setTotal}) {
   const {updateQuantity, updLoading, removeFromCart} = useProductContext();
   const [quantity, setQuantity] = useState(cartItem.quantity);
   const [item, setItem] = useState(cartItem);
+  console.log(item);
+  const [product, setProduct] = useState(item.product)
+
+  console.log(product);
+
+  useEffect(() => {
+    setProduct(item.product)
+  }, [item])
   
 
   const changeQuantity = async (e) => {
@@ -27,6 +36,7 @@ export default function ShoppingCartItem({cartItem, items}) {
             })
             
             setQuantity(prev => prev + 1)
+            setTotal(prev => prev + item.productPrice)
 
         } else if(id === "decrement"){
             const { data } = await updateQuantity({
@@ -37,6 +47,9 @@ export default function ShoppingCartItem({cartItem, items}) {
             })
             
             setQuantity(prev => prev - 1)
+            setTotal(prev => prev - item.productPrice)
+
+
 
         }
     } catch (error) {
@@ -75,21 +88,19 @@ export default function ShoppingCartItem({cartItem, items}) {
       )
     }
 
+    //due to subdocument data not persisting between routes
+    if(!product.images){
+        window.location.reload();
+    }
+
   return (
     <>
-       {quantity > 0 && <Wrap>
-            {item.product && <img src={item.product && item.product.images[0]} alt={item.businessId} />}
+       {product.images  && <Wrap>
+            {item.product && <img src={product.images[0]} alt={item.businessId} />}
             <p>
             Unit Price: ${item.product.price}.00
             <br />
             <span style={{width: "100%"}}>Quantity(maximum 5 items): 
-            {/* <select name="quantity">
-                <option value={1}>1</option>
-                <option value={2}>2</option>
-                <option value={3}>3</option>
-                <option value={4}>4</option>
-                <option value={5}>5</option>
-            </select> */}
             <span><button onClick={quantity > 1 ? ((e) => changeQuantity(e)) : (() => handleRemoveFromCart(item.product._id))} id="decrement">-</button> <span>{quantity}</span><button style={{backgroundColor: quantity === 5 ? "grey" : ""}} onClick={quantity < 5 ? ((e) => changeQuantity(e)) : (() => true)} id="increment">+</button></span>
             <br></br>
             </span>

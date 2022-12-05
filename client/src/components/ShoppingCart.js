@@ -1,41 +1,49 @@
-import React from "react";
+import React, {useState} from "react";
 import styled from "styled-components";
-import { useMutation } from "@apollo/client";
+import { useMutation, useQuery } from "@apollo/client";
 import { SUBMIT_ORDER, DELETE_FROM_CART } from "../utils/mutations";
 import { Palette } from "./Palette";
 import { useLocation, Navigate } from "react-router-dom";
-import Auth from "../utils/auth";
 import ShoppingCartItem from "./ShoppingCartItem";
-const ShoppingCart = ({ cartItems, title }) => {
-  // if (!cartItems.length) {
-  //   return <h1>Your Cart is Empty</h1>;
-  // }
+import { useUserContext } from "../contexts/UserContext";
+import { GET_CART } from "../utils/queries";
+
+
+const ShoppingCart = ({ title }) => {
+  const location = useLocation();
+  const { cartItems } = useUserContext();
+  const {loading, data: cartWithId} = useQuery(GET_CART);
   const [submitOrder, { error }] = useMutation(SUBMIT_ORDER);
-  const removeItem = useMutation(DELETE_FROM_CART);
+  const [cartItemIds, setCartItemIds] = useState(cartItems.map(item => item.product._id))
+  console.log(cartItems);
+  const [total, setTotal] = useState(cartItems.length > 0 ? cartItems.map(item => item.productPrice * item.quantity).reduce((a,b) => a + b) : 0)
+  
+ 
+  // const [state, setState] = useState(cartWithId)
+  
+  const cart = cartWithId?.cart;
+  const businessId = cart?.businessId._id
+  
+
 
   console.log(cartItems);
+  console.log(total);
 
-  const location = useLocation();
+  console.log(cartItems.map(item => {
+    return item.product
+  }));
 
-  if(!Auth.loggedIn()){
-    return <Navigate to="/login" state={{previousUrl: location.pathname}} />
-  }
 
-  let cartItemsId = [];
-  if (cartItems.products) {
-    cartItemsId = cartItems.products.map((e) => {
-      return e._id;
-    });
-  }
+  console.log(cartItemIds);
 
-  const handleSubmit = async (event) => {
-    event.preventDefault();
+
+  const handleSubmit = async () => {
     try {
       const { data } = await submitOrder({
         // passing data
         variables: {
-          products: cartItemsId,
-          businessId: cartItems.businessId._Id,
+          products: cartItemIds,
+          businessId: businessId
         },
       });
 
@@ -48,17 +56,7 @@ const ShoppingCart = ({ cartItems, title }) => {
   };
 
 
-  const handleRemoval = async (event) => {
-    event.preventDefault();
-    try {
-      const { data } = await removeItem({
-        variables: { productId: event.target.id },
-      });
-      window.location.assign("/cart");
-    } catch (err) {
-      console.error(err);
-    }
-  };
+
 
   return (
     <Container>
@@ -67,22 +65,14 @@ const ShoppingCart = ({ cartItems, title }) => {
       <Content>
         {cartItems.length > 0 &&
           cartItems.map((item, index) => (
-            <ShoppingCartItem key={index} cartItem={item} items={cartItems} />
-            // <Wrap>
-            //   <img src={item.image} alt={item.businessName} />
-            //   <a href={"/shops/" + item._id}>
-            //     <div>
-            //       <h4>Visit Shop</h4>
-            //     </div>
-            //     <h3>{item.businessName}</h3>
-            //   </a>
-            // </Wrap>
+            <ShoppingCartItem key={index} cartItem={item} items={cartItems} setTotal={setTotal} />
           ))}
       </Content>
 
-      {cartItems.length > 0 && <button type="submit" id="submit" onSubmit={handleSubmit}>
+      {cartItems?.length > 0 && <button type="submit" onClick={handleSubmit}>
         Submit Order
       </button>}
+      {cartItems.length > 0 && <h4>Total: ${total}.00</h4>}
     </Container>
   );
 };
