@@ -10,6 +10,8 @@ function Login({setShowSignUp}) {
   const { login } = useUserContext();
   const location = useLocation();
   const redirectTo = location.state.previousUrl || '/'
+  const [testErr, setTestErr] = useState(false);
+  console.log(testErr);
 
   const handleFormChange = (e) => {
     const { name, value } = e.target;
@@ -34,6 +36,7 @@ function Login({setShowSignUp}) {
       window.location.assign(`${redirectTo}`);
     } catch (error) {
       console.log(error);
+      setTestErr(true)
       return error;
     }
   };
@@ -60,6 +63,11 @@ function Login({setShowSignUp}) {
             name="password"
             id="password"
           />
+          {testErr && <div style={{backgroundColor: "#f4b0b0", padding: "2%", marginTop: "2%", borderRadius: "5px"}}>
+            <small style={{paddingTop: '2%', color: "red", fontWeight: 700}}>An error occured with the given credentials</small>
+
+          </div>}
+
           <input type="submit" value="Login" />
 
           {/* Signup Button */}
