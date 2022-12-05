@@ -121,7 +121,6 @@ const Wrap = styled.div`
         flex-direction: column;
         background-color: #d6eee7;
         color: ${Palette.red};
-        font-family: 'Nerko One', cursive;
 
         h2 {
             background: white;
@@ -132,6 +131,7 @@ const Wrap = styled.div`
             text-align: center;
             box-shadow: rgb(0 0 0 / 69%) 0px 26px 30px -10px,
             rgb(0 0 0 / 73%) 0px 16px 10px -10px;
+            font-size: 40px;
         }
     }
 
@@ -142,5 +142,9 @@ const Wrap = styled.div`
         flex-direction: column;
         background-image: url("/images/grit.png");
         color: ${Palette.fadedGrey};
+        
+        h2 {
+            font-size: 50px;
+        }
     }
 `
