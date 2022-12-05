@@ -8,6 +8,7 @@ function CartPage() {
   console.log(data);
   const cartItems = data?.cartItems || null;
   console.log(cartItems);
+  
 
   return (
     <div>

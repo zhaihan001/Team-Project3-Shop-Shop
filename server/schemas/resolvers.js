@@ -24,11 +24,13 @@ const resolvers = {
     //for testing
     cartItems: async (parent, args ,context) => {
       try {
+        if(context.user){
+          let items = await CartItem.find({userId: context.user._id}).populate("product");
+          return items
+
+        }
         
-        let items = await CartItem.find({userId: context.user._id}).populate("product");
         
-        
-        return items
 
       } catch (error) {
         console.log(error);
