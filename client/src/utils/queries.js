@@ -110,6 +110,7 @@ export const GET_USER = gql`
       _id
       username
       email
+      image
       orders {
         _id
         businessId {

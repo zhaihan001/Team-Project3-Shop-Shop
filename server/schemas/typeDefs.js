@@ -14,6 +14,7 @@ const typeDefs = gql`
   }
 
   type CartItem{
+    _id: ID
     product: Product
     userId: User
     quantity: Int
@@ -24,7 +25,7 @@ const typeDefs = gql`
     name: String
     description: String
     images: [String]
-    price: Float
+    price: Int
     quantity: Int
     userId: User
   }
@@ -41,6 +42,7 @@ const typeDefs = gql`
     _id: ID
     username: String
     email: String
+    image: String
     orders: [Order]
   }
 
@@ -54,7 +56,7 @@ const typeDefs = gql`
   input productInput {
     name: String!
     description: String!
-    image: [String]!
+    images: [String]!
     price: Int!
     quantity: Int!
   }
@@ -69,6 +71,8 @@ const typeDefs = gql`
   }
 
   type Query {
+    cartItems: [CartItem]
+    products: [Product]
     myShop: Business
     users: [User]
     shops: [Business]
@@ -80,20 +84,22 @@ const typeDefs = gql`
   }
 
   type Mutation {
-    addUser(username: String!, email: String!, password: String!): Auth
+    addUser(username: String!, email: String!, password: String!, image: String!): Auth
     updateUser(username: String!, email: String!, password: String): User
     deleteUser: User
     login(username: String!, password: String!): Auth
     addShop(businessName: String!, slogan: String!, image: String!, primaryHex: String!, secondaryHex: String!): Business 
-    addProduct(productInput: productInput): Business
+    addProduct(name: String!, description: String!, images: [String!]!, price: Float!, quantity: Int!): Product
     updateProduct(_id: ID!, productInput: productInput!): Product
     deleteProduct(_id: ID!): Product
-    addToCart(productId: ID!, quantity: Int!, businessId: ID!): Cart
+    addToCart(productId: ID!, businessId: ID!): Cart
     deleteFromCart(productId: ID!): Cart
     submitOrder(businessId: ID!, products: [ID]!): User
     cancelOrder(_id: ID!): User
     updateProductQuantity(quantity: Int!): Product
     updateCartItemQuantity(productId: ID!, quantity: Int!): CartItem
+    updateShopImage(image: String!): Business
+    updateUserImage(image: String!): User
   }
 `;
 

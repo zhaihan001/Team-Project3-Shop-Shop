@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import styled from 'styled-components'
 import { useUserContext } from '../contexts/UserContext';
 import Auth from '../utils/auth';
@@ -9,6 +9,8 @@ import {Navigate, useLocation} from "react-router-dom";
 function Signup({setShowSignUp}) {
   const { newUser } = useUserContext();
   const location = useLocation();
+  const [image, setImage] = useState(null);
+  const [imageData, setImageData] = useState("")
 
   const [userForm, setUserForm] = useState({
     username: "",
@@ -34,6 +36,7 @@ function Signup({setShowSignUp}) {
           username: userForm.username,
           email: userForm.email,
           password: userForm.password,
+          image: imageData
         },
       });
 
@@ -46,6 +49,23 @@ function Signup({setShowSignUp}) {
       return error;
     }
   };
+
+  const handleImageChange = (e) => {
+    e.persist();
+    setImage(e.target.files[0])
+  }
+
+  useEffect(() => {
+    if(image){
+      const reader = new FileReader();
+
+      reader.onloadend = (e) => {
+        setImageData(e.target.result)
+      }
+
+      reader.readAsDataURL(image)
+    }
+  }, [image])
 
   return (
     <Container>
@@ -94,6 +114,14 @@ function Signup({setShowSignUp}) {
           {userForm.password !== userForm.confirmPassword && (
             <small>Passwords do not match.</small>
           )}
+          <label htmlFor="image">Profile image:</label>
+          <input
+            onChange={handleImageChange}
+            type="file"
+            name="image"
+            id="image"
+          />
+          {image && <img src={imageData} alt="chosen-logo" style={{width: "20rem"}} />}
           <input type="submit" value="Signup" />
 
             {/* Login Button */}
