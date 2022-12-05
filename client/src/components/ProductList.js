@@ -12,6 +12,12 @@ export default function ProductList({id}) {
     })
     console.log(data);
 
+    if(loading){
+        return (
+            <div>Loading...</div>
+        )
+    }
+
   return (
     <>
         <Container>

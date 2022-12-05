@@ -22,11 +22,15 @@ const options = {
 const resolvers = {
   Query: {
     //for testing
-    cartItems: async () => {
+    cartItems: async (parent, args ,context) => {
       try {
-        let items = await CartItem.find();
+        if(context.user){
+          let items = await CartItem.find({userId: context.user._id}).populate("product");
+          return items
 
-        return items
+        }
+        
+        
 
       } catch (error) {
         console.log(error);
@@ -440,7 +444,7 @@ const resolvers = {
     },
     deleteFromCart: async (parent, {productId}, context) => {
       try {
-        let deletedCartItem = await CartItem.findOneAndDelete({product: productId});
+        let deletedCartItem = await CartItem.findOneAndDelete({product: {_id: productId}, userId: context.user._id});
 
         let removedItem = await Cart.findOneAndUpdate(
           {userId: context.user._id},
@@ -504,15 +508,26 @@ const resolvers = {
     },
     updateCartItemQuantity: async (parent, {productId, quantity}, context) => {
       try {
+        console.log(productId, quantity);
         let newCartItem = await CartItem.findOneAndUpdate(
-          {product: productId},
+          {product: {_id: productId}, userId: context.user._id},
           {$set: {quantity}},
-          {new: true}
+          {new: true, upsert: true}
         )
+
+        // const cartItem = await CartItem.findOne(
+        //   {product: {_id: productId}}
+        // ).populate("product")
+
+        // cartItem.quantity = quantity;
+
+        // await cartItem.save();
+        console.log("newItem", newCartItem);
 
         return newCartItem
 
       } catch (error) {
+        console.log(error)
         return error
       }
     },

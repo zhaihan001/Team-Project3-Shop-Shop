@@ -370,6 +370,22 @@ export const UPDATE_QUANTITY = gql`
     }
 `
 
+export const UPDATE_CARTITEM_QUANTITY = gql`
+    mutation updateCartItemQuantity($productId: ID!, $quantity: Int!){
+        updateCartItemQuantity(productId: $productId, quantity: $quantity){
+            product{
+                _id
+            name
+            description
+            images
+            price
+            quantity
+            }
+            
+        }
+    }
+`
+
 export const UPDATE_SHOP_IMAGE = gql`
     mutation updateShopImage($image: String!){
         updateShopImage(image: $image){
