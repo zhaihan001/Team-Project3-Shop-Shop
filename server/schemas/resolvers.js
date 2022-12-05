@@ -22,6 +22,17 @@ const options = {
 const resolvers = {
   Query: {
     //for testing
+    orders: async () => {
+      try {
+        let orders = await Order.find();
+
+        return orders
+
+      } catch (error) {
+        console.log(error)
+        return error
+      }
+    },
     cartItems: async (parent, args ,context) => {
       try {
         if(context.user){
@@ -88,7 +99,7 @@ const resolvers = {
     },
     product: async (parent, { _id }) => {
       try {
-        let product = await Product.findOne({_id});
+        let product = await Product.findOne({_id}).populate("userId");
 
 
         return product
@@ -341,6 +352,10 @@ const resolvers = {
             }
           )
 
+          let removedCartItems = await CartItem.deleteMany({product: {$in: products}},{new: true})
+
+          console.log(removedCartItems);
+
           let updUser = await User.findOneAndUpdate(
             {_id: context.user._id},
             {$push: {orders: order._id}}
@@ -351,14 +366,16 @@ const resolvers = {
             {$push: {orders: order._id}},
           )
 
-          let productIds = order.products.map(item => {
-            return item
-          });
+          // let productIds = order.products.map(item => {
+          //   return item
+          // });
 
           let removedItemsFromCart = await Cart.findOneAndUpdate(
             {userId: context.user._id},
-            {$pullAll: {products: productIds}}
+            {$pullAll: products}
           )
+
+          console.log(order);
 
           return order
 

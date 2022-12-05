@@ -26,11 +26,11 @@ export default function ProductList({id}) {
                 {data && data.getShop.products.map((item,index) => (
                     <Wrap key={index}>
                     <img src={item.images[0]} alt="product" />
-                    <Link to={`/shop/${id}/product/${item._id}`}>
+                    <Link to={`/shop/${id}/product/${item._id}`} >
                         <div>
                         <h4>View Product</h4>
                         </div>
-                        <h3>Marnie's Soaps</h3>
+                        <h3>{item.name}</h3>
                     </Link>
                     </Wrap>
                 ))}

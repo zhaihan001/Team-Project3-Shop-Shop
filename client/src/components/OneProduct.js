@@ -2,11 +2,13 @@ import { useQuery } from '@apollo/client'
 import React from 'react'
 import { Navigate, useLocation, useNavigate } from 'react-router-dom'
 import { useProductContext } from '../contexts/ProductContext'
-import { GET_PRODUCT } from '../utils/queries'
+import { GET_CART, GET_PRODUCT } from '../utils/queries'
 import { Container, Content, Wrap } from './ShopList'
 import Auth from "../utils/auth";
 
 export default function OneProduct({businessId, productId}) {
+  const {loading: newLoad, data: newData} = useQuery(GET_CART)
+  console.log(newData);
   const navigate = useNavigate();
   const location = useLocation();
   const {loading, data} = useQuery(GET_PRODUCT, {
@@ -14,10 +16,23 @@ export default function OneProduct({businessId, productId}) {
       _id: productId
     }
   })
+
   const { addToCart } = useProductContext();
   console.log(data);
 
   const addItemToCart = async () => {
+    if(businessId !== newData.cart.businessId._id){
+      console.log("attempted");
+      navigate("/cart", {
+        state: {
+          errMsg: "Multiple shop error", 
+          productId, 
+          businessId
+        }
+      })
+      return 
+    }
+
     console.log("hit");
     try {
       const { data } = await addToCart({

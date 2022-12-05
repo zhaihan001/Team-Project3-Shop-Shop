@@ -1,18 +1,24 @@
-import React from "react";
+import React, {useState} from "react";
 import styled from "styled-components";
-import { useMutation } from "@apollo/client";
+import { useMutation, useQuery } from "@apollo/client";
 import { SUBMIT_ORDER, DELETE_FROM_CART } from "../utils/mutations";
 import { Palette } from "./Palette";
 import { useLocation, Navigate } from "react-router-dom";
 import Auth from "../utils/auth";
 import ShoppingCartItem from "./ShoppingCartItem";
+import { useUserContext } from "../contexts/UserContext";
+import { GET_CART } from "../utils/queries";
 const ShoppingCart = ({ cartItems, title }) => {
   // if (!cartItems.length) {
   //   return <h1>Your Cart is Empty</h1>;
   // }
+  const {loading, data: cartWithId} = useQuery(GET_CART);
   const [submitOrder, { error }] = useMutation(SUBMIT_ORDER);
   const removeItem = useMutation(DELETE_FROM_CART);
+  const [cartItemIds, setCartItemIds] = useState(cartItems.map(item => item.product._id))
 
+  const businessId = cartWithId?.cart.businessId._id
+  console.log(businessId);
   console.log(cartItems);
 
   const location = useLocation();
@@ -20,22 +26,16 @@ const ShoppingCart = ({ cartItems, title }) => {
   if(!Auth.loggedIn()){
     return <Navigate to="/login" state={{previousUrl: location.pathname}} />
   }
+  console.log(cartItemIds);
 
-  let cartItemsId = [];
-  if (cartItems.products) {
-    cartItemsId = cartItems.products.map((e) => {
-      return e._id;
-    });
-  }
 
-  const handleSubmit = async (event) => {
-    event.preventDefault();
+  const handleSubmit = async () => {
     try {
       const { data } = await submitOrder({
         // passing data
         variables: {
-          products: cartItemsId,
-          businessId: cartItems.businessId._Id,
+          products: cartItemIds,
+          businessId: businessId
         },
       });
 
@@ -68,19 +68,10 @@ const ShoppingCart = ({ cartItems, title }) => {
         {cartItems.length > 0 &&
           cartItems.map((item, index) => (
             <ShoppingCartItem key={index} cartItem={item} items={cartItems} />
-            // <Wrap>
-            //   <img src={item.image} alt={item.businessName} />
-            //   <a href={"/shops/" + item._id}>
-            //     <div>
-            //       <h4>Visit Shop</h4>
-            //     </div>
-            //     <h3>{item.businessName}</h3>
-            //   </a>
-            // </Wrap>
           ))}
       </Content>
 
-      {cartItems.length > 0 && <button type="submit" id="submit" onSubmit={handleSubmit}>
+      {cartItems.length > 0 && <button type="submit" onClick={handleSubmit}>
         Submit Order
       </button>}
     </Container>

@@ -71,6 +71,7 @@ const typeDefs = gql`
   }
 
   type Query {
+    orders: [Order]
     cartItems: [CartItem]
     products: [Product]
     myShop: Business
