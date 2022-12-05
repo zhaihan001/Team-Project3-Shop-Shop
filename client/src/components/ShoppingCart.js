@@ -4,19 +4,21 @@ import { useMutation, useQuery } from "@apollo/client";
 import { SUBMIT_ORDER, DELETE_FROM_CART } from "../utils/mutations";
 import { Palette } from "./Palette";
 import { useLocation, Navigate } from "react-router-dom";
-import Auth from "../utils/auth";
 import ShoppingCartItem from "./ShoppingCartItem";
 import { useUserContext } from "../contexts/UserContext";
 import { GET_CART } from "../utils/queries";
 
 
 const ShoppingCart = ({ title }) => {
+  const location = useLocation();
   const { cartItems } = useUserContext();
   const {loading, data: cartWithId} = useQuery(GET_CART);
   const [submitOrder, { error }] = useMutation(SUBMIT_ORDER);
   const [cartItemIds, setCartItemIds] = useState(cartItems.map(item => item.product._id))
-  const [total, setTotal] = useState(cartItems.map(item => item.productPrice * item.quantity).reduce((a,b) => a + b))
-
+  console.log(cartItems);
+  const [total, setTotal] = useState(cartItems.length > 0 ? cartItems.map(item => item.productPrice * item.quantity).reduce((a,b) => a + b) : 0)
+  
+ 
   // const [state, setState] = useState(cartWithId)
   
   const cart = cartWithId?.cart;
@@ -31,11 +33,7 @@ const ShoppingCart = ({ title }) => {
     return item.product
   }));
 
-  const location = useLocation();
 
-  if(!Auth.loggedIn()){
-    return <Navigate to="/login" state={{previousUrl: location.pathname}} />
-  }
   console.log(cartItemIds);
 
 

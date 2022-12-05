@@ -19,9 +19,11 @@ export default function OneProduct({businessId, productId, price}) {
   console.log(price);
 
   const { addToCart } = useProductContext();
+  console.log(businessId);
   console.log(newData);
 
   const addItemToCart = async () => {
+  
     if(newData.cart){
       if(businessId !== newData.cart.businessId._id){
         console.log("attempted");
@@ -36,6 +38,8 @@ export default function OneProduct({businessId, productId, price}) {
       }
 
     }
+
+    
 
     console.log("hit");
     try {

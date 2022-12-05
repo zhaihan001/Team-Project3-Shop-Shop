@@ -6,18 +6,22 @@ import { useUserContext } from "../contexts/UserContext";
 import { Navigate, useLocation, useNavigate } from "react-router-dom";
 import { Modal } from "../components/UpdateImageModal.js";
 import { Button, CloseButton } from "react-bootstrap";
+import Auth from "../utils/auth";
+
 
 function CartPage() {
   const { cartLoading } = useUserContext();
   const location = useLocation();
   const navigate = useNavigate();
-  const [locationState, setLocationState] = useState(location.state || null)
+  const [locationState, setLocationState] = useState(location.state || {errMsg: false})
   
+  if(!Auth.loggedIn()){
+    return <Navigate to="/login" state={{previousUrl: location.pathname}} />
+  }
+  console.log(location.state);
 
 
-
-  if(locationState){
-    console.log(location.state.errMsg);
+  if(locationState.errMsg){
     return (
       <>
         <Modal>
@@ -28,7 +32,8 @@ function CartPage() {
                 status: 200
               }
             })
-            window.location.reload();
+            setLocationState({status: 200})
+            // window.location.reload();
           }}>X</CloseButton>
         </Modal>
       </>

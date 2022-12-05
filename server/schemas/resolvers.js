@@ -469,6 +469,14 @@ const resolvers = {
           {$pull: {products: deletedCartItem._id}},
           {new: true, runValidators: true}
         )
+        console.log(removedItem.products.length);
+
+        if(removedItem.products.length === 0){
+          let removedCart = await Cart.findOneAndDelete(
+            {userId: context.user._id}
+          )
+
+        }
 
         return removedItem
         
