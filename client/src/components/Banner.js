@@ -15,7 +15,7 @@ function Banner() {
         autoplaySpeed: 5000,
         slidesToShow: 2,
         slidesToScroll: 1,
-        // autoplay: true
+        autoplay: true,
         responsive: [
             {
                 breakpoint: 1000,
@@ -26,6 +26,7 @@ function Banner() {
                     autoplaySpeed: 5000,
                     slidesToShow: 1,
                     slidesToScroll: 1,
+                    autoplay: true,
                 }
             }
         ]
@@ -35,12 +36,12 @@ function Banner() {
     <Carousel {...settings}>
        <Wrap>
         <div className="slideA">
-        <h2>Free shipping on all orders</h2>
+        <h2>Free shipping on all orders over $50</h2>
         </div>
        </Wrap>
        <Wrap>
        <div className="slideB">
-        <h2>Find the latest and greatest in holiday gifts!</h2>
+        <h2>Find something special this holiday season</h2>
         </div>
        </Wrap>
        <Wrap>
@@ -120,6 +121,7 @@ const Wrap = styled.div`
         flex-direction: column;
         background-color: #d6eee7;
         color: ${Palette.red};
+        font-family: 'Nerko One', cursive;
 
         h2 {
             background: white;

@@ -7,6 +7,7 @@ import {
   createHttpLink,
 } from "@apollo/client";
 import { setContext } from "@apollo/client/link/context";
+import { createGlobalStyle } from "styled-components";
 
 // PAGES
 
@@ -28,7 +29,14 @@ import MyShop from "./pages/MyShop";
 import AddProduct from "./components/AddProduct";
 import { ProductProvider } from "./contexts/ProductContext";
 
-
+const GlobalStyle = createGlobalStyle`
+  // body {
+  //   font-family: 'Nerko One', cursive;
+  // }
+  h2 {
+    font-family: 'Nerko One', cursive;
+  }
+`
 
 const httpLink = createHttpLink({
   uri: "/graphql",
@@ -64,6 +72,7 @@ function App() {
           <div className="App">
             <Router>
               <Navbar />
+              <GlobalStyle />
               <Routes>
                 <Route path="/" element={<Home />} />
 
