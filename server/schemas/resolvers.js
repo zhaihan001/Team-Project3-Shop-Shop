@@ -26,7 +26,6 @@ const resolvers = {
       try {
         
         let items = await CartItem.find({userId: context.user._id}).populate("product");
-        console.log(items);
         
         
         return items
@@ -507,15 +506,26 @@ const resolvers = {
     },
     updateCartItemQuantity: async (parent, {productId, quantity}, context) => {
       try {
+        console.log(productId, quantity);
         let newCartItem = await CartItem.findOneAndUpdate(
-          {product: productId},
+          {product: {_id: productId}, userId: context.user._id},
           {$set: {quantity}},
-          {new: true}
+          {new: true, upsert: true}
         )
+
+        // const cartItem = await CartItem.findOne(
+        //   {product: {_id: productId}}
+        // ).populate("product")
+
+        // cartItem.quantity = quantity;
+
+        // await cartItem.save();
+        console.log("newItem", newCartItem);
 
         return newCartItem
 
       } catch (error) {
+        console.log(error)
         return error
       }
     },

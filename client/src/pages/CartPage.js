@@ -5,7 +5,8 @@ import { GET_CART, GET_CART_ITEMS } from "../utils/queries";
 
 function CartPage() {
   const { loading, data } = useQuery(GET_CART_ITEMS);
-  const cartItems = data?.cartItems || [];
+  console.log(data);
+  const cartItems = data?.cartItems || null;
   console.log(cartItems);
 
   return (

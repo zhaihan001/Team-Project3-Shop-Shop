@@ -32,6 +32,7 @@ function Profile() {
         <Col>
           <img src={userData.user.image || "/images/plastic-horses.jpg"} alt="profile-logo" />
           <br></br>
+          <Button onClick={toggleModal}>Update Image</Button>
         </Col>
         <Content>
           <h3>Welcome, {userData.user.username}</h3>
@@ -41,7 +42,6 @@ function Profile() {
         </Content>
       </Wrap>
       <UpdateImageModal showModal={showModal} toggleModal={toggleModal}/>
-      <Button onClick={toggleModal}>Open</Button>
     </Container>
   );
 }
