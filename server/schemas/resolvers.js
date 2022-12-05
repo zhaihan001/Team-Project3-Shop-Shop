@@ -293,12 +293,13 @@ const resolvers = {
         return error
       }
     },
-    addToCart: async (parent, {productId, businessId}, context) => {
+    addToCart: async (parent, {productId, businessId, price}, context) => {
       try {
         let newCartItem = await CartItem.create(
           {
             product: productId,
             userId: context.user._id,
+            productPrice: price,
             quantity: 1
           }
         )

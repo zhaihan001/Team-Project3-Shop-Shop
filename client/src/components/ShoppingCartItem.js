@@ -6,10 +6,11 @@ import { useProductContext } from '../contexts/ProductContext';
 import { UPDATE_CARTITEM_QUANTITY } from '../utils/mutations';
 import { Palette } from './Palette';
 
-export default function ShoppingCartItem({cartItem, items}) {
+export default function ShoppingCartItem({cartItem, items, setTotal}) {
   const {updateQuantity, updLoading, removeFromCart} = useProductContext();
   const [quantity, setQuantity] = useState(cartItem.quantity);
   const [item, setItem] = useState(cartItem);
+  console.log(item);
   
 
   const changeQuantity = async (e) => {
@@ -27,6 +28,7 @@ export default function ShoppingCartItem({cartItem, items}) {
             })
             
             setQuantity(prev => prev + 1)
+            setTotal(prev => prev + item.productPrice)
 
         } else if(id === "decrement"){
             const { data } = await updateQuantity({
@@ -37,6 +39,8 @@ export default function ShoppingCartItem({cartItem, items}) {
             })
             
             setQuantity(prev => prev - 1)
+            setTotal(prev => prev - item.productPrice)
+
 
         }
     } catch (error) {

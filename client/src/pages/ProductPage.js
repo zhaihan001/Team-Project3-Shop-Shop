@@ -2,14 +2,17 @@ import React from "react";
 import styled from "styled-components";
 import ProductList from "../components/ProductList";
 import OneProduct from "../components/OneProduct";
-import { useParams } from "react-router-dom";
+import { useLocation, useParams } from "react-router-dom";
 
 function ProductPage() {
     const { id, productId } = useParams();
+    const location = useLocation();
+
+
 
   return (
     <>
-        <OneProduct businessId={id} productId={productId} />
+        <OneProduct businessId={id} productId={productId} price={location.state.price} />
     </>
   );
 }

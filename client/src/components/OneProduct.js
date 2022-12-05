@@ -6,7 +6,7 @@ import { GET_CART, GET_PRODUCT } from '../utils/queries'
 import { Container, Content, Wrap } from './ShopList'
 import Auth from "../utils/auth";
 
-export default function OneProduct({businessId, productId}) {
+export default function OneProduct({businessId, productId, price}) {
   const {loading: newLoad, data: newData} = useQuery(GET_CART)
   console.log(newData);
   const navigate = useNavigate();
@@ -16,6 +16,7 @@ export default function OneProduct({businessId, productId}) {
       _id: productId
     }
   })
+  console.log(price);
 
   const { addToCart } = useProductContext();
   console.log(data);
@@ -38,7 +39,8 @@ export default function OneProduct({businessId, productId}) {
       const { data } = await addToCart({
         variables: {
           productId,
-          businessId
+          businessId,
+          price
         }
       })
 

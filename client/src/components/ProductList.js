@@ -12,6 +12,8 @@ export default function ProductList({id}) {
     })
     console.log(data);
 
+    const productsList = data?.getShop.products || null
+
     if(loading){
         return (
             <div>Loading...</div>
@@ -23,10 +25,10 @@ export default function ProductList({id}) {
         <Container>
             {data && <h2>{data.getShop.businessName}'s Products</h2>}
             <Content>
-                {data && data.getShop.products.map((item,index) => (
+                {productsList && productsList.map((item,index) => (
                     <Wrap key={index}>
                     <img src={item.images[0]} alt="product" />
-                    <Link to={`/shop/${id}/product/${item._id}`} >
+                    <Link to={`/shop/${id}/product/${item._id}`} state={{price: item.price}} >
                         <div>
                         <h4>View Product</h4>
                         </div>
