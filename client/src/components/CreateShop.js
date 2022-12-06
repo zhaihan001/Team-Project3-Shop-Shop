@@ -67,17 +67,17 @@ function CreateShop() {
               <form onSubmit={submitShopData}>
               <h2>Create Your Shop</h2>
               <label htmlFor='shopname'>Shop Name:</label>
-              <input value={shopData.businessName} onChange={handleFormChange} type='text' name='businessName' id='shopname' />
+              <input value={shopData.businessName} onChange={handleFormChange} type='text' name='businessName' id='shopname' required />
               <label htmlFor='shopdesc'>Give a brief description of your shop.</label>
-              <input value={shopData.slogan} onChange={handleFormChange} type='text' name='slogan' id='shopdesc' />
+              <input value={shopData.slogan} onChange={handleFormChange} type='text' name='slogan' id='shopdesc' required/>
               <label htmlFor='logo'>Upload an image for your shop's logo.</label>
-              <input onChange={handleImageChange} type='file' name='logo' id='logo' /><br></br>
+              <input onChange={handleImageChange} type='file' name='logo' id='logo' required /><br></br>
               {image && <img src={dataUrl} alt="chosen-logo" style={{width: "20rem"}} />}
               <label htmlFor='primary'>Pick a primary color for your shop.</label>
-              <input value={shopData.primaryHex} onChange={handleFormChange} type="color" id="primary" name="primaryHex"
+              <input value={shopData.primaryHex} onChange={handleFormChange} type="color" id="primary" name="primaryHex" required
                 />
               <label htmlFor='secondary'>Pick a secondary color for your shop.</label>
-              <input value={shopData.secondaryHex} onChange={handleFormChange} type="color" id="secondary" name="secondaryHex"
+              <input value={shopData.secondaryHex} onChange={handleFormChange} type="color" id="secondary" name="secondaryHex" required
                 />
               <button type='submit'>Create Shop</button>
           </form>
