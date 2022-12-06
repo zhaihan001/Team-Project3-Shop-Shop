@@ -15,13 +15,15 @@ As a consumer, I would like browse and purchase various products from multiple s
 ## Screenshot of Application
 
 - Home Page<br />
-
+  ![image](https://user-images.githubusercontent.com/106831265/205793785-ca0fe761-2ca8-462a-b92a-601e96d50b7b.png)
 - Login & Signup Page<br />
+  ![image](https://user-images.githubusercontent.com/106831265/205793655-03e43edf-662b-4cb6-af12-4374b20a744b.png)
+  ![image](https://user-images.githubusercontent.com/106831265/205793719-f876c395-43aa-4b2a-9620-307d3695720f.png)
 
 - My Shop Page<br />
 
 - Shopping Cart<br />
-
+  ![image](https://user-images.githubusercontent.com/106831265/205793752-21cb6bb2-5766-4f60-b6d7-b575835b6fec.png)
 - Mobile Screen<br />
 
 ## Technologies & Skills Used

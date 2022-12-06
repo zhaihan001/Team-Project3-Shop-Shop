@@ -1,15 +1,19 @@
+import { useMutation } from "@apollo/client";
+import { identity } from "angular";
+import React, { useEffect, useState, useRef } from "react";
+import { Navigate } from "react-router-dom";
+import styled from "styled-components";
+import { useProductContext } from "../contexts/ProductContext";
+import { UPDATE_CARTITEM_QUANTITY } from "../utils/mutations";
+import { Palette } from "./Palette";
 
-import { useMutation } from '@apollo/client';
-import { identity } from 'angular';
-import React, { useEffect, useState, useRef } from 'react'
-import { Navigate } from 'react-router-dom';
-import styled from 'styled-components';
-import { useProductContext } from '../contexts/ProductContext';
-import { UPDATE_CARTITEM_QUANTITY } from '../utils/mutations';
-import { Palette } from './Palette';
-
-export default function ShoppingCartItem({cartItem, items, setTotal, setItems}) {
-  const {updateQuantity, updLoading, removeFromCart} = useProductContext();
+export default function ShoppingCartItem({
+  cartItem,
+  items,
+  setTotal,
+  setItems,
+}) {
+  const { updateQuantity, updLoading, removeFromCart } = useProductContext();
 
   const [quantity, setQuantity] = useState(cartItem.quantity);
   const [item, setItem] = useState(cartItem);
@@ -55,7 +59,6 @@ export default function ShoppingCartItem({cartItem, items, setTotal, setItems}) 
   };
 
   const handleRemoveFromCart = async (id) => {
-
 
     try {
       const { data } = await removeFromCart({
