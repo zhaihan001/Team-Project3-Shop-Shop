@@ -15,7 +15,8 @@ function Usershop({myShop}) {
   if(myShop){
     return (
     <>
-      {!showProductForm ? <UserShopHeading myShop={myShop} setShowProductForm={setShowProductForm} /> :  <AddProduct setShowProductForm={setShowProductForm}/>}
+      {!showProductForm 
+        ? <UserShopHeading myShop={myShop} setShowProductForm={setShowProductForm} /> :  <AddProduct setShowProductForm={setShowProductForm}/>}
       
     </>
           
@@ -73,11 +74,13 @@ h3{
 
 export const Header = styled.div`
 
+
 h2{
   display: flex;
   justify-content: center;
   padding: 100px;
   font-size: 50px;
+  
 }
 
 

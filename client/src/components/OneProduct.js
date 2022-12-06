@@ -1,12 +1,17 @@
 import { useQuery } from '@apollo/client'
 import React from 'react'
-import { Navigate, useLocation, useNavigate } from 'react-router-dom'
+import { Link, Navigate, useLocation, useNavigate } from 'react-router-dom'
 import { useProductContext } from '../contexts/ProductContext'
-import { GET_PRODUCT } from '../utils/queries'
+import { GET_CART, GET_PRODUCT } from '../utils/queries'
 import { Container, Content, Wrap } from './ShopList'
 import Auth from "../utils/auth";
+import { useLocalStorage } from '../hooks/useLocalStorage'
 
-export default function OneProduct({businessId, productId}) {
+export default function OneProduct({businessId, productId, price}) {
+  const [cartItemIds, setCartItemIds] = useLocalStorage("cartItemIds", []);
+  const {checkIfInCart} = useProductContext();
+  const {loading: newLoad, data: newData} = useQuery(GET_CART)
+  console.log(newData);
   const navigate = useNavigate();
   const location = useLocation();
   const {loading, data} = useQuery(GET_PRODUCT, {
@@ -14,16 +19,42 @@ export default function OneProduct({businessId, productId}) {
       _id: productId
     }
   })
-  const { addToCart } = useProductContext();
   console.log(data);
 
+  const { addToCart } = useProductContext();
+  console.log(businessId);
+  console.log(newData);
+
   const addItemToCart = async () => {
+   
+  
+    if(newData.cart){
+      if(businessId !== newData.cart.businessId._id){
+        console.log("attempted");
+        navigate("/cart", {
+          state: {
+            errMsg: "Multiple shop error", 
+            productId, 
+            businessId,
+            price
+          }
+        })
+        return 
+      }
+
+    }
+
+    setCartItemIds(prev => {
+      return [...prev, productId]
+    })
+
     console.log("hit");
     try {
       const { data } = await addToCart({
         variables: {
           productId,
-          businessId
+          businessId,
+          price
         }
       })
 
@@ -37,6 +68,11 @@ export default function OneProduct({businessId, productId}) {
     }
   } 
 
+  if(data){
+    console.log(checkIfInCart(data.product._id));
+
+  }
+
   return (
     <>
       <Container>
@@ -45,7 +81,11 @@ export default function OneProduct({businessId, productId}) {
               {data && <Wrap>
                 <img src={data.product.images[0]} alt="product" />
                 <div>
-                <h4 onClick={Auth.loggedIn() ? addItemToCart : (() => navigate("/login", {state: {previousUrl: location.pathname}}))}>Add to cart</h4>
+                {!cartItemIds.includes(data.product._id) ? <h4 onClick={Auth.loggedIn() ? addItemToCart : (() => navigate("/login", {state: {previousUrl: location.pathname}}))}>Add to cart</h4> 
+                : 
+                <h4>In Cart ✔</h4>
+                }
+                
                 </div>
                 <h3>{data.product.name}</h3>
               

@@ -47,7 +47,7 @@ export default function UpdateImageModal({toggleModal, showModal}) {
   
     return (
     <>
-        {showModal && <Modal className='fade .modal' show={showModal} onClick={() => toggleModal}>
+        {showModal && <Modal className='fade .modal'>
            <div className='modal-contain'>
                 <div className='modal-header'>
                     <h4>Update Shop logo</h4>
@@ -81,7 +81,7 @@ export default function UpdateImageModal({toggleModal, showModal}) {
 }
 
 
-const Modal = styled.div`
+export const Modal = styled.div`
 
     background-color: rgb(0,0,0); 
     background-color: rgba(0,0,0,0.4);

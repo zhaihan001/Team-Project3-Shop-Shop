@@ -1,3 +1,4 @@
+
 import { useMutation } from '@apollo/client';
 import React, { useEffect, useState, useRef } from 'react'
 import styled from 'styled-components';
@@ -7,104 +8,133 @@ import { Palette } from './Palette';
 
 export default function ShoppingCartItem({cartItem, items}) {
   const {updateQuantity, updLoading, removeFromCart} = useProductContext();
+
+export default function ShoppingCartItem({
+  cartItem,
+  items,
+  setTotal,
+  setItems,
+}) {
+  const { updateQuantity, updLoading, removeFromCart } = useProductContext();
+
   const [quantity, setQuantity] = useState(cartItem.quantity);
   const [item, setItem] = useState(cartItem);
-  
+
 
   const changeQuantity = async (e) => {
     try {
-        console.log("hit");
-        e.persist()
-        const {id} = e.target
-        
-        if(id === "increment"){
-            const { data } = await updateQuantity({
-                variables: {
-                    productId: item.product._id,
-                    quantity: item.quantity + 1
-                }
-            })
-            
-            setQuantity(prev => prev + 1)
+      console.log("hit");
+      e.persist();
+      const { id } = e.target;
 
-        } else if(id === "decrement"){
-            const { data } = await updateQuantity({
-                variables: {
-                    productId: item.product._id,
-                    quantity: item.quantity - 1
-                }
-            })
-            
-            setQuantity(prev => prev - 1)
+      if (id === "increment") {
+        const { data } = await updateQuantity({
+          variables: {
+            productId: item.product._id,
+            quantity: item.quantity + 1,
+          },
+        });
 
-        }
+        setQuantity((prev) => prev + 1);
+        setTotal((prev) => prev + item.productPrice);
+      } else if (id === "decrement") {
+        const { data } = await updateQuantity({
+          variables: {
+            productId: item.product._id,
+            quantity: item.quantity - 1,
+          },
+        });
+
+        setQuantity((prev) => prev - 1);
+        setTotal((prev) => prev - item.productPrice);
+      }
     } catch (error) {
-        console.log(error)
+      console.log(error);
     }
-  }
+  };
 
   const handleRemoveFromCart = async (id) => {
-    try { 
-        const {data} = await removeFromCart({
-            variables: {
-                productId: item.product._id
-            }
-        })
 
-        setQuantity(0)
+    try {
+      const { data } = await removeFromCart({
+        variables: {
+          productId: item.product._id,
+        },
+      });
 
-        if(items.filter(product => product.product._id !== id).length < 1){
-            window.location.reload();
-        }
-
-
-
+      setQuantity(0);
         
         
+      if (items.filter((product) => product.product._id !== id).length < 1) {
+        window.location.reload();
+      }
+
+      return data
+      
     } catch (error) {
-        console.log(error)
-        return error
-        
+      console.log(error);
+      return error;
     }
+  };
+
+  if (quantity === null) {
+    return <div>Loading...</div>;
   }
 
-    if(quantity === null){
-      return (
-        <div>Loading...</div>
-      )
-    }
+  //due to subdocument data not persisting between routes
+  if (!product.images) {
+    window.location.reload();
+  }
 
   return (
     <>
-       {quantity > 0 && <Wrap>
-            {item.product && <img src={item.product && item.product.images[0]} alt={item.businessId} />}
-            <p>
+      {product.images && (
+        <Wrap>
+          {item.product && (
+            <img src={product.images[0]} alt={item.businessId} />
+          )}
+          <p>
             Unit Price: ${item.product.price}.00
             <br />
-            <span style={{width: "100%"}}>Quantity(maximum 5 items): 
-            {/* <select name="quantity">
-                <option value={1}>1</option>
-                <option value={2}>2</option>
-                <option value={3}>3</option>
-                <option value={4}>4</option>
-                <option value={5}>5</option>
-            </select> */}
-            <span><button onClick={quantity > 1 ? ((e) => changeQuantity(e)) : (() => handleRemoveFromCart(item.product._id))} id="decrement">-</button> <span>{quantity}</span><button style={{backgroundColor: quantity === 5 ? "grey" : ""}} onClick={quantity < 5 ? ((e) => changeQuantity(e)) : (() => true)} id="increment">+</button></span>
-            <br></br>
+            <span style={{ width: "100%" }}>
+              Quantity(maximum 5 items):
+              <span>
+                <button
+                  onClick={
+                    quantity > 1
+                      ? (e) => changeQuantity(e)
+                      : () => handleRemoveFromCart(item.product._id)
+                  }
+                  id="decrement"
+                >
+                  -
+                </button>{" "}
+                <span>{quantity}</span>
+                <button
+                  style={{ backgroundColor: quantity === 5 ? "grey" : "" }}
+                  onClick={quantity < 5 ? (e) => changeQuantity(e) : () => true}
+                  id="increment"
+                >
+                  +
+                </button>
+              </span>
+              <br></br>
             </span>
-            Total Price: ${(item.product.price) * quantity}.00
+            Total Price: ${item.product.price * quantity}.00
             <br></br>
             <button
-                type="delete"
-                id={item.product._id}
-                onClick={() => handleRemoveFromCart(item.product._id)}
+              type="delete"
+              style={{ backgroundColor: Palette.red }}
+              id={item.product._id}
+              onClick={() => handleRemoveFromCart(item.product._id)}
             >
-                Remove Item
+              Remove Item
             </button>
-            </p>
-        </Wrap>}
+          </p>
+        </Wrap>
+      )}
     </>
-  )
+  );
 }
 
 const Wrap = styled.div`
@@ -119,7 +149,7 @@ const Wrap = styled.div`
   padding: 20px;
   button {
     color: white;
-    background-color: ${Palette.red};
+
     font-size: 20px;
     padding: 10px;
     margin: 10px;

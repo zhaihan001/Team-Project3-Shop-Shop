@@ -15,24 +15,39 @@ function Banner() {
         autoplaySpeed: 5000,
         slidesToShow: 2,
         slidesToScroll: 1,
-        autoplay: true
+        autoplay: true,
+        responsive: [
+            {
+                breakpoint: 1000,
+                settings: {
+                    dots: true,
+                    infinite: true,
+                    speed: 1000,
+                    autoplaySpeed: 5000,
+                    slidesToShow: 1,
+                    slidesToScroll: 1,
+                    autoplay: true,
+                }
+            }
+        ]
     }
     
   return (
     <Carousel {...settings}>
        <Wrap>
         <div className="slideA">
-        {/* <h2>124</h2> */}
+        <h2>Free shipping on all orders over $50</h2>
         </div>
        </Wrap>
        <Wrap>
        <div className="slideB">
-        {/* <h2>Hello</h2> */}
+        <h2>Find something special this holiday season</h2>
         </div>
        </Wrap>
        <Wrap>
        <div className="slideC">
-        <h2>Book</h2>
+        <h2>Welcome to Shop-Shop</h2>
+        <p>Create, Sell, Browse</p>
         </div>
        </Wrap>
     </Carousel>
@@ -75,6 +90,7 @@ const Wrap = styled.div`
 
     div {
         background-size: cover;
+        background-position: center; 
         width: 100%;
         height: 100%;
         object-fit: cover;
@@ -88,16 +104,47 @@ const Wrap = styled.div`
     }
 
     .slideA {
-        background-image: url("/images/sale1.jpg");
-        background-color: red;
+        background-image: url("/images/boxes.png");
+        background-color: ${Palette.grey};
+        color: ${Palette.brown};
+
+        h2 {
+            padding: 80px;
+        }
     }
 
     .slideB {
-        background-image: url("/images/wooden-spoons.jpg");
-        background-color: green;
+        background-image: url("/images/christmas.png");
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-direction: column;
+        background-color: #d6eee7;
+        color: ${Palette.red};
+
+        h2 {
+            background: white;
+            padding: 20px;
+            border-radius: 20%;
+            margin: 10px;
+            width: 40%;
+            text-align: center;
+            box-shadow: rgb(0 0 0 / 69%) 0px 26px 30px -10px,
+            rgb(0 0 0 / 73%) 0px 16px 10px -10px;
+            font-size: 40px;
+        }
     }
 
     .slideC {
-        background-image: url("/images/bedtime-book.jpg");
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-direction: column;
+        background-image: url("/images/grit.png");
+        color: ${Palette.fadedGrey};
+        
+        h2 {
+            font-size: 50px;
+        }
     }
 `

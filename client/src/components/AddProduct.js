@@ -79,7 +79,7 @@ function AddProduct({setShowProductForm}) {
               <label htmlFor='itemdesc'>Item Description</label>
               <input value={productData.description} onChange={handleFormChange} type='text' name='description' id='itemdesc' required />
               <label htmlFor='itemdesc'>Input price</label>
-              <input value={productData.price} onChange={handleFormChange} type='number' min='0' max='10000' step='any' name='price' id='itemdesc' className='price' required />
+              <div>$ <input value={`${productData.price}.00`} onChange={handleFormChange} type='number' min='0' max='10000' step='any' name='price' id='itemdesc' className='price' required /></div>
               <label htmlFor='itemdesc'>In stock</label>
               <input placeholder='Enter quantity' value={productData.quantity} onChange={handleFormChange} type='number' min='0' max='10000' step='any' name='quantity' id='itemdesc' className='quantity' required />
               <label htmlFor='itemImg'>Upload an image of your product.</label>
@@ -99,9 +99,24 @@ function AddProduct({setShowProductForm}) {
 export default AddProduct
 
 const Container = styled.div`
-  padding-top: 3vw;
+  padding: 3vw;
   background-image: url("/images/pinkgrid.png");
   background-size: cover;
+
+  button {
+    padding: 10px;
+    cursor: pointer;
+    font-size: 1.5rem;
+    background: ${Palette.fadedGrey};
+    color: white;
+    border: none;
+    transition: all 250ms cubic-bezier(0.25, 0.46, 0.45, 0.94) 0s;
+
+    &:hover {
+      transform: scale(1.05);
+      background: ${Palette.red};
+    }
+  }
 
   h2 {
     font-size: 40px;
@@ -167,6 +182,7 @@ form {
     &:hover {
       transform: scale(1.05);
       border-color: rgba(249, 249, 249, 0.8);
+      background: ${Palette.blue};
     }
   }
 

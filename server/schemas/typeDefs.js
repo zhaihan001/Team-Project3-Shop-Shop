@@ -18,6 +18,8 @@ const typeDefs = gql`
     product: Product
     userId: User
     quantity: Int
+    productPrice: Int
+    total: Int
   }
 
   type Product {
@@ -36,6 +38,7 @@ const typeDefs = gql`
     businessId: Business
     purchaseDate: String
     products: [CartItem]
+    total: Int
   }
 
   type User {
@@ -71,6 +74,7 @@ const typeDefs = gql`
   }
 
   type Query {
+    orders: [Order]
     cartItems: [CartItem]
     products: [Product]
     myShop: Business
@@ -92,14 +96,15 @@ const typeDefs = gql`
     addProduct(name: String!, description: String!, images: [String!]!, price: Float!, quantity: Int!): Product
     updateProduct(_id: ID!, productInput: productInput!): Product
     deleteProduct(_id: ID!): Product
-    addToCart(productId: ID!, businessId: ID!): Cart
+    addToCart(productId: ID!, businessId: ID!, price: Int!): Cart
     deleteFromCart(productId: ID!): Cart
-    submitOrder(businessId: ID!, products: [ID]!): User
+    submitOrder(businessId: ID!, products: [ID]!, total: Int!): User
     cancelOrder(_id: ID!): User
     updateProductQuantity(quantity: Int!): Product
     updateCartItemQuantity(productId: ID!, quantity: Int!): CartItem
     updateShopImage(image: String!): Business
     updateUserImage(image: String!): User
+    deleteCart(products: [ID]!): Cart
   }
 `;
 
