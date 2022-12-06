@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import { Palette } from "./Palette";
 import Auth from "../utils/auth";
@@ -11,14 +11,22 @@ function Profile() {
   const location = useLocation();
   const [showModal, setShowModal] = useState(false);
   const { userData } = useUserContext();
+  const [user, setUser] = useState({})
 
 
 
-  if (!Auth.loggedIn()) {
-    return <Navigate to="/login" state={{ previousUrl: location.pathname }} />;
-  }
   const toggleModal = () => {
     setShowModal(prev => !prev)
+  }
+  
+  useEffect(() => {
+    if(userData){
+      setUser(userData)
+    }
+    
+  }, [userData])
+  if (!Auth.loggedIn()) {
+    return <Navigate to="/login" state={{ previousUrl: location.pathname }} />;
   }
 
   if (!userData) {
@@ -27,15 +35,15 @@ function Profile() {
 
   return (
     <Container >
-      <h2>{userData.user.username}'s Profile</h2>
+      <h2>{user.user.username}'s Profile</h2>
       <Wrap>
         <Col>
-          <img src={userData.user.image || "/images/plastic-horses.jpg"} alt="profile-logo" />
+          <img src={user.user.image || "/images/plastic-horses.jpg"} alt="profile-logo" />
           <br></br>
           <Button onClick={toggleModal}>Update Image</Button>
         </Col>
         <Content>
-          <h3>Welcome, {userData.user.username}</h3>
+          <h3>Welcome, {user.user.username}</h3>
           <p>Buyer | Seller</p>
           <Link className=".link" to="/usershop"><button>View My Shop</button></Link>
           <button>Delete My Shop</button>
