@@ -43,7 +43,6 @@ const ShoppingCart = ({ title }) => {
   const handleSubmit = async () => {
     try {
       const { data } = await submitOrder({
-        // passing data
         variables: {
           products: cartItemIds,
           businessId: businessId,

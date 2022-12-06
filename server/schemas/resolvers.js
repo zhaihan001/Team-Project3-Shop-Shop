@@ -352,14 +352,15 @@ const resolvers = {
         return error
       }
     },
-    submitOrder: async (parent, { businessId, products }, context) => {
+    submitOrder: async (parent, { businessId, products, total }, context) => {
       try {
         if(context.user){
           let order = await Order.create(
             {
               userId: context.user._id, 
               businessId, 
-              products
+              products,
+              total
             }
           )
 

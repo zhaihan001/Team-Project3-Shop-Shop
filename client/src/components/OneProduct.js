@@ -71,7 +71,7 @@ export default function OneProduct({businessId, productId, price}) {
               {data && <Wrap>
                 <img src={data.product.images[0]} alt="product" />
                 <div>
-                {checkIfInCart(data.product._id) ? <h4 onClick={Auth.loggedIn() ? addItemToCart : (() => navigate("/login", {state: {previousUrl: location.pathname}}))}>Add to cart</h4> 
+                {!checkIfInCart(data.product._id) ? <h4 onClick={Auth.loggedIn() ? addItemToCart : (() => navigate("/login", {state: {previousUrl: location.pathname}}))}>Add to cart</h4> 
                 : 
                 <h4>In Cart ✔</h4>
                 }

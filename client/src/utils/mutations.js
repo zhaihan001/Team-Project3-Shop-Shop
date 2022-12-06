@@ -298,8 +298,8 @@ export const DELETE_CART = gql`
 `
 
 export const SUBMIT_ORDER = gql`
-    mutation submitOrder($businessId: ID!, $products: [ID]!){
-        submitOrder(businessId: $businessId, products: $products){
+    mutation submitOrder($businessId: ID!, $products: [ID]!, $total: Int!){
+        submitOrder(businessId: $businessId, products: $products, total: $total){
             _id
             username
             email

@@ -90,6 +90,7 @@ export const GET_SHOP = gql`
 export const GET_PRODUCT = gql`
   query product($_id: ID!) {
     product(_id: $_id) {
+      _id
       userId{
         _id
         username
