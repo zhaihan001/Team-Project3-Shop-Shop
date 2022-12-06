@@ -6,6 +6,7 @@ import { Header, Products } from './UserShop';
 export default function UserShopHeading({myShop, setShowProductForm}) {
   return (
     <>
+    
         <main style={{paddingBottom: "10%"}}>
             <Header style={{backgroundColor: myShop.primaryHex}}>
             <div>
