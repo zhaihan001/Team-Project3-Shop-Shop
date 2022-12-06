@@ -22,7 +22,7 @@ function Profile() {
   }
 
   if (!userData) {
-    return <div>Loading...</div>;
+    return <div><img style={{margin:'auto', width:'50%', padding:'20px', display:'block'}} src="/images/loading.gif" alt="loading"/></div>
   }
 
   return (
@@ -138,8 +138,8 @@ const Wrap = styled.div`
   flex-direction: row;
 
   img {
-    width: 80%;
-    height: 80%;
+    width: 400px;
+    height: 400px;
     margin: 10px 0px 10px 100px;
     clip-path: circle();
     object-fit: cover;

@@ -26,7 +26,7 @@ function Usershop({myShop}) {
   }else{
     return (
       <>
-        <div>Loading...</div>
+       <div><img style={{margin:'auto', width:'50%', padding:'20px', display:'block'}} src="/images/loading.gif" alt="loading"/></div>
       </>
     )
   }

@@ -102,7 +102,7 @@ function CartPage() {
     <div>
       <div>
         {cartLoading ? (
-          <div>Loading...</div>
+          <div><img style={{margin:'auto', width:'50%', padding:'20px', display:'block'}} src="/images/loading.gif" alt="loading"/></div>
         ) : (
           // render cart items
           <ShoppingCart

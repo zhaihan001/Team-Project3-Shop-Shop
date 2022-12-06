@@ -82,7 +82,7 @@ export default function OneProduct({businessId, productId, price}) {
 
 
   if (loading) {
-    return <div>Loading...</div>;
+    return <div><img style={{margin:'auto', width:'50%', padding:'20px', display:'block'}} src="/images/loading.gif" alt="loading"/></div>
   }
 
 

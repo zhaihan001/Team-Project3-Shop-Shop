@@ -77,7 +77,7 @@ export default function ShoppingCartItem({
   };
 
   if (quantity === null) {
-    return <div>Loading...</div>;
+    return <div><img style={{margin:'auto', width:'30%', padding:'20px', display:'block'}} src="/images/loading.gif" alt="loading"/></div>;
   }
 
   //due to subdocument data not persisting between routes
