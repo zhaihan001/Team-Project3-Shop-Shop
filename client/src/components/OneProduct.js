@@ -5,8 +5,10 @@ import { useProductContext } from '../contexts/ProductContext'
 import { GET_CART, GET_PRODUCT } from '../utils/queries'
 import { Container, Content, Wrap } from './ShopList'
 import Auth from "../utils/auth";
+import { useLocalStorage } from '../hooks/useLocalStorage'
 
 export default function OneProduct({businessId, productId, price}) {
+  const [cartItemIds, setCartItemIds] = useLocalStorage("cartItemIds", []);
   const {checkIfInCart} = useProductContext();
   const {loading: newLoad, data: newData} = useQuery(GET_CART)
   console.log(newData);
@@ -24,6 +26,7 @@ export default function OneProduct({businessId, productId, price}) {
   console.log(newData);
 
   const addItemToCart = async () => {
+   
   
     if(newData.cart){
       if(businessId !== newData.cart.businessId._id){
@@ -41,7 +44,9 @@ export default function OneProduct({businessId, productId, price}) {
 
     }
 
-    
+    setCartItemIds(prev => {
+      return [...prev, productId]
+    })
 
     console.log("hit");
     try {
@@ -63,6 +68,11 @@ export default function OneProduct({businessId, productId, price}) {
     }
   } 
 
+  if(data){
+    console.log(checkIfInCart(data.product._id));
+
+  }
+
   return (
     <>
       <Container>
@@ -71,7 +81,7 @@ export default function OneProduct({businessId, productId, price}) {
               {data && <Wrap>
                 <img src={data.product.images[0]} alt="product" />
                 <div>
-                {!checkIfInCart(data.product._id) ? <h4 onClick={Auth.loggedIn() ? addItemToCart : (() => navigate("/login", {state: {previousUrl: location.pathname}}))}>Add to cart</h4> 
+                {!cartItemIds.includes(data.product._id) ? <h4 onClick={Auth.loggedIn() ? addItemToCart : (() => navigate("/login", {state: {previousUrl: location.pathname}}))}>Add to cart</h4> 
                 : 
                 <h4>In Cart ✔</h4>
                 }

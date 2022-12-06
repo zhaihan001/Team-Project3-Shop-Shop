@@ -29,6 +29,7 @@ export const ProductProvider = ({children}) => {
 
         const checkIfInCart = (id) => {
             if(items){
+                console.log("logged");
                 if(items.filter(prod => prod._id === id).length > 0){
                     console.log("true");
                     return true

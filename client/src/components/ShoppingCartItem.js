@@ -61,7 +61,7 @@ export default function ShoppingCartItem({cartItem, items, setTotal, setItems}) 
     try { 
         const {data} = await removeFromCart({
             variables: {
-                productId: item.product._id
+                productId: id
             }
         })
 
@@ -74,7 +74,7 @@ export default function ShoppingCartItem({cartItem, items, setTotal, setItems}) 
         // }
 
 
-
+        return data
         
         
     } catch (error) {

@@ -9,10 +9,12 @@ import { Button, CloseButton } from "react-bootstrap";
 import Auth from "../utils/auth";
 import { DELETE_CART } from "../utils/mutations";
 import { useProductContext } from "../contexts/ProductContext";
+import { useLocalStorage } from "../hooks/useLocalStorage";
 
 
 function CartPage() {
   const { cartLoading } = useUserContext();
+  const [cartItemIds, setCartItemIds] = useLocalStorage("cartItemIds", [])
   const location = useLocation();
   const navigate = useNavigate();
   const [locationState, setLocationState] = useState(location.state || {errMsg: false})
@@ -52,12 +54,18 @@ function CartPage() {
         }
       })
 
+      setCartItemIds(prev => {
+        return [...prev, location.state.productId]
+      })
+
       navigate("/cart", {
         state: {
           status: 200
         }
       })
       setLocationState({status: 200})
+
+      window.location.reload()
 
 
       

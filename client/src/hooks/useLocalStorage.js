@@ -5,7 +5,7 @@ import { useShopContext } from "../contexts/ShopContext";
 export const useLocalStorage = (key, initialValue) => {
     const [value, setValue] = useState(() => {
         const items = localStorage.getItem(key);
-        if(!items) {
+        if(!items || items == "undefined") {
             return initialValue
         }
 
