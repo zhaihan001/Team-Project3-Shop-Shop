@@ -1,5 +1,4 @@
 import { useMutation } from '@apollo/client';
-import { identity } from 'angular';
 import React, { useEffect, useState, useRef } from 'react'
 import styled from 'styled-components';
 import { useProductContext } from '../contexts/ProductContext';
