@@ -18,12 +18,6 @@ export default function OneProduct({businessId, productId, price}) {
 
   const [productData, setProductData] = useState();
 
-  const {loading, data} = useQuery(GET_PRODUCT, {
-    variables: {
-      _id: productId
-    }
-  })
-  console.log(data);
 
   const { addToCart } = useProductContext();
   console.log(businessId);
@@ -72,36 +66,23 @@ export default function OneProduct({businessId, productId, price}) {
     }
   } 
 
-  useEffect(() => {
-    if(typeof(data) !== "undefined"){
-      setProductData(data)
-    }
-
-  }, [data, loading, productData])
-
   console.log(productData);
-
-
-  if (loading) {
-    return <div>Loading...</div>;
-  }
-
 
   return (
     <>
       <Container>
           <h2>This Product</h2>
           <Content>
-              {typeof(productData) !== "undefined" && productData?.product.name !== null && <Wrap>
-                <img src={productData.product.images[0]} alt="product" />
+              {typeof(location.state.product) !== "undefined"  && <Wrap>
+                <img src={location.state.product.images[0]} alt="product" />
                 <div>
-                {!cartItemIds.includes(productData.product._id) ? <h4 onClick={Auth.loggedIn() ? addItemToCart : (() => navigate("/login", {state: {previousUrl: location.pathname}}))}>Add to cart</h4> 
+                {!cartItemIds.includes(location.state.product._id) ? <h4 onClick={Auth.loggedIn() ? addItemToCart : (() => navigate("/login", {state: {previousUrl: location.pathname}}))}>Add to cart</h4> 
                 : 
                 <h4>In Cart ✔</h4>
                 }
                 
                 </div>
-                <h3>{productData.product.name}</h3>
+                <h3>{location.state.product.name}</h3>
               
               </Wrap>}
           </Content>

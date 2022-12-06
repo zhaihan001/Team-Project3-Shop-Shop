@@ -64,7 +64,7 @@ export default function ProductList({ id }) {
                 {<img src={item.images[0] } alt="product" />}
                 <Link
                   to={`/shop/${id}/product/${item._id}`}
-                  state={{ price: item.price }}
+                  state={{ price: item.price, product: item }}
                 >
                   <div>
                     <h4>View Product</h4>

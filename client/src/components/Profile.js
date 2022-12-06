@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import { Palette } from "./Palette";
 import Auth from "../utils/auth";
@@ -11,14 +11,24 @@ function Profile() {
   const location = useLocation();
   const [showModal, setShowModal] = useState(false);
   const { userData } = useUserContext();
+  const [user, setUser] = useState({})
+  console.log(user);
+  console.log(userData);
 
 
-
-  if (!Auth.loggedIn()) {
-    return <Navigate to="/login" state={{ previousUrl: location.pathname }} />;
-  }
   const toggleModal = () => {
     setShowModal(prev => !prev)
+  }
+  
+  useEffect(() => {
+    if(typeof(userData) !== "undefined"){
+      console.log("ran", userData);
+      setUser(userData)
+    }
+    
+  }, [userData])
+  if (!Auth.loggedIn()) {
+    return <Navigate to="/login" state={{ previousUrl: location.pathname }} />;
   }
 
   if (!userData) {
@@ -27,7 +37,7 @@ function Profile() {
 
   return (
     <Container >
-      <h2>{userData.user.username}'s Profile</h2>
+      {<h2>{userData.user.username}'s Profile</h2>}
       <Wrap>
         <Col>
           <img src={userData.user.image || "/images/plastic-horses.jpg"} alt="profile-logo" />
