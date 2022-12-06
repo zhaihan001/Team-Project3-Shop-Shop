@@ -14,6 +14,10 @@ const orderSchema = new Schema({
     type: Schema.Types.ObjectId,
     ref: "Business"
   },
+  total: {
+    type: Number,
+    required: true
+  },
   products: [
     {
       type: Schema.Types.ObjectId,

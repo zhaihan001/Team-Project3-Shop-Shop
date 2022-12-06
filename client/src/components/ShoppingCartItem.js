@@ -7,7 +7,7 @@ import { useProductContext } from '../contexts/ProductContext';
 import { UPDATE_CARTITEM_QUANTITY } from '../utils/mutations';
 import { Palette } from './Palette';
 
-export default function ShoppingCartItem({cartItem, items, setTotal}) {
+export default function ShoppingCartItem({cartItem, items, setTotal, setItems}) {
   const {updateQuantity, updLoading, removeFromCart} = useProductContext();
   const [quantity, setQuantity] = useState(cartItem.quantity);
   const [item, setItem] = useState(cartItem);
@@ -67,9 +67,11 @@ export default function ShoppingCartItem({cartItem, items, setTotal}) {
 
         setQuantity(0)
 
-        if(items.filter(product => product.product._id !== id).length < 1){
-            window.location.reload();
-        }
+        setItems(items.filter(liItem => liItem.product._id !== item.product._id))
+
+        // if(items.filter(product => product.product._id !== id).length < 1){
+        //     // window.location.reload();
+        // }
 
 
 

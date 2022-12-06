@@ -181,3 +181,14 @@ export const GET_CART_ITEMS = gql`
   }
 
 `
+
+export const GET_PRODUCTS = gql`
+  query products($owner: ID!){
+    products(owner: $owner){
+      _id
+      name
+      description
+      images
+    }
+  }
+`

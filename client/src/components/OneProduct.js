@@ -31,7 +31,8 @@ export default function OneProduct({businessId, productId, price}) {
           state: {
             errMsg: "Multiple shop error", 
             productId, 
-            businessId
+            businessId,
+            price
           }
         })
         return 
