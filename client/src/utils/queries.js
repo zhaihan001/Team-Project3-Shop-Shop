@@ -7,6 +7,7 @@ export const GET_MY_SHOP = gql`
       _id
       businessName
       image
+      slogan
       primaryHex
       secondaryHex
       orders {
@@ -51,6 +52,7 @@ export const GET_SHOPS = gql`
       _id
       businessName
       image
+      slogan
       products {
         _id
         name
@@ -72,6 +74,7 @@ export const GET_SHOP = gql`
       _id
       businessName
       image
+      slogan
       products {
         _id
         name

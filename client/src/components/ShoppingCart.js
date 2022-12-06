@@ -8,11 +8,13 @@ import ShoppingCartItem from "./ShoppingCartItem";
 import { useUserContext } from "../contexts/UserContext";
 import { GET_CART, QUERY_CHECKOUT } from "../utils/queries";
 import { loadStripe } from '@stripe/stripe-js';
+import { useLocalStorage } from "../hooks/useLocalStorage";
 
 const stripePromise = loadStripe('pk_test_TYooMQauvdEDq54NiTphI7jx');
 
 
 const ShoppingCart = ({ title }) => {
+  const [inCart, setInCart] = useLocalStorage("cartItemIds", [])
   const location = useLocation();
   const { cartItems } = useUserContext();
   const {loading, data: cartWithId} = useQuery(GET_CART);
@@ -21,7 +23,7 @@ const ShoppingCart = ({ title }) => {
   console.log(cartItems);
   const [total, setTotal] = useState(cartItems.length > 0 ? cartItems.map(item => item.productPrice * item.quantity).reduce((a,b) => a + b) : 0)
   const [getCheckout, { data }] = useLazyQuery(QUERY_CHECKOUT);
-  
+  const [hasSubmitted, setHasSubmitted] = useState(false)
   const [items, setItems] = useState([]);
   console.log(items);
 
@@ -53,11 +55,11 @@ const ShoppingCart = ({ title }) => {
     try {
       console.log("logged");
 
-      await getCheckout({
-        variables: {
-          products: cartItemIds
-        }
-      })
+      // await getCheckout({
+      //   variables: {
+      //     products: cartItemIds
+      //   }
+      // })
 
       const { data } = await submitOrder({
         variables: {
@@ -68,8 +70,10 @@ const ShoppingCart = ({ title }) => {
       });
 
 
+      setItems([])
+      setInCart([])
+      setHasSubmitted(true)
 
-      // window.location.reload();
 
       return data
     } catch (error) {
@@ -87,6 +91,11 @@ const ShoppingCart = ({ title }) => {
   return (
     <Container>
       <h2>{title}</h2>
+
+      {hasSubmitted && <div style={{backgroundColor: "greenyellow", opacity: ".5", padding: '3%'}}>
+        <h4 style={{color: "green", fontWeight: "bold"}}>Success!</h4>
+        <p style={{color: "green", fontWeight: "bold"}}>Your order has been submitted successfully.</p>
+      </div>}
 
       <Content>
         {cartItems.length > 0 &&
