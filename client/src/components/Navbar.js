@@ -16,27 +16,27 @@ function Navbar() {
         <NavMenu>
 
         <Link to="/">
-            {/* <img src='/images/saved-icon.png' alt='saved'/> */}
+            <img src='/images/home-icon.png' alt='home'/>
             <span>HOME</span>
         </Link>
 
         <Link to="/saved">
-            {/* <img src='/images/saved-icon.png' alt='saved'/> */}
+            <img src='/images/saved-icon.png' alt='saved'/>
             <span>SAVED</span>
         </Link>
 
         <Link to="/usershop"> 
-            {/* <img src='/images/shop-icon.png' alt='shop'/> */}
+            <img src='/images/shop-icon.png' alt='myshop'/>
             <span>MY SHOP</span>
         </Link>
 
         <Link to="/profile">
-            {/* <img src='/images/profile-icon.png alt='profile'/> */}
+             <img src='/images/profile-icon.png' alt='profile'/>
             <span>PROFILE</span>
         </Link>
 
         <Link to="/cart">
-            {/* <img src='/images/cart-icon.png' alt='cart'/> */}
+            <img src='/images/cart-icon.png' alt='cart'/>
             <span>CART</span>
         </Link>
 
@@ -102,6 +102,13 @@ const NavMenu = styled.div`
 
         img {
             height: 20px;
+            margin: 5px 5px 8px 5px;
+
+        @media (max-width: 800px) {
+            &:hover {
+                -webkit-filter: brightness(150%);
+            }
+             }
         }
 
         span {
@@ -109,6 +116,10 @@ const NavMenu = styled.div`
             position: relative;
             font-size: 20px;
             font-weight: bold;
+
+            @media (max-width: 800px) {
+               display: none;
+              }
 
             &:after {
                 content: "";

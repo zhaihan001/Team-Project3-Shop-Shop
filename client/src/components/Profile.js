@@ -138,9 +138,10 @@ const Wrap = styled.div`
   flex-direction: row;
 
   img {
-    width: 80%;
-    height: 80%;
+    width: 100%;
+    height: 100%;
     margin: 10px 0px 10px 100px;
     clip-path: circle();
+    object-fit: cover;
   }
 `;

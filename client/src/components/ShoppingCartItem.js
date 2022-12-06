@@ -56,20 +56,7 @@ export default function ShoppingCartItem({cartItem, items, setTotal, setItems}) 
 
   const handleRemoveFromCart = async (id) => {
 
-    try { 
-        const {data} = await removeFromCart({
-            variables: {
-                productId: id
-            }
-        })
 
-        setQuantity(0)
-
-        setItems(items.filter(liItem => liItem.product._id !== item.product._id))
-
-        // if(items.filter(product => product.product._id !== id).length < 1){
-        //     // window.location.reload();
-        // }
     try {
       const { data } = await removeFromCart({
         variables: {
@@ -78,14 +65,14 @@ export default function ShoppingCartItem({cartItem, items, setTotal, setItems}) 
       });
 
       setQuantity(0);
-
-
-        return data
         
         
       if (items.filter((product) => product.product._id !== id).length < 1) {
         window.location.reload();
       }
+
+      return data
+      
     } catch (error) {
       console.log(error);
       return error;
