@@ -3,6 +3,7 @@ import React from 'react'
 import { Link } from 'react-router-dom'
 import { GET_SHOP } from '../utils/queries'
 import { Container, Content, Wrap } from './ShopList'
+import { Header } from './UserShop';
 
 export default function ProductList({id}) {
     const {loading, data} = useQuery(GET_SHOP, {
@@ -22,8 +23,17 @@ export default function ProductList({id}) {
 
   return (
     <>
-        <Container>
-            {data && <h2>{data.getShop.businessName}'s Products</h2>}
+        <Container style={{backgroundColor: data.getShop.secondaryHex}}>
+        <Header style={{backgroundColor: data.getShop.primaryHex}}>
+            <div>
+                <img id='logo' src={data.getShop.image} alt='Logo'/>
+            </div>
+            <div>
+                <h2 style={{color: data.getShop.secondaryHex}}>{data.getShop.businessName}</h2>
+                <h4>{data.getShop.slogan}</h4>
+            </div>
+            </Header>
+            {data && <h2 style={{color: data.getShop.primaryHex}}>{data.getShop.businessName}'s Products</h2>}
             <Content>
                 {productsList && productsList.map((item,index) => (
                     <Wrap key={index}>
