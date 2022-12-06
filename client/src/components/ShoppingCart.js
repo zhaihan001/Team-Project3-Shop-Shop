@@ -1,4 +1,4 @@
-import React, {useState} from "react";
+import React, {useEffect, useState} from "react";
 import styled from "styled-components";
 import { useMutation, useQuery } from "@apollo/client";
 import { SUBMIT_ORDER, DELETE_FROM_CART } from "../utils/mutations";
@@ -18,6 +18,9 @@ const ShoppingCart = ({ title }) => {
   console.log(cartItems);
   const [total, setTotal] = useState(cartItems.length > 0 ? cartItems.map(item => item.productPrice * item.quantity).reduce((a,b) => a + b) : 0)
   
+  const [items, setItems] = useState([]);
+  console.log(items);
+
  
   // const [state, setState] = useState(cartWithId)
   
@@ -40,10 +43,10 @@ const ShoppingCart = ({ title }) => {
   const handleSubmit = async () => {
     try {
       const { data } = await submitOrder({
-        // passing data
         variables: {
           products: cartItemIds,
-          businessId: businessId
+          businessId: businessId,
+          total
         },
       });
 
@@ -56,6 +59,10 @@ const ShoppingCart = ({ title }) => {
   };
 
 
+  useEffect(() => {
+    setItems(cartItems)
+
+  }, [cartItems])
 
 
   return (
@@ -64,15 +71,15 @@ const ShoppingCart = ({ title }) => {
 
       <Content>
         {cartItems.length > 0 &&
-          cartItems.map((item, index) => (
-            <ShoppingCartItem key={index} cartItem={item} items={cartItems} setTotal={setTotal} />
+          items.map((item, index) => (
+            <ShoppingCartItem key={index} cartItem={item} items={items} setItems={setItems} setTotal={setTotal} />
           ))}
       </Content>
 
-      {cartItems?.length > 0 && <button type="submit" onClick={handleSubmit}>
+      {items.length > 0 && <button type="submit" onClick={handleSubmit}>
         Submit Order
       </button>}
-      {cartItems.length > 0 && <h4>Total: ${total}.00</h4>}
+      {items.length > 0 && <h4>Total: ${total}.00</h4>}
     </Container>
   );
 };

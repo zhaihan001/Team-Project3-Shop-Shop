@@ -1,14 +1,16 @@
-import { useMutation } from "@apollo/client";
-import { identity } from "angular";
-import React, { useEffect, useState, useRef } from "react";
-import { Navigate } from "react-router-dom";
-import styled from "styled-components";
-import { useProductContext } from "../contexts/ProductContext";
-import { UPDATE_CARTITEM_QUANTITY } from "../utils/mutations";
-import { Palette } from "./Palette";
 
-export default function ShoppingCartItem({ cartItem, items, setTotal }) {
-  const { updateQuantity, updLoading, removeFromCart } = useProductContext();
+import { useMutation } from '@apollo/client';
+import { identity } from 'angular';
+import React, { useEffect, useState, useRef } from 'react'
+import { Navigate } from 'react-router-dom';
+import styled from 'styled-components';
+import { useProductContext } from '../contexts/ProductContext';
+import { UPDATE_CARTITEM_QUANTITY } from '../utils/mutations';
+import { Palette } from './Palette';
+
+export default function ShoppingCartItem({cartItem, items, setTotal, setItems}) {
+  const {updateQuantity, updLoading, removeFromCart} = useProductContext();
+
   const [quantity, setQuantity] = useState(cartItem.quantity);
   const [item, setItem] = useState(cartItem);
   console.log(item);
@@ -53,6 +55,21 @@ export default function ShoppingCartItem({ cartItem, items, setTotal }) {
   };
 
   const handleRemoveFromCart = async (id) => {
+
+    try { 
+        const {data} = await removeFromCart({
+            variables: {
+                productId: id
+            }
+        })
+
+        setQuantity(0)
+
+        setItems(items.filter(liItem => liItem.product._id !== item.product._id))
+
+        // if(items.filter(product => product.product._id !== id).length < 1){
+        //     // window.location.reload();
+        // }
     try {
       const { data } = await removeFromCart({
         variables: {
@@ -62,6 +79,10 @@ export default function ShoppingCartItem({ cartItem, items, setTotal }) {
 
       setQuantity(0);
 
+
+        return data
+        
+        
       if (items.filter((product) => product.product._id !== id).length < 1) {
         window.location.reload();
       }
