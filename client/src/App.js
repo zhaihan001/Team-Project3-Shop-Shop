@@ -36,6 +36,9 @@ const GlobalStyle = createGlobalStyle`
   h2 {
     font-family: 'Nerko One', cursive;
   }
+  h1, h3, h4, h5, p {
+    font-family: 'Open Sans', sans-serif;
+  } 
 `
 
 const httpLink = createHttpLink({

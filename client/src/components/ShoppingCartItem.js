@@ -145,10 +145,10 @@ const Wrap = styled.div`
   position: relative;
   border: 3px solid ${Palette.fadedGrey};
   transition: all 250ms cubic-bezier(0.25, 0.46, 0.45, 0.94) 0s;
-  padding: 20px;
+  padding: 10px;
   button {
     color: white;
-
+    
     font-size: 20px;
     padding: 10px;
     margin: 10px;
