@@ -76,7 +76,9 @@ function CartPage() {
   }
 
 
-  if(locationState.errMsg){
+  if(locationState.errMsg ){
+    console.log("hit");
+
     return (
       <>
         <Modal style={{width: "50%", margin: "auto", backgroundColor: "#eeffff", padding: "2%"}}>
@@ -90,7 +92,7 @@ function CartPage() {
               }
             })
             setLocationState({status: 200})
-            // window.location.reload();
+            window.location.reload();
           }}>X</CloseButton>
         </Modal>
       </>

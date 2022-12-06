@@ -1,7 +1,7 @@
 import React, {useEffect, useState} from "react";
 import styled from "styled-components";
 import { useMutation, useQuery, useLazyQuery } from "@apollo/client";
-import { SUBMIT_ORDER, DELETE_FROM_CART } from "../utils/mutations";
+import { SUBMIT_ORDER, DELETE_FROM_CART, DELETE_CART } from "../utils/mutations";
 import { Palette } from "./Palette";
 import { useLocation, Navigate } from "react-router-dom";
 import ShoppingCartItem from "./ShoppingCartItem";
@@ -9,6 +9,7 @@ import { useUserContext } from "../contexts/UserContext";
 import { GET_CART, QUERY_CHECKOUT } from "../utils/queries";
 import { loadStripe } from '@stripe/stripe-js';
 import { useLocalStorage } from "../hooks/useLocalStorage";
+import { useProductContext } from "../contexts/ProductContext";
 
 const stripePromise = loadStripe('pk_test_TYooMQauvdEDq54NiTphI7jx');
 
@@ -25,6 +26,7 @@ const ShoppingCart = ({ title }) => {
   const [getCheckout, { data }] = useLazyQuery(QUERY_CHECKOUT);
   const [hasSubmitted, setHasSubmitted] = useState(false)
   const [items, setItems] = useState([]);
+  const {removeCart} = useProductContext();
   console.log(items);
 
   const cart = cartWithId?.cart;
@@ -77,15 +79,23 @@ const ShoppingCart = ({ title }) => {
         },
       });
 
+      const {data: deletedCart} = await removeCart({
+        variables: {
+          products: cartItemIds
+        }
+      })
+
 
       setItems([])
       setInCart([])
       setHasSubmitted(true)
 
+      window.location.reload();
 
       return data
     } catch (error) {
       console.log(error);
+      return error
     }
   };
 
