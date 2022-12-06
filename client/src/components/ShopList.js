@@ -182,6 +182,7 @@ export const Wrap = styled.div`
 
       &:hover {
         border: 3px solid ${Palette.grey};
+        background-color: solid ${Palette.blue};
       }
     }
 
