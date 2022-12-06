@@ -59,6 +59,7 @@ export default function ShoppingCartItem({
   };
 
   const handleRemoveFromCart = async (id) => {
+
     try {
       const { data } = await removeFromCart({
         variables: {
@@ -67,11 +68,14 @@ export default function ShoppingCartItem({
       });
 
       setQuantity(0);
-
+        
+        
       if (items.filter((product) => product.product._id !== id).length < 1) {
         window.location.reload();
       }
-      return data;
+
+      return data
+      
     } catch (error) {
       console.log(error);
       return error;

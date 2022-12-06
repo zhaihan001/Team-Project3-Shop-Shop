@@ -105,7 +105,7 @@ const Wrap = styled.div`
 
     .slideA {
         background-image: url("/images/boxes.png");
-        background-color: red;
+        background-color: ${Palette.grey};
         color: ${Palette.brown};
 
         h2 {
