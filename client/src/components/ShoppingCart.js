@@ -24,7 +24,6 @@ const ShoppingCart = ({ title }) => {
   console.log(cartItems);
   const [total, setTotal] = useState(0)
   const [getCheckout, { data }] = useLazyQuery(QUERY_CHECKOUT);
-  const [hasSubmitted, setHasSubmitted] = useState(false)
   const [items, setItems] = useState([]);
   const {removeCart} = useProductContext();
   console.log(items);
@@ -88,7 +87,6 @@ const ShoppingCart = ({ title }) => {
 
       setItems([])
       setInCart([])
-      setHasSubmitted(true)
 
       window.location.reload();
 
@@ -110,10 +108,6 @@ const ShoppingCart = ({ title }) => {
     <Container>
       <h2>{title}</h2>
 
-      {hasSubmitted && <div style={{backgroundColor: "greenyellow", padding: '3%'}}>
-        <h4 style={{color: "green", fontWeight: "bold"}}>Success!</h4>
-        <p style={{color: "green", fontWeight: "bold"}}>Your order has been submitted successfully.</p>
-      </div>}
 
       <Content>
         {items && items.length > 0 &&
