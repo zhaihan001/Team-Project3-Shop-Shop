@@ -90,6 +90,7 @@ export const GET_SHOP = gql`
 export const GET_PRODUCT = gql`
   query product($_id: ID!) {
     product(_id: $_id) {
+      _id
       userId{
         _id
         username
@@ -180,4 +181,15 @@ export const GET_CART_ITEMS = gql`
     }
   }
 
+`
+
+export const GET_PRODUCTS = gql`
+  query products($owner: ID!){
+    products(owner: $owner){
+      _id
+      name
+      description
+      images
+    }
+  }
 `

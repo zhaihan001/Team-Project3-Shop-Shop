@@ -48,8 +48,18 @@ const resolvers = {
         return error
       }
     },
-    products: async () => {
-      return await Product.find();
+    products: async (parent, args, context) => {
+      try {
+        console.log(args.owner);
+        let products = await Product.find();
+
+        console.log(products);
+        return products
+        
+      } catch (error) {
+        console.log(error)
+        return error
+      }
     },
     users: async () => {
       try {
@@ -342,14 +352,15 @@ const resolvers = {
         return error
       }
     },
-    submitOrder: async (parent, { businessId, products }, context) => {
+    submitOrder: async (parent, { businessId, products, total }, context) => {
       try {
         if(context.user){
           let order = await Order.create(
             {
               userId: context.user._id, 
               businessId, 
-              products
+              products,
+              total
             }
           )
 
@@ -609,7 +620,7 @@ const resolvers = {
     },
     deleteCart: async (parent, {products}, context) => {
       try {
-        let removeCartItems = await CartItem.deleteMany({product: {_id: {$in: products}}})
+        let removeCartItems = await CartItem.deleteMany({product: {$in: products}})
 
         let deletedCart = await Cart.findOneAndDelete(
           {userId: context.user._id}
