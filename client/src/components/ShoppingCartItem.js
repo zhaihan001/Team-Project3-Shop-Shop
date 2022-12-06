@@ -1,11 +1,11 @@
-import { useMutation } from "@apollo/client";
-import { identity } from "angular";
-import React, { useEffect, useState, useRef } from "react";
-import { Navigate } from "react-router-dom";
-import styled from "styled-components";
-import { useProductContext } from "../contexts/ProductContext";
-import { UPDATE_CARTITEM_QUANTITY } from "../utils/mutations";
-import { Palette } from "./Palette";
+
+import { useMutation } from '@apollo/client';
+import React, { useEffect, useState, useRef } from 'react'
+import styled from 'styled-components';
+import { useProductContext } from '../contexts/ProductContext';
+import { UPDATE_CARTITEM_QUANTITY } from '../utils/mutations';
+import { Palette } from './Palette';
+
 
 export default function ShoppingCartItem({
   cartItem,
@@ -17,14 +17,8 @@ export default function ShoppingCartItem({
 
   const [quantity, setQuantity] = useState(cartItem.quantity);
   const [item, setItem] = useState(cartItem);
-  console.log(item);
-  const [product, setProduct] = useState(item.product);
+  const [product, setProduct] = useState(item.product)
 
-  console.log(product);
-
-  useEffect(() => {
-    setProduct(item.product);
-  }, [item]);
 
   const changeQuantity = async (e) => {
     try {
