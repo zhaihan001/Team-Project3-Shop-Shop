@@ -41,7 +41,7 @@ function Navbar() {
         </Link>
 
         {!Auth.loggedIn() ? <Link to="/login" state={{previousUrl: location.pathname}}>
-            {/* <img src='/images/cart-icon.png' alt='cart'/> */}
+            <img src='/images/login-icon.png' alt='login'/>
             <span>LOGIN | JOIN</span>
         </Link> :
         <button onClick={() => Auth.logout()}>LOGOUT</button>
@@ -105,6 +105,7 @@ const NavMenu = styled.div`
             margin: 5px 5px 8px 5px;
 
         @media (max-width: 800px) {
+            height: 30px;
             &:hover {
                 -webkit-filter: brightness(150%);
             }

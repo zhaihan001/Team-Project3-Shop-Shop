@@ -38,7 +38,7 @@ function Profile() {
           <h3>Welcome, {userData.user.username}</h3>
           <p>Buyer | Seller</p>
           <Link className=".link" to="/usershop"><button>View My Shop</button></Link>
-          <button>Edit My Shop</button>
+          <button>Delete My Shop</button>
         </Content>
       </Wrap>
       <UpdateImageModal showModal={showModal} toggleModal={toggleModal}/>
@@ -60,7 +60,7 @@ const Container = styled.div`
     padding-left: 17%;
     padding-top: 8vw;
     margin-bottom: 70px;
-    font-size: 40px;
+    font-size: 50px;
     text-decoration: underline;
     color: ${Palette.red};
     font-weight: bold;
@@ -138,8 +138,8 @@ const Wrap = styled.div`
   flex-direction: row;
 
   img {
-    width: 100%;
-    height: 100%;
+    width: 80%;
+    height: 80%;
     margin: 10px 0px 10px 100px;
     clip-path: circle();
     object-fit: cover;
