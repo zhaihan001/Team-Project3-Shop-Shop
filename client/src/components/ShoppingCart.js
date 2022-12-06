@@ -19,9 +19,9 @@ const ShoppingCart = ({ title }) => {
   const { cartItems } = useUserContext();
   const {loading, data: cartWithId} = useQuery(GET_CART);
   const [submitOrder, { error }] = useMutation(SUBMIT_ORDER);
-  const [cartItemIds, setCartItemIds] = useState(cartItems.length > 0 ? cartItems.map(item => item.product._id) : [])
+  const [cartItemIds, setCartItemIds] = useState([])
   console.log(cartItems);
-  const [total, setTotal] = useState(cartItems.length > 0 ? cartItems.map(item => item.productPrice * item.quantity).reduce((a,b) => a + b) : 0)
+  const [total, setTotal] = useState(0)
   const [getCheckout, { data }] = useLazyQuery(QUERY_CHECKOUT);
   const [hasSubmitted, setHasSubmitted] = useState(false)
   const [items, setItems] = useState([]);
@@ -31,13 +31,9 @@ const ShoppingCart = ({ title }) => {
   const businessId = cart?.businessId._id
 
 
-  console.log(cartItems.map(item => {
-    return item.product
-  }));
-
-
   console.log(cartItemIds);
   console.log(data);
+  console.log(typeof(cartItems));
 
   // We check to see if there is a data object that exists, if so this means that a checkout session was returned from the backend
   // Then we should redirect to the checkout with a reference to our session id
@@ -49,6 +45,18 @@ const ShoppingCart = ({ title }) => {
       });
     }
   }, [data]);
+
+  useEffect(() => {
+    if(typeof(cartItems) === "object" && cartItems?.length > 0){
+      setTotal(cartItems.map(item => item.productPrice * item.quantity).reduce((a,b) => a + b))
+      setItems(cartItems)
+    }
+
+    setCartItemIds(cartItems?.map(item => item.product._id))
+
+  }, [cartItems])
+
+
 
 
   const handleSubmit = async () => {
@@ -92,22 +100,22 @@ const ShoppingCart = ({ title }) => {
     <Container>
       <h2>{title}</h2>
 
-      {hasSubmitted && <div style={{backgroundColor: "greenyellow", opacity: ".5", padding: '3%'}}>
+      {hasSubmitted && <div style={{backgroundColor: "greenyellow", padding: '3%'}}>
         <h4 style={{color: "green", fontWeight: "bold"}}>Success!</h4>
         <p style={{color: "green", fontWeight: "bold"}}>Your order has been submitted successfully.</p>
       </div>}
 
       <Content>
-        {cartItems.length > 0 &&
+        {items && items.length > 0 &&
           items.map((item, index) => (
             <ShoppingCartItem key={index} cartItem={item} items={items} setItems={setItems} setTotal={setTotal} />
           ))}
       </Content>
 
-      {items.length > 0 && <button type="submit" onClick={handleSubmit}>
+      {items && items.length > 0 && <button type="submit" onClick={handleSubmit}>
         Submit Order
       </button>}
-      {items.length > 0 && <h4>Total: ${total}.00</h4>}
+      {items && items.length > 0 && <h4>Total: ${total}.00</h4>}
     </Container>
   );
 };

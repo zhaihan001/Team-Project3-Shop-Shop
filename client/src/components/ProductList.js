@@ -1,5 +1,4 @@
 import { useQuery } from "@apollo/client";
-import { identity } from "angular";
 import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { useShopContext } from "../contexts/ShopContext";
@@ -9,7 +8,8 @@ import { Header } from "./UserShop";
 
 export default function ProductList({ id }) {
   const { shops } = useShopContext();
-  const [allShopData, setAllShopData] = useState();
+  const [allShopData, setAllShopData] = useState(null);
+  const [products, setProducts] = useState(allShopData?.products || null)
   const { loading, data: shopData } = useQuery(GET_SHOP, {
     variables: {
       _id: id,
@@ -17,11 +17,15 @@ export default function ProductList({ id }) {
   });
 
   useEffect(() => {
-    if(shopData){
-        const shop = shopData?.getShop || {}
-
+   
+    const shop = shopData?.getShop || null
+    if(shop?.businessName !== null && shop?.products[0]?.name !== null) {
         setAllShopData(shop)
+
     }
+    console.log(shop);
+
+    
 
   }, [shopData?.getShop, loading, shopData])
 
@@ -31,6 +35,7 @@ export default function ProductList({ id }) {
     return <div><img style={{margin:'auto', width:'30%', padding:'20px', display:'block'}} src="/images/loading.gif" alt="loading"/></div>;
   }
 
+  console.log(allShopData);
 
   return (
     <>
@@ -40,23 +45,23 @@ export default function ProductList({ id }) {
             <img id="logo" src={shopData.getShop.image} alt="Logo" />
           </div>
           <div>
-            <h2 style={{ color: shopData.getShop.secondaryHex }}>
-              {shopData.getShop.businessName}
-            </h2>
-            <h4>{shopData.getShop.slogan}</h4>
+            {allShopData && <h2 style={{ color: shopData.getShop.secondaryHex }}>
+              {allShopData.businessName}
+            </h2>}
+            {allShopData && <h4>{allShopData.slogan}</h4>}
           </div>
         </Header>
-        {shopData && (
+        {allShopData && (
           <h2 style={{ color: shopData.getShop.primaryHex }}>
-            {shopData.getShop.businessName}'s Products
+            {allShopData.businessName}'s Products
           </h2>
         )}
 
         <Content>
-          {allShopData?.products &&
-            allShopData.products.map((item, index) => (
+          {allShopData?.products[0]?.name &&
+            allShopData?.products.map((item, index) => (
               <Wrap key={index}>
-                {<img src={item.images[0] || ""} alt="product" />}
+                {<img src={item.images[0] } alt="product" />}
                 <Link
                   to={`/shop/${id}/product/${item._id}`}
                   state={{ price: item.price }}
