@@ -1,7 +1,7 @@
 import { useMutation, useQuery } from '@apollo/client';
 import React, { Component, createContext, useContext } from 'react';
 import { ADD_PRODUCT, ADD_TO_CART, DELETE_FROM_CART, UPDATE_CARTITEM_QUANTITY } from '../utils/mutations';
-import { GET_PRODUCT } from '../utils/queries';
+import { GET_CART_ITEMS, GET_PRODUCT, GET_PRODUCTS } from '../utils/queries';
 
 
 
@@ -22,9 +22,22 @@ export const ProductProvider = ({children}) => {
         const [newProduct, { err, data: newProductData}] = useMutation(ADD_PRODUCT);
 
         const [updateQuantity, {loading: updLoading, err: updErr}] = useMutation(UPDATE_CARTITEM_QUANTITY);
+        
+        const {loading, data} = useQuery(GET_CART_ITEMS);
+        console.log(data);
+        const items = data?.cartItems || [];
+
+        const checkIfInCart = (id) => {
+            if(items){
+                if(items.filter(prod => prod._id === id).length > 0){
+                    return true
+                }
+                return false
+            }
+        }
 
         return (
-            <ProductContext.Provider value={{newProduct, newProductData, addToCart, removeFromCart, updateQuantity}}>
+            <ProductContext.Provider value={{newProduct, newProductData, addToCart, removeFromCart, updateQuantity, checkIfInCart}}>
                 {children}
             </ProductContext.Provider>
         )

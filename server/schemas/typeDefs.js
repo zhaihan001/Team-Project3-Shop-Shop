@@ -76,7 +76,7 @@ const typeDefs = gql`
   type Query {
     orders: [Order]
     cartItems: [CartItem]
-    products(owner: ID!): [Product]
+    products: [Product]
     myShop: Business
     users: [User]
     shops: [Business]

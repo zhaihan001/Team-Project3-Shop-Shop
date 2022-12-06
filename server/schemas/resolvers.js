@@ -51,7 +51,7 @@ const resolvers = {
     products: async (parent, args, context) => {
       try {
         console.log(args.owner);
-        let products = await Product.find({userId: args.owner});
+        let products = await Product.find();
 
         console.log(products);
         return products

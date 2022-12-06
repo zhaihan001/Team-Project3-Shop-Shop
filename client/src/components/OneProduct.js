@@ -1,12 +1,13 @@
 import { useQuery } from '@apollo/client'
 import React from 'react'
-import { Navigate, useLocation, useNavigate } from 'react-router-dom'
+import { Link, Navigate, useLocation, useNavigate } from 'react-router-dom'
 import { useProductContext } from '../contexts/ProductContext'
 import { GET_CART, GET_PRODUCT } from '../utils/queries'
 import { Container, Content, Wrap } from './ShopList'
 import Auth from "../utils/auth";
 
 export default function OneProduct({businessId, productId, price}) {
+  const {checkIfInCart} = useProductContext();
   const {loading: newLoad, data: newData} = useQuery(GET_CART)
   console.log(newData);
   const navigate = useNavigate();
@@ -16,7 +17,7 @@ export default function OneProduct({businessId, productId, price}) {
       _id: productId
     }
   })
-  console.log(price);
+  console.log(data);
 
   const { addToCart } = useProductContext();
   console.log(businessId);
@@ -70,7 +71,11 @@ export default function OneProduct({businessId, productId, price}) {
               {data && <Wrap>
                 <img src={data.product.images[0]} alt="product" />
                 <div>
-                <h4 onClick={Auth.loggedIn() ? addItemToCart : (() => navigate("/login", {state: {previousUrl: location.pathname}}))}>Add to cart</h4>
+                {checkIfInCart(data.product._id) ? <h4 onClick={Auth.loggedIn() ? addItemToCart : (() => navigate("/login", {state: {previousUrl: location.pathname}}))}>Add to cart</h4> 
+                : 
+                <h4>In Cart ✔</h4>
+                }
+                
                 </div>
                 <h3>{data.product.name}</h3>
               
