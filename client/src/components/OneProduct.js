@@ -8,6 +8,7 @@ import Auth from "../utils/auth";
 import { useLocalStorage } from '../hooks/useLocalStorage'
 
 export default function OneProduct({businessId, productId, price}) {
+  console.log(businessId);
   const [cartItemIds, setCartItemIds] = useLocalStorage("cartItemIds", []);
   const {checkIfInCart} = useProductContext();
   const {loading: newLoad, data: newData} = useQuery(GET_CART)
@@ -76,7 +77,7 @@ export default function OneProduct({businessId, productId, price}) {
       setProductData(data)
     }
 
-  }, [data, loading])
+  }, [data, loading, productData])
 
   console.log(productData);
 
@@ -91,7 +92,7 @@ export default function OneProduct({businessId, productId, price}) {
       <Container>
           <h2>This Product</h2>
           <Content>
-              {typeof(productData) !== "undefined" && <Wrap>
+              {typeof(productData) !== "undefined" && productData?.product.name !== null && <Wrap>
                 <img src={productData.product.images[0]} alt="product" />
                 <div>
                 {!cartItemIds.includes(productData.product._id) ? <h4 onClick={Auth.loggedIn() ? addItemToCart : (() => navigate("/login", {state: {previousUrl: location.pathname}}))}>Add to cart</h4> 
