@@ -140,40 +140,52 @@ const resolvers = {
 
     },
     checkout: async (parent, args, context) => {
-      const url = new URL(context.headers.referer).origin;
-      const order = new Order({ products: args.products });
-      const line_items = [];
+      try {
+        console.log("logged");
+        const url = new URL(context.headers.referer).origin;
+        const order = new Order({ products: args.products });
+        
+        const line_items = [];
 
-      const { products } = await order.populate('products');
+        const { products } = await order.populate('products');
+        console.log(products);
 
-      for (let i = 0; i < products.length; i++) {
-        const product = await stripe.products.create({
-          name: products[i].product.name,
-          description: products[i].product.description,
-          images: [`${products[i].product.image[0]}`]
+        // for (let i = 0; i < products.length; i++) {
+        //   const product = await stripe.products.create({
+        //     name: products[i].product.name,
+        //     description: products[i].product.description,
+        //     images: [`${products[i].product.image[0]}`]
+        //   });
+
+        //   const price = await stripe.prices.create({
+        //     product: product.id,
+        //     unit_amount: products[i].product.price * 100,
+        //     currency: 'usd',
+        //   });
+
+        //   line_items.push({
+        //     price: price.id,
+        //     quantity: 1
+        //   });
+        // }
+
+        
+
+        const session = await stripe.checkout.sessions.create({
+          payment_method_types: ['card'],
+          line_items,
+          mode: 'payment',
+          success_url: `${url}/success?session_id={CHECKOUT_SESSION_ID}`,
+          cancel_url: `${url}/`
         });
 
-        const price = await stripe.prices.create({
-          product: product.id,
-          unit_amount: products[i].product.price * 100,
-          currency: 'usd',
-        });
-
-        line_items.push({
-          price: price.id,
-          quantity: 1
-        });
+        return { session: session.id };
+        
+      } catch (error) {
+        console.log(error)
+        return error
       }
-
-      const session = await stripe.checkout.sessions.create({
-        payment_method_types: ['card'],
-        line_items,
-        mode: 'payment',
-        success_url: `${url}/success?session_id={CHECKOUT_SESSION_ID}`,
-        cancel_url: `${url}/`
-      });
-
-      return { session: session.id };
+      
     },
     cart: async (parent,args, context) => {
       try {

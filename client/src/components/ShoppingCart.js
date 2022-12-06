@@ -1,36 +1,35 @@
 import React, {useEffect, useState} from "react";
 import styled from "styled-components";
-import { useMutation, useQuery } from "@apollo/client";
+import { useMutation, useQuery, useLazyQuery } from "@apollo/client";
 import { SUBMIT_ORDER, DELETE_FROM_CART } from "../utils/mutations";
 import { Palette } from "./Palette";
 import { useLocation, Navigate } from "react-router-dom";
 import ShoppingCartItem from "./ShoppingCartItem";
 import { useUserContext } from "../contexts/UserContext";
-import { GET_CART } from "../utils/queries";
+import { GET_CART, QUERY_CHECKOUT } from "../utils/queries";
+import { loadStripe } from '@stripe/stripe-js';
+import { useLocalStorage } from "../hooks/useLocalStorage";
+
+const stripePromise = loadStripe('pk_test_TYooMQauvdEDq54NiTphI7jx');
 
 
 const ShoppingCart = ({ title }) => {
+  const [inCart, setInCart] = useLocalStorage("cartItemIds", [])
   const location = useLocation();
   const { cartItems } = useUserContext();
   const {loading, data: cartWithId} = useQuery(GET_CART);
   const [submitOrder, { error }] = useMutation(SUBMIT_ORDER);
-  const [cartItemIds, setCartItemIds] = useState(cartItems.map(item => item.product._id))
+  const [cartItemIds, setCartItemIds] = useState(cartItems.length > 0 ? cartItems.map(item => item.product._id) : [])
   console.log(cartItems);
   const [total, setTotal] = useState(cartItems.length > 0 ? cartItems.map(item => item.productPrice * item.quantity).reduce((a,b) => a + b) : 0)
-  
+  const [getCheckout, { data }] = useLazyQuery(QUERY_CHECKOUT);
+  const [hasSubmitted, setHasSubmitted] = useState(false)
   const [items, setItems] = useState([]);
   console.log(items);
 
- 
-  // const [state, setState] = useState(cartWithId)
-  
   const cart = cartWithId?.cart;
   const businessId = cart?.businessId._id
-  
 
-
-  console.log(cartItems);
-  console.log(total);
 
   console.log(cartItems.map(item => {
     return item.product
@@ -38,10 +37,30 @@ const ShoppingCart = ({ title }) => {
 
 
   console.log(cartItemIds);
+  console.log(data);
+
+  // We check to see if there is a data object that exists, if so this means that a checkout session was returned from the backend
+  // Then we should redirect to the checkout with a reference to our session id
+  useEffect(() => {
+    if (data) {
+      console.log(data);
+      stripePromise.then((res) => {
+        res.redirectToCheckout({ sessionId: data.checkout.session });
+      });
+    }
+  }, [data]);
 
 
   const handleSubmit = async () => {
     try {
+      console.log("logged");
+
+      // await getCheckout({
+      //   variables: {
+      //     products: cartItemIds
+      //   }
+      // })
+
       const { data } = await submitOrder({
         variables: {
           products: cartItemIds,
@@ -50,11 +69,15 @@ const ShoppingCart = ({ title }) => {
         },
       });
 
-      window.location.reload();
+
+      setItems([])
+      setInCart([])
+      setHasSubmitted(true)
+
 
       return data
     } catch (error) {
-      console.error(error);
+      console.log(error);
     }
   };
 
@@ -68,6 +91,11 @@ const ShoppingCart = ({ title }) => {
   return (
     <Container>
       <h2>{title}</h2>
+
+      {hasSubmitted && <div style={{backgroundColor: "greenyellow", opacity: ".5", padding: '3%'}}>
+        <h4 style={{color: "green", fontWeight: "bold"}}>Success!</h4>
+        <p style={{color: "green", fontWeight: "bold"}}>Your order has been submitted successfully.</p>
+      </div>}
 
       <Content>
         {cartItems.length > 0 &&

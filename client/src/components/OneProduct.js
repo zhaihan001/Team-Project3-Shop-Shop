@@ -1,5 +1,5 @@
 import { useQuery } from '@apollo/client'
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import { Link, Navigate, useLocation, useNavigate } from 'react-router-dom'
 import { useProductContext } from '../contexts/ProductContext'
 import { GET_CART, GET_PRODUCT } from '../utils/queries'
@@ -14,6 +14,9 @@ export default function OneProduct({businessId, productId, price}) {
   console.log(newData);
   const navigate = useNavigate();
   const location = useLocation();
+
+  const [productData, setProductData] = useState();
+
   const {loading, data} = useQuery(GET_PRODUCT, {
     variables: {
       _id: productId
@@ -68,26 +71,36 @@ export default function OneProduct({businessId, productId, price}) {
     }
   } 
 
-  if(data){
-    console.log(checkIfInCart(data.product._id));
+  useEffect(() => {
+    if(typeof(data) !== "undefined"){
+      setProductData(data)
+    }
 
+  }, [data, loading])
+
+  console.log(productData);
+
+
+  if (loading) {
+    return <div>Loading...</div>;
   }
+
 
   return (
     <>
       <Container>
           <h2>This Product</h2>
           <Content>
-              {data && <Wrap>
-                <img src={data.product.images[0]} alt="product" />
+              {typeof(productData) !== "undefined" && <Wrap>
+                <img src={productData.product.images[0]} alt="product" />
                 <div>
-                {!cartItemIds.includes(data.product._id) ? <h4 onClick={Auth.loggedIn() ? addItemToCart : (() => navigate("/login", {state: {previousUrl: location.pathname}}))}>Add to cart</h4> 
+                {!cartItemIds.includes(productData.product._id) ? <h4 onClick={Auth.loggedIn() ? addItemToCart : (() => navigate("/login", {state: {previousUrl: location.pathname}}))}>Add to cart</h4> 
                 : 
                 <h4>In Cart ✔</h4>
                 }
                 
                 </div>
-                <h3>{data.product.name}</h3>
+                <h3>{productData.product.name}</h3>
               
               </Wrap>}
           </Content>

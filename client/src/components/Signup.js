@@ -11,6 +11,8 @@ function Signup({setShowSignUp}) {
   const location = useLocation();
   const [image, setImage] = useState(null);
   const [imageData, setImageData] = useState("")
+  const [testErr, setTestErr] = useState(false);
+
 
   const [userForm, setUserForm] = useState({
     username: "",
@@ -46,6 +48,7 @@ function Signup({setShowSignUp}) {
       window.location.assign(`${location.state.previousUrl || '/'}`);
 
     } catch (error) {
+      setTestErr(true)
       return error;
     }
   };
@@ -123,6 +126,10 @@ function Signup({setShowSignUp}) {
           />
           {image && <img src={imageData} alt="chosen-logo" style={{width: "20rem"}} />}
           <input type="submit" value="Signup" />
+          {testErr && <div style={{backgroundColor: "#f4b0b0", padding: "2%", marginTop: "2%", borderRadius: "5px"}}>
+            <small style={{paddingTop: '2%', color: "red", fontWeight: 700}}>An error occured with the given credentials</small>
+
+          </div>}
 
             {/* Login Button */}
           <button onClick={() => setShowSignUp(prev => !prev)}>Already have an account? Login Here</button>

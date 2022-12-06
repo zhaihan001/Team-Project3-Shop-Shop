@@ -9,15 +9,28 @@ import { Header } from "./UserShop";
 
 export default function ProductList({ id }) {
   const { shops } = useShopContext();
+  const [allShopData, setAllShopData] = useState();
   const { loading, data: shopData } = useQuery(GET_SHOP, {
     variables: {
       _id: id,
     },
   });
 
+  useEffect(() => {
+    if(shopData){
+        const shop = shopData?.getShop || {}
+
+        setAllShopData(shop)
+    }
+
+  }, [shopData?.getShop, loading, shopData])
+
+  console.log(allShopData);
+
   if (loading) {
     return <div>Loading...</div>;
   }
+
 
   return (
     <>
@@ -40,8 +53,8 @@ export default function ProductList({ id }) {
         )}
 
         <Content>
-          {shopData &&
-            shopData.getShop.products.map((item, index) => (
+          {allShopData?.products &&
+            allShopData.products.map((item, index) => (
               <Wrap key={index}>
                 {<img src={item.images[0] || ""} alt="product" />}
                 <Link
