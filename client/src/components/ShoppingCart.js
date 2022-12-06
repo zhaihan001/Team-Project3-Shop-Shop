@@ -21,7 +21,7 @@ const ShoppingCart = ({ title }) => {
   const [submitOrder, { error }] = useMutation(SUBMIT_ORDER);
   const [cartItemIds, setCartItemIds] = useState(cartItems.length > 0 ? cartItems.map(item => item.product._id) : [])
   console.log(cartItems);
-  const [total, setTotal] = useState(cartItems.length > 0 ? cartItems.map(item => item.productPrice * item.quantity).reduce((a,b) => a + b) : 0)
+  const [total, setTotal] = useState(0)
   const [getCheckout, { data }] = useLazyQuery(QUERY_CHECKOUT);
   const [hasSubmitted, setHasSubmitted] = useState(false)
   const [items, setItems] = useState([]);
@@ -38,6 +38,7 @@ const ShoppingCart = ({ title }) => {
 
   console.log(cartItemIds);
   console.log(data);
+  console.log(typeof(cartItems));
 
   // We check to see if there is a data object that exists, if so this means that a checkout session was returned from the backend
   // Then we should redirect to the checkout with a reference to our session id
@@ -49,6 +50,14 @@ const ShoppingCart = ({ title }) => {
       });
     }
   }, [data]);
+
+  useEffect(() => {
+    if(typeof(cartItems) === "object" && cartItems.length > 0){
+      setTotal(cartItems.map(item => item.productPrice * item.quantity).reduce((a,b) => a + b))
+
+    }
+
+  }, [cartItems])
 
 
   const handleSubmit = async () => {
