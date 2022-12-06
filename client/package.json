@@ -1,6 +1,9 @@
 {
   "name": "mern-client",
   "version": "0.1.0",
+  "engines":{
+    "node":"16.16.0"
+  },
   "private": true,
   "proxy": "https://mysterious-brushlands-70155.herokuapp.com",
   "dependencies": {
