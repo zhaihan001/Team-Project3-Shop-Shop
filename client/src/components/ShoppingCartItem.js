@@ -6,8 +6,6 @@ import { useProductContext } from '../contexts/ProductContext';
 import { UPDATE_CARTITEM_QUANTITY } from '../utils/mutations';
 import { Palette } from './Palette';
 
-export default function ShoppingCartItem({cartItem, items}) {
-  const {updateQuantity, updLoading, removeFromCart} = useProductContext();
 
 export default function ShoppingCartItem({
   cartItem,
@@ -19,6 +17,7 @@ export default function ShoppingCartItem({
 
   const [quantity, setQuantity] = useState(cartItem.quantity);
   const [item, setItem] = useState(cartItem);
+  const [product, setProduct] = useState(item.product)
 
 
   const changeQuantity = async (e) => {
