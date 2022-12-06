@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Navigate, useLocation } from "react-router-dom";
+import { Navigate, useLocation, useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import { useUserContext } from "../contexts/UserContext";
 import Auth from "../utils/auth";
@@ -9,6 +9,7 @@ function Login({setShowSignUp}) {
   const [userData, setUserData] = useState({ username: "", password: "" });
   const { login } = useUserContext();
   const location = useLocation();
+  const navigate = useNavigate();
   const redirectTo = location.state.previousUrl || '/'
   const [testErr, setTestErr] = useState(false);
   console.log(testErr);
@@ -32,8 +33,9 @@ function Login({setShowSignUp}) {
       Auth.login(data.login.token);
 
       // navigate to my shop or user account page after
+      navigate("/cart")
 
-      window.location.assign(`${redirectTo}`);
+      // window.location.assign(`${redirectTo}`);
     } catch (error) {
       console.log(error);
       setTestErr(true)

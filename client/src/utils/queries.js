@@ -7,6 +7,7 @@ export const GET_MY_SHOP = gql`
       _id
       businessName
       image
+      slogan
       primaryHex
       secondaryHex
       orders {
@@ -51,6 +52,7 @@ export const GET_SHOPS = gql`
       _id
       businessName
       image
+      slogan
       products {
         _id
         name
@@ -72,6 +74,7 @@ export const GET_SHOP = gql`
       _id
       businessName
       image
+      slogan
       products {
         _id
         name
@@ -190,6 +193,14 @@ export const GET_PRODUCTS = gql`
       name
       description
       images
+    }
+  }
+`
+
+export const QUERY_CHECKOUT = gql`
+  query checkout($products: [ID]!){
+    checkout(products: $products){
+      session
     }
   }
 `
