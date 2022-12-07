@@ -1,7 +1,8 @@
 import { useMutation, useQuery } from '@apollo/client';
 import React, { Component, createContext, useContext } from 'react';
-import { ADD_USER, LOGIN_USER, UPDATE_USER_IMAGE } from '../utils/mutations';
+import { ADD_USER, DELETE_USER, LOGIN_USER, UPDATE_USER_IMAGE } from '../utils/mutations';
 import { GET_USER, GET_CART_ITEMS } from '../utils/queries';
+import Auth from '../utils/auth';
 
 export const UserContext = createContext();
 
@@ -22,9 +23,29 @@ export const UserProvider = ({children}) => {
         const { loading: cartLoading, data: myCart} = useQuery(GET_CART_ITEMS);
         const cartItems = myCart?.cartItems || null;
 
+        const [deleteAccount, {loading:delLoad, err: delErr}] = useMutation(DELETE_USER);
+
+        const delAccount = async (_id) => {
+            try {
+                const {data} = await deleteAccount({
+                    variables: {
+                        _id
+                    }
+                })
+
+                Auth.logout()
+
+                return data
+                
+            } catch (error) {
+                console.log(error)
+                return error
+            }
+        }
+
 
         return (
-            <UserContext.Provider value={{newUser, login, cartLoading, newUserData, userData, updateImage, cartItems}}>
+            <UserContext.Provider value={{newUser, login, cartLoading, newUserData, userData, updateImage, cartItems, delAccount}}>
                 {children}
             </UserContext.Provider>
         )

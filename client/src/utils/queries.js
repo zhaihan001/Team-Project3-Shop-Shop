@@ -217,7 +217,7 @@ export const USER_ORDERS = gql`
         _id
         businessName
       }
-      purchaseData
+      purchaseDate
       products{
         product{
           _id
