@@ -16,19 +16,12 @@ function Profile() {
   const location = useLocation();
   const [showModal, setShowModal] = useState(false);
   const [showOrders, setShowOrders] = useState(false);
-  const {loading, data} = useQuery(USER_ORDERS);
-  const [orders, setOrders] = useState([])
-  const { userData } = useUserContext();
+  const { userData, orders } = useUserContext();
   const [user, setUser] = useState({})
   console.log(user);
   console.log(userData);
 
-  useEffect(() => {
-    if(data?.orders){
-        setOrders(data?.orders.slice(0,4))
-    }
-
-  },[data])
+ 
 
   const toggleModal = () => {
     setShowModal(prev => !prev)
@@ -60,7 +53,7 @@ function Profile() {
           <Button onClick={toggleModal}>Update Image</Button>
         </Col>
         <Content>
-          <h3>Welcome, {userData.user.username}</h3>
+          {user?.user && <h3>Welcome, {userData.user.username}</h3>}
           <p>Buyer | Seller</p>
           <Link className=".link" to="/usershop"><button>View My Shop</button></Link>
           <Button style={{backgroundColor: Palette.red}} onClick={!showOrders ? (() => setShowOrders(true)) : (() => setShowOrders(false))}>{showOrders ? "Hide orders" : "View orders"}</Button>

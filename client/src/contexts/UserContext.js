@@ -1,7 +1,7 @@
 import { useMutation, useQuery } from '@apollo/client';
-import React, { Component, createContext, useContext } from 'react';
+import React, { Component, createContext, useContext, useEffect, useState } from 'react';
 import { ADD_USER, DELETE_USER, LOGIN_USER, UPDATE_USER_IMAGE } from '../utils/mutations';
-import { GET_USER, GET_CART_ITEMS } from '../utils/queries';
+import { GET_USER, GET_CART_ITEMS, USER_ORDERS } from '../utils/queries';
 import Auth from '../utils/auth';
 
 export const UserContext = createContext();
@@ -11,6 +11,17 @@ export const useUserContext = () => {
 }
 
 export const UserProvider = ({children}) => {
+    const {loading: orderLoading, data} = useQuery(USER_ORDERS);
+
+        const [orders, setOrders] = useState([])
+
+        useEffect(() => {
+            if(data?.orders){
+                setOrders(data?.orders.slice(0,4))
+            }
+        
+        },[data])
+
 
         const [login, {err, data: prevUserData}] = useMutation(LOGIN_USER);
 
@@ -45,7 +56,7 @@ export const UserProvider = ({children}) => {
 
 
         return (
-            <UserContext.Provider value={{newUser, login, cartLoading, newUserData, userData, updateImage, cartItems, delAccount}}>
+            <UserContext.Provider value={{newUser, login, cartLoading, newUserData, userData, updateImage, cartItems, delAccount, orders}}>
                 {children}
             </UserContext.Provider>
         )
