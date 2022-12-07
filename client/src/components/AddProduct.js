@@ -42,7 +42,7 @@ function AddProduct({setShowProductForm}) {
 
 
         console.log(data);
-        // window.location.reload();
+        window.location.reload();
   
         return data
   

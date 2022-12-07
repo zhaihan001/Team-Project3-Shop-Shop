@@ -107,7 +107,7 @@ const ShoppingCart = ({ title }) => {
   return (
     <Container>
       <h2>{title}</h2>
-      {items.length === 0 && <p>No items in the cart. You can view your orders <Link to={"/profile"}>here</Link></p>}
+      {items && items.length === 0 && <p>No items in the cart. You can view your orders <Link to={"/profile"}>here</Link></p>}
 
       <Content>
         {items && items.length > 0 &&

@@ -36,7 +36,7 @@ export default function UserShopHeading({myShop, setShowProductForm}) {
                     Your Products:
                 </h3>
                 <Content style={{margin: "20px"}}>
-                {myShop&&
+                {myShop &&
                     myShop.products.map((product, index) => (
                     <Wrap key={index}>
                         <img src={product.images[0]} alt={product.name} />
