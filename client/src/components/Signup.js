@@ -83,6 +83,7 @@ function Signup({setShowSignUp}) {
             type="text"
             name="username"
             id="username"
+            required
           />
           <label htmlFor="email">Email:</label>
           <input
@@ -91,6 +92,7 @@ function Signup({setShowSignUp}) {
             type="email"
             name="email"
             id="email"
+            required
           />
           <label htmlFor="password">Password:</label>
           <input
@@ -99,6 +101,7 @@ function Signup({setShowSignUp}) {
             type="password"
             name="password"
             id="password"
+            required
           />
           <label htmlFor="confirmPassword">Confirm Password:</label>
           <input
@@ -113,6 +116,7 @@ function Signup({setShowSignUp}) {
                   ? "2px solid red"
                   : "",
             }}
+            required
           />
           {userForm.password !== userForm.confirmPassword && (
             <small>Passwords do not match.</small>
@@ -123,11 +127,12 @@ function Signup({setShowSignUp}) {
             type="file"
             name="image"
             id="image"
+            required
           />
           {image && <img src={imageData} alt="chosen-logo" style={{width: "20rem", paddingTop: "2%"}} />}
           <input type="submit" value="Signup" />
           {testErr && <div style={{backgroundColor: "#f4b0b0", padding: "2%", marginTop: "2%", borderRadius: "5px"}}>
-            <small style={{paddingTop: '2%', color: "red", fontWeight: 700}}>An error occured with the given credentials</small>
+            <small style={{paddingTop: '2%', color: "red", fontWeight: 700}}>An error occured with the given credentials. Please make sure you do not have an existing account.</small>
 
           </div>}
 
