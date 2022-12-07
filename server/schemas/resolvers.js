@@ -542,14 +542,16 @@ const resolvers = {
     },
     deleteUser: async (parent, args, context) => {
       try {
-        let removedUser = await User.findByIdAndDelete(context.user._id);
+        console.log("hit");
+        let removedUser = await User.findByIdAndDelete(args._id);
+        console.log(removedUser);
 
-        let removedShop = await Business.findOneAndDelete({userId: context.user._id})
+        let removedShop = await Business.findOneAndDelete({userId: removedUser._id})
 
         //remove products that belong to that business
-        let removedProducts = await Product.deleteMany({userId: removedUser._id})
+        // let removedProducts = await Product.deleteMany({userId: removedUser._id})
 
-        let delCart = await Cart.deleteMany({businessId: removedShop._id})
+        // let delCart = await Cart.deleteMany({businessId: removedShop._id})
 
         return {msg: `user ${removedUser._id} has been removed`}
 

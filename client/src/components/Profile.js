@@ -6,10 +6,14 @@ import { Navigate, useLocation, Link } from "react-router-dom";
 import { useUserContext } from "../contexts/UserContext";
 import UpdateImageModal from "./UpdateImageModal.js";
 import { Button } from "react-bootstrap";
+import Orders from "./Orders";
 
 function Profile() {
   const location = useLocation();
   const [showModal, setShowModal] = useState(false);
+  const [showOrders, setShowOrders] = useState(false);
+
+
   const { userData } = useUserContext();
   const [user, setUser] = useState({})
   console.log(user);
@@ -19,6 +23,7 @@ function Profile() {
   const toggleModal = () => {
     setShowModal(prev => !prev)
   }
+
   
   useEffect(() => {
     if(typeof(userData) !== "undefined"){
@@ -48,7 +53,8 @@ function Profile() {
           <h3>Welcome, {userData.user.username}</h3>
           <p>Buyer | Seller</p>
           <Link className=".link" to="/usershop"><button>View My Shop</button></Link>
-          <button>Delete My Shop</button>
+          <Button style={{backgroundColor: Palette.red}} onClick={() => setShowOrders(true)}>View my orders</Button>
+          {showOrders && <Orders />}
         </Content>
       </Wrap>
       <UpdateImageModal showModal={showModal} toggleModal={toggleModal}/>

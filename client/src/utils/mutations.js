@@ -82,11 +82,10 @@ export const UPDATE_USER = gql`
 `
 //
 export const DELETE_USER = gql`
-    mutation deleteUser{
-        deleteUser{
+    mutation deleteUser($_id: ID!){
+        deleteUser(_id: $_id){
             _id
             email
-            
             orders{
                 _id
                 userId{

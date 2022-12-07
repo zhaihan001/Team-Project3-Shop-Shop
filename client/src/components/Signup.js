@@ -124,7 +124,7 @@ function Signup({setShowSignUp}) {
             name="image"
             id="image"
           />
-          {image && <img src={imageData} alt="chosen-logo" style={{width: "20rem"}} />}
+          {image && <img src={imageData} alt="chosen-logo" style={{width: "20rem", paddingTop: "2%"}} />}
           <input type="submit" value="Signup" />
           {testErr && <div style={{backgroundColor: "#f4b0b0", padding: "2%", marginTop: "2%", borderRadius: "5px"}}>
             <small style={{paddingTop: '2%', color: "red", fontWeight: 700}}>An error occured with the given credentials</small>
