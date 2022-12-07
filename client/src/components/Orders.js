@@ -24,6 +24,7 @@ export default function Orders() {
                 </div>
             )
             })}
+            {orders.length === 0 && <p>No orders yet.</p>}
         </div>
     </>
   )

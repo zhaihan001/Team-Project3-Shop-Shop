@@ -53,7 +53,7 @@ function Profile() {
           <h3>Welcome, {userData.user.username}</h3>
           <p>Buyer | Seller</p>
           <Link className=".link" to="/usershop"><button>View My Shop</button></Link>
-          <Button style={{backgroundColor: Palette.red}} onClick={() => setShowOrders(true)}>View my orders</Button>
+          <Button style={{backgroundColor: Palette.red}} onClick={!showOrders ? (() => setShowOrders(true)) : (() => setShowOrders(false))}>{showOrders ? "Hide orders" : "View orders"}</Button>
           {showOrders && <Orders />}
         </Content>
       </Wrap>
