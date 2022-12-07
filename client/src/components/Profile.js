@@ -7,11 +7,24 @@ import { useUserContext } from "../contexts/UserContext";
 import UpdateImageModal from "./UpdateImageModal.js";
 import { Button } from "react-bootstrap";
 import Orders from "./Orders";
+import { USER_ORDERS } from '../utils/queries'
+import { useQuery } from '@apollo/client'
+
+
 
 function Profile() {
   const location = useLocation();
   const [showModal, setShowModal] = useState(false);
   const [showOrders, setShowOrders] = useState(false);
+  const {loading, data} = useQuery(USER_ORDERS);
+  const [orders, setOrders] = useState([])
+
+  useEffect(() => {
+    if(data?.orders){
+        setOrders(data?.orders.slice(0,4))
+    }
+
+  },[data])
 
 
   const { userData } = useUserContext();
@@ -54,7 +67,7 @@ function Profile() {
           <p>Buyer | Seller</p>
           <Link className=".link" to="/usershop"><button>View My Shop</button></Link>
           <Button style={{backgroundColor: Palette.red}} onClick={!showOrders ? (() => setShowOrders(true)) : (() => setShowOrders(false))}>{showOrders ? "Hide orders" : "View orders"}</Button>
-          {showOrders && <Orders />}
+          {showOrders && <Orders orders={orders} />}
         </Content>
       </Wrap>
       <UpdateImageModal showModal={showModal} toggleModal={toggleModal}/>

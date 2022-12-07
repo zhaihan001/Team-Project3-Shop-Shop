@@ -3,7 +3,7 @@ import styled from "styled-components";
 import { useMutation, useQuery, useLazyQuery } from "@apollo/client";
 import { SUBMIT_ORDER, DELETE_FROM_CART, DELETE_CART } from "../utils/mutations";
 import { Palette } from "./Palette";
-import { useLocation, Navigate } from "react-router-dom";
+import { useLocation, Navigate, Link } from "react-router-dom";
 import ShoppingCartItem from "./ShoppingCartItem";
 import { useUserContext } from "../contexts/UserContext";
 import { GET_CART, QUERY_CHECKOUT } from "../utils/queries";
@@ -107,7 +107,7 @@ const ShoppingCart = ({ title }) => {
   return (
     <Container>
       <h2>{title}</h2>
-
+      {items.length === 0 && <p>No items in the cart. You can view your orders <Link to={"/profile"}>here</Link></p>}
 
       <Content>
         {items && items.length > 0 &&
