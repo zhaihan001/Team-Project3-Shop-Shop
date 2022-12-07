@@ -45,8 +45,7 @@ function Signup({setShowSignUp}) {
       Auth.login(data.addUser.token);
 
       // navigate to my shop or user account page after
-      window.location.assign(`${location.state.previousUrl || '/'}`);
-
+      window.location.replace("/")
     } catch (error) {
       setTestErr(true)
       return error;

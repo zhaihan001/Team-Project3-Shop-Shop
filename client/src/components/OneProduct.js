@@ -14,6 +14,7 @@ export default function OneProduct({businessId, productId, price}) {
   const [cartItemIds, setCartItemIds] = useLocalStorage("cartItemIds", []);
   const {checkIfInCart} = useProductContext();
   const {loading: newLoad, data: newData} = useQuery(GET_CART)
+  const [showError, setShowError] = useState(false)
   console.log(newData);
   const navigate = useNavigate();
   const location = useLocation();
@@ -27,7 +28,10 @@ export default function OneProduct({businessId, productId, price}) {
   console.log(newData);
 
   const addItemToCart = async () => {
-   
+    if(!Auth.loggedIn()){
+      setShowError(true)
+      return 
+    }
   
     if(newData.cart){
       if(businessId !== newData.cart.businessId._id){
@@ -98,6 +102,7 @@ export default function OneProduct({businessId, productId, price}) {
 
       <Container>
          <h2>{location.state.product.name} - Product Details</h2>
+         {showError && <p style={{color: "red"}}>Must be logged in to add item</p>}
          <Content>
               {typeof(location.state.product) !== "undefined"  && <Wrap>
                 <img src={location.state.product.images[0]} alt="product" />
@@ -124,7 +129,7 @@ export default function OneProduct({businessId, productId, price}) {
           </Content>
 
           <div>
-                {!cartItemIds.includes(location.state.product._id) ? <h5 onClick={Auth.loggedIn() ? addItemToCart : (() => navigate("/login", {state: {previousUrl: location.pathname}}))}>Add to cart</h5> 
+                {!cartItemIds.includes(location.state.product._id) ? <h5 onClick={Auth.loggedIn() ? addItemToCart : (() => setShowError(true))}>Add to cart</h5> 
                 : 
                 <h5>In Cart ✔</h5>
                 }

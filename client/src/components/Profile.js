@@ -18,6 +18,10 @@ function Profile() {
   const [showOrders, setShowOrders] = useState(false);
   const {loading, data} = useQuery(USER_ORDERS);
   const [orders, setOrders] = useState([])
+  const { userData } = useUserContext();
+  const [user, setUser] = useState({})
+  console.log(user);
+  console.log(userData);
 
   useEffect(() => {
     if(data?.orders){
@@ -25,13 +29,6 @@ function Profile() {
     }
 
   },[data])
-
-
-  const { userData } = useUserContext();
-  const [user, setUser] = useState({})
-  console.log(user);
-  console.log(userData);
-
 
   const toggleModal = () => {
     setShowModal(prev => !prev)
@@ -55,7 +52,7 @@ function Profile() {
 
   return (
     <Container >
-      {<h2>{userData.user.username}'s Profile</h2>}
+      {user?.user && <h2>Manage Your Profile</h2>}
       <Wrap>
         <Col>
           <img src={userData.user.image || "/images/plastic-horses.jpg"} alt="profile-logo" />
