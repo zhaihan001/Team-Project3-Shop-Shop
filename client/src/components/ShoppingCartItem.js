@@ -12,6 +12,8 @@ export default function ShoppingCartItem({
   items,
   setTotal,
   setItems,
+  setInCart,
+  inCart
 }) {
   const { updateQuantity, updLoading, removeFromCart } = useProductContext();
 
@@ -62,11 +64,13 @@ export default function ShoppingCartItem({
       });
 
       setQuantity(0);
+
+      setInCart(inCart.filter(item => item !== id))
         
         
-      if (items.filter((product) => product.product._id !== id).length < 1) {
-        window.location.reload();
-      }
+      // if (items.filter((product) => product.product._id !== id).length < 1) {
+      //   window.location.reload();
+      // }
 
       return data
       

@@ -111,15 +111,15 @@ const ShoppingCart = ({ title }) => {
 
       <Content>
         {items && items.length > 0 &&
-          items.map((item, index) => (
-            <ShoppingCartItem key={index} cartItem={item} items={items} setItems={setItems} setTotal={setTotal} />
+          items.filter(item => inCart.includes(item.product._id)).map((item, index) => (
+            <ShoppingCartItem key={index} cartItem={item} items={items} setItems={setItems} setTotal={setTotal} setInCart={setInCart} inCart={inCart} />
           ))}
       </Content>
 
-      {items && items.length > 0 && <button type="submit" onClick={handleSubmit}>
+      {items && inCart.length > 0 && <button type="submit" onClick={handleSubmit}>
         Submit Order
       </button>}
-      {items && items.length > 0 && <h4>Total: ${total}.00</h4>}
+      {items && inCart.length > 0 && <h4>Total: ${total}.00</h4>}
     </Container>
   );
 };

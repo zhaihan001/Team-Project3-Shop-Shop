@@ -22,9 +22,9 @@ const options = {
 const resolvers = {
   Query: {
     //for testing
-    orders: async () => {
+    orders: async (parent, args, context) => {
       try {
-        let orders = await Order.find();
+        let orders = await Order.find({userId: context.user._id});
 
         return orders
 
