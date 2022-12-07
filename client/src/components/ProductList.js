@@ -69,6 +69,7 @@ export default function ProductList({ id }) {
                   <div>
                     <h4>View Product</h4>
                   </div>
+                  <p>${item.price}.00</p>
                   <h3>{item.name}</h3>
                 </Link>
               </Wrap>

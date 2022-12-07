@@ -204,3 +204,32 @@ export const QUERY_CHECKOUT = gql`
     }
   }
 `
+
+export const USER_ORDERS = gql`
+  query orders{
+    orders{
+      _id
+      userId{
+        _id
+        username
+      }
+      businessId{
+        _id
+        businessName
+      }
+      purchaseData
+      products{
+        product{
+          _id
+          name
+          description
+          
+        }
+        productPrice
+        quantity
+        total
+      }
+      total
+    }
+  }
+`

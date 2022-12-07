@@ -17,6 +17,7 @@ export default function OneProduct({businessId, productId, price}) {
   console.log(newData);
   const navigate = useNavigate();
   const location = useLocation();
+  console.log(location);
 
   const [productData, setProductData] = useState();
 
@@ -30,7 +31,7 @@ export default function OneProduct({businessId, productId, price}) {
   
     if(newData.cart){
       if(businessId !== newData.cart.businessId._id){
-        console.log("attempted");
+        console.log(businessId, newData.cart.businessId._id);
         navigate("/cart", {
           state: {
             errMsg: "Multiple shop error", 

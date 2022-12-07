@@ -22,9 +22,9 @@ const options = {
 const resolvers = {
   Query: {
     //for testing
-    orders: async () => {
+    orders: async (parent, args, context) => {
       try {
-        let orders = await Order.find();
+        let orders = await Order.find({userId: context.user._id});
 
         return orders
 
@@ -367,6 +367,7 @@ const resolvers = {
     submitOrder: async (parent, { businessId, products, total }, context) => {
       try {
         if(context.user){
+          console.log("logged");
           let order = await Order.create(
             {
               userId: context.user._id, 
@@ -406,6 +407,7 @@ const resolvers = {
         }
 
       } catch (error) {
+        console.log(error)
         return error
       }
     },

@@ -1,7 +1,7 @@
 import React, {useEffect, useState} from "react";
 import styled from "styled-components";
 import { useMutation, useQuery, useLazyQuery } from "@apollo/client";
-import { SUBMIT_ORDER, DELETE_FROM_CART } from "../utils/mutations";
+import { SUBMIT_ORDER, DELETE_FROM_CART, DELETE_CART } from "../utils/mutations";
 import { Palette } from "./Palette";
 import { useLocation, Navigate } from "react-router-dom";
 import ShoppingCartItem from "./ShoppingCartItem";
@@ -9,6 +9,7 @@ import { useUserContext } from "../contexts/UserContext";
 import { GET_CART, QUERY_CHECKOUT } from "../utils/queries";
 import { loadStripe } from '@stripe/stripe-js';
 import { useLocalStorage } from "../hooks/useLocalStorage";
+import { useProductContext } from "../contexts/ProductContext";
 
 const stripePromise = loadStripe('pk_test_TYooMQauvdEDq54NiTphI7jx');
 
@@ -23,8 +24,8 @@ const ShoppingCart = ({ title }) => {
   console.log(cartItems);
   const [total, setTotal] = useState(0)
   const [getCheckout, { data }] = useLazyQuery(QUERY_CHECKOUT);
-  const [hasSubmitted, setHasSubmitted] = useState(false)
   const [items, setItems] = useState([]);
+  const {removeCart} = useProductContext();
   console.log(items);
 
   const cart = cartWithId?.cart;
@@ -77,15 +78,22 @@ const ShoppingCart = ({ title }) => {
         },
       });
 
+      const {data: deletedCart} = await removeCart({
+        variables: {
+          products: cartItemIds
+        }
+      })
+
 
       setItems([])
       setInCart([])
-      setHasSubmitted(true)
 
+      window.location.reload();
 
       return data
     } catch (error) {
       console.log(error);
+      return error
     }
   };
 
@@ -100,22 +108,18 @@ const ShoppingCart = ({ title }) => {
     <Container>
       <h2>{title}</h2>
 
-      {hasSubmitted && <div style={{backgroundColor: "greenyellow", padding: '3%'}}>
-        <h4 style={{color: "green", fontWeight: "bold"}}>Success!</h4>
-        <p style={{color: "green", fontWeight: "bold"}}>Your order has been submitted successfully.</p>
-      </div>}
 
       <Content>
         {items && items.length > 0 &&
-          items.map((item, index) => (
-            <ShoppingCartItem key={index} cartItem={item} items={items} setItems={setItems} setTotal={setTotal} />
+          items.filter(item => inCart.includes(item.product._id)).map((item, index) => (
+            <ShoppingCartItem key={index} cartItem={item} items={items} setItems={setItems} setTotal={setTotal} setInCart={setInCart} inCart={inCart} />
           ))}
       </Content>
 
-      {items && items.length > 0 && <button type="submit" onClick={handleSubmit}>
+      {items && inCart.length > 0 && <button type="submit" onClick={handleSubmit}>
         Submit Order
       </button>}
-      {items && items.length > 0 && <h4>Total: ${total}.00</h4>}
+      {items && inCart.length > 0 && <h4>Total: ${total}.00</h4>}
     </Container>
   );
 };
