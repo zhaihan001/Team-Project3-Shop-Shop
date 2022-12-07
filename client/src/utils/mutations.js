@@ -297,38 +297,24 @@ export const DELETE_CART = gql`
 `
 
 export const SUBMIT_ORDER = gql`
-    mutation submitOrder($businessId: ID!, $products: [ID]!, $total: Int!){
-        submitOrder(businessId: $businessId, products: $products, total: $total){
-            _id
-            username
-            email
-            orders{
-                _id
-                userId{
-                    _id
-                    username
-                }
-                businessId{
-                    _id
-                    businessName
-                }
-                purchaseDate
-                products{
-                    product{
-                        _id
-                        name
-                        description
-                        images
-                        price
-                        quantity
-
-                    }
-                    quantity
-                    
-                }
-            }
-        }
+mutation Mutation($businessId: ID!, $products: [ID]!, $total: Int!) {
+    submitOrder(businessId: $businessId, products: $products, total: $total) {
+      _id
+      businessId {
+       _id  
+      }
+      products {
+        _id
+        productPrice
+        quantity
+        total
+      }
+      userId {
+        _id
+        email
+      }
     }
+  }
 `
 //
 export const CANCEL_ORDER = gql`

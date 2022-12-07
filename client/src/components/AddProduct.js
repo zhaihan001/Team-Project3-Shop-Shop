@@ -85,10 +85,10 @@ function AddProduct({setShowProductForm}) {
               <label htmlFor='itemImg'>Upload an image of your product.</label>
               <input onChange={handleImageChange} type='file' name='image' required /><br></br>
               {images[0] && <img src={dataUrlArr[0]} alt="itemImage" style={{width: "20rem"}} />}
-              {/* <input onChange={handleImageChange} type='file' name='image' required /><br></br>
+              <input onChange={handleImageChange} type='file' name='image' required /><br></br>
               {images[1] && <img src={dataUrlArr[1]} alt="itemImage" style={{width: "20rem"}} />}
               <input onChange={handleImageChange} type='file' name='image' required /><br></br>
-              {images[2] && <img src={dataUrlArr[2]} alt="itemImage" style={{width: "20rem"}} />} */}
+              {images[2] && <img src={dataUrlArr[2]} alt="itemImage" style={{width: "20rem"}} />}
               <button type='submit'>Add Product</button>
           </form>
             </ProductForm>
