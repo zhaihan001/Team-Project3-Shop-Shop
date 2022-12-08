@@ -116,10 +116,10 @@ const ShoppingCart = ({ title }) => {
           ))}
       </Content>
 
-      {items && inCart.length > 0 && <button type="submit" onClick={handleSubmit}>
+      {inCart && inCart.length > 0 && <button type="submit" onClick={handleSubmit}>
         Submit Order
       </button>}
-      {items && inCart.length > 0 && <h4>Total: ${total}.00</h4>}
+      {inCart && inCart.length > 0 && <h4>Total: ${total}.00</h4>}
     </Container>
   );
 };

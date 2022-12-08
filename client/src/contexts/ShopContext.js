@@ -1,5 +1,5 @@
 import { useMutation, useQuery } from '@apollo/client';
-import React, { Component, createContext, useContext } from 'react';
+import React, { Component, createContext, useContext, useEffect, useState } from 'react';
 import { ADD_SHOP, UPDATE_SHOP_IMAGE } from '../utils/mutations';
 import { GET_MY_SHOP, GET_SHOP, GET_SHOPS } from '../utils/queries';
 
@@ -10,28 +10,39 @@ export const useShopContext = () => {
 }
 
 export const ShopProvider = ({children}) => {
-
-        // use on page that will accept parameter to complete the query
-        // const { loading, data } = useQuery(GET_SHOP, {
-        //     variables: { id }
-        // });
-
-        const { loading, data: allShops } = useQuery(GET_SHOPS);
-        const shops = allShops?.shops || [];
-
-        const [updImage, {err: updErr, data: updData}] = useMutation(UPDATE_SHOP_IMAGE);
+    const [allShops, setAllShops] = useState([])
+    const [myShop, setMyShop] = useState({})
+    const {loading: myShopLoading, data:userShop} = useQuery(GET_MY_SHOP);
 
 
-        const {loading: myShopLoading, data} = useQuery(GET_MY_SHOP);
-        const myShop = data?.myShop || null;
+    const { loading, data } = useQuery(GET_SHOPS);
 
-        console.log(myShop);
+    useEffect(() => {
+        if(data?.shops ){
+            setAllShops(data?.shops)
+        }
 
-        const [newShop, { err, data: newShopData}] = useMutation(ADD_SHOP);
+    }, [data])
 
-        return (
-            <ShopContext.Provider value={{newShop, loading, myShop, shops, newShopData, updImage}}>
-                {children}
-            </ShopContext.Provider>
-        )
+    useEffect(() => {
+        if(userShop?.myShop){
+            setMyShop(userShop?.myShop)
+        }
+
+    }, [userShop])
+
+    const [updImage, {err: updErr, data: updData}] = useMutation(UPDATE_SHOP_IMAGE);
+
+
+    // const myShop = userShop?.myShop || null;
+
+    console.log(myShop);
+
+    const [newShop, { err, data: newShopData}] = useMutation(ADD_SHOP);
+
+    return (
+        <ShopContext.Provider value={{newShop, loading, myShop, allShops, newShopData, updImage}}>
+            {children}
+        </ShopContext.Provider>
+    )
 }

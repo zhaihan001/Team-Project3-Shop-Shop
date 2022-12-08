@@ -5,9 +5,10 @@ import UserShopHeading from './UserShopHeading';
 
 
 
-
 function Usershop({myShop}) {
+
   console.log(myShop);
+
 
   const [showProductForm, setShowProductForm] = useState(false);
 

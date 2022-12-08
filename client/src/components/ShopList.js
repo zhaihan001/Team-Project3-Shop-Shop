@@ -4,12 +4,15 @@ import styled from "styled-components";
 import { useLocalStorage, useStorageFunctions } from "../hooks/useLocalStorage";
 import { Palette } from './Palette';
 import DefaultShops from "./DefaultShops";
+import { useShopContext } from "../contexts/ShopContext";
 
-const ShopList = ({ shops, title }) => {
+const ShopList = ({ title }) => {
   const {isLiked, likeShop, unLikeShop, } = useStorageFunctions();
-  console.log(shops);
+  const {allShops} = useShopContext();
+  
+  console.log(allShops);
 
-  if (!shops) {
+  if (!allShops) {
     return <Container><h2>No Shops Yet 🥲</h2></Container>;
   }
   return (
@@ -17,8 +20,8 @@ const ShopList = ({ shops, title }) => {
       <h2>{title}</h2>
       {/* USER CREATED SHOPS */}
       <Content>
-        {shops &&
-          shops.map((shop, index) => (
+        {allShops && allShops.length > 0 &&
+          allShops.map((shop, index) => (
             <Wrap key={index}>
               <img src={shop.image} alt={shop.businessName} />
                 <div>

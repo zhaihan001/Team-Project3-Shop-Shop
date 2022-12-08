@@ -6,8 +6,9 @@ import Auth from "../utils/auth"
 import { Navigate, useLocation } from "react-router-dom";
 
 function MyShop() {
-  const { myShop } = useShopContext();
   const location = useLocation();
+  const { myShop } = useShopContext();
+
   console.log(location.pathname);
   if(!Auth.loggedIn()){
     return <Navigate to="/login" state={{previousUrl: location.pathname}} />
